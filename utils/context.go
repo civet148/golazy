@@ -44,16 +44,13 @@ type ProjectContext struct {
 // workDir parameter is the directory of the source of generating code,
 // where can be found the project path and the project module,
 func Prepare(workDir string) (*ProjectContext, error) {
-	ctx, err := background(workDir)
-	if err == nil {
-		return ctx, nil
-	}
+	//ctx, err := background(workDir)
+	//if err == nil {
+	//	return ctx, nil
+	//}
 
 	name := filepath.Base(workDir)
-	_, err = Run("go mod init "+name, workDir)
-	if err != nil {
-		return nil, err
-	}
+	Run("go mod init "+name, workDir)
 	return background(workDir)
 }
 

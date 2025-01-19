@@ -1,3 +1,3 @@
 @echo off
 go build -ldflags "-s -w"
-@pause
+rem @pause

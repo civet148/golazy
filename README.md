@@ -20,8 +20,6 @@ $ go install github.com/golazy/golazy@latest
 ```shell
 $ mkdir -p test && cp test.api test
 
-$ cd test && go mod init test
-
 ```
 
 - 生成代码
@@ -30,7 +28,7 @@ $ cd test && go mod init test
 
 # -o 指定代码文件输出位置（默认当前目录.）
 # -s 指定代码文件生成风格（go_lazy：蛇形 goLazy：小驼峰 GoLazy：大驼峰）
-$ golazy api go -f test.api -o . -s go_lazy
+$ cd test && golazy api go -f test.api -o . -s go_lazy
 ```
 
 - **运行**
