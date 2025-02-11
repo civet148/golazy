@@ -123,5 +123,17 @@ service api {
     @handler GetUserById
     get /:id (GetUserByIdReq) returns (GetUserByIdRsp)
 }
+
+
+@server (
+    prefix:     /v1/ws
+    group:      ws/market
+)
+service api {
+    @doc "市场行情（websocket方式）"
+    @handler WsMarketList
+    get /market (gin.Context) returns (nil)
+}
+
 ```
 

@@ -27,7 +27,7 @@ service api {
 @server (
     prefix:     /v1/user
     group:      platform/user
-    middleware: JwtAuth,Validator
+    middleware: JwtAuth
 )
 service api {
     @doc "用户列表"
@@ -49,4 +49,14 @@ service api {
     @doc "根据ID查询用户"
     @handler GetUserById
     get /:id (GetUserByIdReq) returns (GetUserByIdRsp)
+}
+
+@server (
+    prefix:     /v1/ws
+    group:      ws/market
+)
+service api {
+    @doc "市场行情（websocket方式）"
+    @handler WsMarketList
+    get /market (gin.Context) returns (nil)
 }

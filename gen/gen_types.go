@@ -10,10 +10,30 @@ import (
 	"strings"
 )
 
-const typesFile = "types"
+const (
+	typesNil        = "nil"
+	typesGinContext = "gin.Context"
+)
 
 //go:embed tpls/types.tpl
 var typesTemplate string
+
+var specialTypes = []string{
+	typesNil,
+	typesGinContext,
+}
+
+func canGenTypes(name string) bool {
+	for _, v := range specialTypes {
+		if name == v {
+			return false
+		}
+	}
+	if strings.Contains(name, ".") {
+		return false
+	}
+	return true
+}
 
 func genTypes(cfg *Config, api *parser.ApiService) error {
 	for _, spec := range api.APIs {
@@ -22,9 +42,11 @@ func genTypes(cfg *Config, api *parser.ApiService) error {
 		if err != nil {
 			return log.Errorf(err.Error())
 		}
-		err = createTypesFile(cfg.OutDir, typeReqVal, typeReqFile)
-		if err != nil {
-			return log.Errorf(err.Error())
+		if canGenTypes(spec.Request) {
+			err = createTypesFile(cfg.OutDir, typeReqVal, typeReqFile)
+			if err != nil {
+				return log.Errorf(err.Error())
+			}
 		}
 
 		typeRspVal := buildTypes([]string{spec.Response})
@@ -32,9 +54,11 @@ func genTypes(cfg *Config, api *parser.ApiService) error {
 		if err != nil {
 			return log.Errorf(err.Error())
 		}
-		err = createTypesFile(cfg.OutDir, typeRspVal, typeRspFile)
-		if err != nil {
-			return log.Errorf(err.Error())
+		if canGenTypes(spec.Response) {
+			err = createTypesFile(cfg.OutDir, typeRspVal, typeRspFile)
+			if err != nil {
+				return log.Errorf(err.Error())
+			}
 		}
 	}
 	return nil

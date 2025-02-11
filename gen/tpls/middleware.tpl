@@ -14,7 +14,7 @@ type {{.name}} struct {
 
 func New{{.name}}() *{{.name}} {
 	return &{{.name}}{
-	{{if .hasWhiteList}}WhiteList: map[string]bool{}, {{end}}
+	{{if .hasWhiteList}}WhiteList: map[string]bool{},//添加路由白名单 {{end}}
 	}
 }
 
