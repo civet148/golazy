@@ -62,6 +62,7 @@ func GenerateGoCode(cfg *Config, services []*parser.ApiService) (err error) {
 		return err
 	}
 
+	utils.Must(genMakefile(cfg, rootPkg))
 	utils.Must(genMain(cfg, rootPkg))
 	for _, svc := range services {
 		utils.Must(genEtc(cfg, svc))
