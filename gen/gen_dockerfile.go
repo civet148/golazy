@@ -7,18 +7,18 @@ import (
 
 /*-----------------------------------------------------------------------------------------------------------*/
 
-//go:embed tpls/makefile.tpl
-var makefileTemplate string
+//go:embed tpls/dockerfile.tpl
+var dockerTemplate string
 
-func genMakefile(cfg *Config, rootPkg string) error {
+func genDockerfile(cfg *Config, rootPkg string) error {
 	name := strings.ToLower(defaultName)
 	return genFile(fileGenConfig{
 		dir:             cfg.OutDir,
 		subdir:          "",
-		filename:        "Makefile",
-		templateName:    "makefileTemplate",
+		filename:        "Dockerfile",
+		templateName:    "dockerTemplate",
 		category:        category,
-		builtinTemplate: makefileTemplate,
+		builtinTemplate: dockerTemplate,
 		data: map[string]string{
 			"ProgramName": name,
 		},
