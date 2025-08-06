@@ -5,7 +5,7 @@ api文件声明路由和接口格式兼容go-zero，但不支持import导入其�
 
 # 开始使用
 
-## 编译安装
+## go install安装golazy
 
 ```shell
 $ go install github.com/civet148/golazy@latest
