@@ -8,27 +8,26 @@ api文件声明路由和接口格式兼容go-zero，但不支持import导入其�
 ## 编译安装
 
 ```shell
-$ go install github.com/golazy/golazy@latest
+$ go install github.com/civet148/golazy@latest
 ```
 
 ## 使用方法
 
-- **编译api文件**
-
-- 环境准备
+- **环境准备**
 
 ```shell
-$ mkdir -p test && cp test.api test
-
+# golazy代码编译安装
+$ gitclone https://github.com/civet148/golazy.git
+$ cd golazy/test
+$ make install
 ```
 
-- 生成代码
+- **编译api文件**
 
 ```shell
-
 # -o 指定代码文件输出位置（默认当前目录.）
 # -s 指定代码文件生成风格（go_lazy：蛇形 goLazy：小驼峰 GoLazy：大驼峰）
-$ cd test && golazy api go -f test.api -o . -s go_lazy
+$ golazy api go -f test.api -o . -s go_lazy
 ```
 
 - **运行**
