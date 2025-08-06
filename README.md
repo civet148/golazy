@@ -18,8 +18,7 @@ $ go install github.com/civet148/golazy@latest
 ```shell
 # golazy代码编译安装
 $ gitclone https://github.com/civet148/golazy.git
-$ cd golazy/test
-$ make install
+$ cd golazy && make install
 ```
 
 - **编译api文件**
@@ -27,6 +26,7 @@ $ make install
 ```shell
 # -o 指定代码文件输出位置（默认当前目录.）
 # -s 指定代码文件生成风格（go_lazy：蛇形 goLazy：小驼峰 GoLazy：大驼峰）
+$ cd test
 $ golazy api go -f test.api -o . -s go_lazy
 ```
 
