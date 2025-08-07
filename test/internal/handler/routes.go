@@ -9,14 +9,11 @@ import (
 
 	v1ws "test/internal/handler/v1/ws"
 
-	"test/internal/middleware"
 	"test/internal/svc"
 )
 
 func RegisterHandlers(server *gin.Engine, serverCtx *svc.ServiceContext) {
 	gv1 := server.Group("/v1")
-	gv1.Use(middleware.NewCorsMiddleware().Handle())
-	gv1.Use(middleware.NewJwtAuthMiddleware().Handle())
 	{
 		gv1.POST("/sign_in", v1.UserSignInHandler(serverCtx))
 		gv1.POST("/sign_up", v1.UserSignUpHandler(serverCtx))
@@ -24,7 +21,6 @@ func RegisterHandlers(server *gin.Engine, serverCtx *svc.ServiceContext) {
 	}
 
 	gv1user := server.Group("/v1/user")
-	gv1user.Use(middleware.NewJwtAuthMiddleware().Handle())
 	{
 		gv1user.GET("/list", v1user.GetUserListHandler(serverCtx))
 		gv1user.PUT("/add", v1user.AddUserHandler(serverCtx))

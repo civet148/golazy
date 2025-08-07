@@ -72,7 +72,6 @@ $ go mod tidy && go run test.go
 ```api
 @server (
     prefix:     /v1
-    group:      platform/sign
     middleware: Cors
 )
 service api {
@@ -87,7 +86,6 @@ service api {
 
 @server (
     prefix:     /v1
-    group:      platform/sign
     middleware: JwtAuth
 )
 service api {
@@ -98,7 +96,6 @@ service api {
 
 @server (
     prefix:     /v1/user
-    group:      platform/user
     middleware: JwtAuth,Validator
 )
 service api {
@@ -126,7 +123,6 @@ service api {
 
 @server (
     prefix:     /v1/ws
-    group:      ws/market
 )
 service api {
     @doc "市场行情（websocket方式）"

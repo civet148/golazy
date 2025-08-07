@@ -5,7 +5,6 @@ go 1.22.12
 require (
 	github.com/civet148/log v1.7.2
 	github.com/civet148/sqlca/v2 v2.12.1
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.10.1
 	github.com/spf13/viper v1.20.1
 	github.com/urfave/cli/v2 v2.27.7

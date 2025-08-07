@@ -3,6 +3,7 @@ package parser
 import (
 	"bufio"
 	"fmt"
+	"github.com/civet148/log"
 	"os"
 	"regexp"
 	"strings"
@@ -112,10 +113,11 @@ func parseServerBlock(scanner *bufio.Scanner) (ApiServer, error) {
 	}
 
 	// 提取 prefix、group 和 middleware
-	re := regexp.MustCompile(`prefix:\s*(\S+).*group:\s*(\S+)(?:.*middleware:\s*(\S+))?`)
+	//re := regexp.MustCompile(`prefix:\s*(\S+).*group:\s*(\S+)(?:.*middleware:\s*(\S+))?`)
+	re := regexp.MustCompile(`prefix:\s*(\S+).*(?:.*middleware:\s*(\S+))?`)
 	matches := re.FindStringSubmatch(serverContent.String())
-	if len(matches) < 3 {
-		return server, fmt.Errorf("invalid @server format: %s", serverContent.String())
+	if len(matches) < 1 {
+		return server, log.Errorf("invalid @server format: %s", serverContent.String())
 	}
 	prefix := matches[1]
 	if !strings.HasPrefix(prefix, "/") {
@@ -176,4 +178,3 @@ func parseAPIBlock(apiLine string, scanner *bufio.Scanner) (ApiSpec, error) {
 	}
 	return api, nil
 }
-
