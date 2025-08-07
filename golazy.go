@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	BuildTime = "2025-01-08"
+	BuildTime = "2025-08-07"
 	GitCommit = "<N/A>"
 )
 
@@ -126,4 +126,3 @@ func main() {
 		return
 	}
 }
-

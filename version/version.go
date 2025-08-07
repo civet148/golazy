@@ -1,7 +1,7 @@
 package version
 
 const (
-	Version     = "0.3.1"
+	Version     = "0.4.0"
 	ProgramName = "golazy"
 )
 
@@ -21,4 +21,3 @@ const (
 	// OsIOS represents os ios
 	OsIOS = "ios"
 )
-
