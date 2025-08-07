@@ -1,4 +1,3 @@
-
 #!/bin/sh
 
 OUT_DIR=.
@@ -9,7 +8,7 @@ TABLE_NAME=""
 WITH_OUT=""
 TAGS=""
 TINYINT_TO_BOOL="is_deleted"
-DSN_URL="mysql://root:123456@127.0.0.1:3306/test?charset=utf8"
+DSN_URL="mysql://root:12345678@127.0.0.1:3306/test?charset=utf8"
 JSON_PROPERTIES=""
 SPEC_TYPES=""
 IMPORT_MODELS="{{ .importModel}}/models"

@@ -3,10 +3,11 @@ package config
 import "time"
 
 type Orm struct {
-	DSN   string `yaml:"DSN" json:"dsn"`     // database source name
-	Debug bool   `yaml:"Debug" json:"debug"` // open or close debug log
-	Max   int    `yaml:"Max" json:"max"`     // max database connections
-	Idle  int    `yaml:"Idle" json:"idle"`   // idle database connections
+	DSN       string `yaml:"DSN" json:"dsn"`              // database source name
+	Debug     bool   `yaml:"Debug" json:"debug"`          // open or close debug log
+	MaxConns  int    `yaml:"MaxConns" json:"max_conns"`   // max database connections
+	IdleConns int    `yaml:"IdleConns" json:"idle_conns"` // idle database connections
+	NodeId    int64  `yaml:"NodeId" json:"node_id"`       // snowflake node id
 }
 
 type Config struct {

@@ -1,4 +1,3 @@
-
 #!/bin/sh
 
 OUT_DIR=.

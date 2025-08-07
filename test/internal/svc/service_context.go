@@ -2,7 +2,7 @@ package svc
 
 import (
 	"fmt"
-	"github.com/civet148/sqlca/v2"
+	"github.com/civet148/sqlca/v3"
 	"github.com/gin-gonic/gin"
 	"reflect"
 	"strconv"
@@ -26,12 +26,20 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	var options = &sqlca.Options{
-		Debug: c.Orm.Debug,
-		Max:   c.Orm.Max,
-		Idle:  c.Orm.Idle,
+	var opts = []sqlca.Option{
+		sqlca.WithDebug(),
+		sqlca.WithMaxConn(c.Orm.MaxConns),
+		sqlca.WithIdleConn(c.Orm.IdleConns),
 	}
-	db, err := sqlca.NewEngine(c.Orm.DSN, options)
+	if c.Orm.Debug {
+		opts = append(opts, sqlca.WithDebug())
+	}
+	if c.Orm.NodeId > 0 {
+		opts = append(opts, sqlca.WithSnowFlake(&sqlca.SnowFlake{
+			NodeId: c.Orm.NodeId,
+		}))
+	}
+	db, err := sqlca.NewEngine(c.Orm.DSN, opts...)
 	if err != nil {
 		panic(err)
 		return nil
