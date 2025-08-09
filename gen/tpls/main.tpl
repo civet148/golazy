@@ -32,8 +32,9 @@ func main() {
     		Flags: []cli.Flag{
     			&cli.StringFlag{
     				Name:     CmdFlag_Config,
+    				Aliases: []string{"c"},
     				Usage:    "config file name",
-    				Value:    "etc/{{.serviceName}}.yaml",
+    				Value:    "{{.serviceName}}.yaml",
     			},
     		},
     		Action: func(ctx *cli.Context) error {

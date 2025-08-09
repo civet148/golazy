@@ -16,7 +16,7 @@ var (
 
 const (
 	defaultPort = 8888
-	etcDir      = "etc"
+	etcDir      = ""
 )
 
 //go:embed tpls/etc.tpl
@@ -51,4 +51,3 @@ func setDefaultName(filename string) {
 	basePath := path.Base(filename)
 	defaultName = strings.Replace(basePath, ".api", "", -1)
 }
-

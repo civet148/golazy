@@ -19,7 +19,7 @@ const (
 )
 
 var (
-	BuildTime = "2025-08-06 09:21:47"
+	BuildTime = "2025-08-09 10:06:39"
 	GitCommit = "<N/A>"
 )
 
@@ -35,9 +35,10 @@ func main() {
 		Version: fmt.Sprintf("v%s %s commit %s", Version, BuildTime, GitCommit),
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:  CmdFlag_Config,
-				Usage: "config file name",
-				Value: "etc/test.yaml",
+				Name:    CmdFlag_Config,
+				Aliases: []string{"c"},
+				Usage:   "config file name",
+				Value:   "test.yaml",
 			},
 		},
 		Action: func(ctx *cli.Context) error {
