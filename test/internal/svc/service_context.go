@@ -14,7 +14,7 @@ type CodeMsg interface {
 	Msg() string
 }
 
-type response struct {
+type Response struct {
 	Code int32  `json:"code"`
 	Msg  string `json:"msg"`
 	Data any    `json:"data"`
@@ -54,13 +54,13 @@ func JsonResponse(rsp any, err error) any {
 	if err != nil {
 		switch e := err.(type) {
 		case CodeMsg:
-			return response{
+			return Response{
 				Code: e.Code(),
 				Msg:  e.Msg(),
 				Data: struct{}{},
 			}
 		default:
-			return response{
+			return Response{
 				Code: -1,
 				Msg:  err.Error(),
 				Data: struct{}{},
@@ -68,7 +68,7 @@ func JsonResponse(rsp any, err error) any {
 		}
 	}
 	makeEmptySlice(rsp)
-	return response{
+	return Response{
 		Code: 0,
 		Msg:  "OK",
 		Data: rsp,

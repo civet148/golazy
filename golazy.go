@@ -111,7 +111,7 @@ func main() {
 	app := &cli.App{
 		Name:    version.ProgramName,
 		Usage:   fmt.Sprintf("%s <sub-command> [options] ", version.ProgramName),
-		Version: fmt.Sprintf("v%s %s commit %s", version.Version, BuildTime, GitCommit),
+		Version: fmt.Sprintf("%s %s commit %s", version.Version, BuildTime, GitCommit),
 		Commands: []*cli.Command{
 			cmdApi,
 		},
