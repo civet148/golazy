@@ -3,34 +3,34 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
-	v1 "test/internal/handler/v1"
+	apiv1 "test/internal/handler/api/v1"
 
-	v1user "test/internal/handler/v1/user"
+	apiv1user "test/internal/handler/api/v1/user"
 
-	v1ws "test/internal/handler/v1/ws"
+	apiv1ws "test/internal/handler/api/v1/ws"
 
 	"test/internal/svc"
 )
 
 func RegisterHandlers(server *gin.Engine, serverCtx *svc.ServiceContext) {
-	gv1 := server.Group("/v1")
+	gapiv1 := server.Group("/api/v1")
 	{
-		gv1.POST("/sign_in", v1.UserSignInHandler(serverCtx))
-		gv1.POST("/sign_up", v1.UserSignUpHandler(serverCtx))
-		gv1.POST("/sign_out", v1.UserSignOutHandler(serverCtx))
+		gapiv1.POST("/sign_in", apiv1.UserSignInHandler(serverCtx))
+		gapiv1.POST("/sign_up", apiv1.UserSignUpHandler(serverCtx))
+		gapiv1.POST("/sign_out", apiv1.UserSignOutHandler(serverCtx))
 	}
 
-	gv1user := server.Group("/v1/user")
+	gapiv1user := server.Group("/api/v1/user")
 	{
-		gv1user.GET("/list", v1user.GetUserListHandler(serverCtx))
-		gv1user.PUT("/add", v1user.AddUserHandler(serverCtx))
-		gv1user.POST("/edit", v1user.EditUserHandler(serverCtx))
-		gv1user.DELETE("/delete", v1user.DeleteUserHandler(serverCtx))
-		gv1user.GET("/:id", v1user.GetUserByIdHandler(serverCtx))
+		gapiv1user.GET("/list", apiv1user.GetUserListHandler(serverCtx))
+		gapiv1user.PUT("/add", apiv1user.AddUserHandler(serverCtx))
+		gapiv1user.POST("/edit", apiv1user.EditUserHandler(serverCtx))
+		gapiv1user.DELETE("/delete", apiv1user.DeleteUserHandler(serverCtx))
+		gapiv1user.GET("/:id", apiv1user.GetUserByIdHandler(serverCtx))
 	}
 
-	gv1ws := server.Group("/v1/ws")
+	gapiv1ws := server.Group("/api/v1/ws")
 	{
-		gv1ws.GET("/market", v1ws.WsMarketListHandler(serverCtx))
+		gapiv1ws.GET("/market", apiv1ws.WsMarketListHandler(serverCtx))
 	}
 }

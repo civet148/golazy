@@ -3,7 +3,7 @@ package ws
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	"test/internal/logic/v1/ws"
+	"test/internal/logic/api/v1/ws"
 	"test/internal/svc"
 )
 

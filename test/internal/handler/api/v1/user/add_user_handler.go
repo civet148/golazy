@@ -5,7 +5,7 @@ import (
 	"github.com/civet148/log"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"test/internal/logic/v1/user"
+	"test/internal/logic/api/v1/user"
 	"test/internal/svc"
 	"test/internal/types"
 )
