@@ -71,7 +71,7 @@ $ go mod tidy && go run test.go
 
 ```api
 @server (
-    prefix:     /v1
+    prefix:     /api/v1
     middleware: Cors
 )
 service api {
@@ -85,7 +85,7 @@ service api {
 }
 
 @server (
-    prefix:     /v1
+    prefix:     /api/v1
     middleware: JwtAuth
 )
 service api {
@@ -95,7 +95,7 @@ service api {
 }
 
 @server (
-    prefix:     /v1/user
+    prefix:     /api/v1/user
     middleware: JwtAuth,Validator
 )
 service api {
@@ -122,7 +122,7 @@ service api {
 
 
 @server (
-    prefix:     /v1/ws
+    prefix:     /api/v1/ws
 )
 service api {
     @doc "市场行情（websocket方式）"
