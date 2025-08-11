@@ -2,6 +2,8 @@
 package handler
 
 import (
+	"github.com/civet148/log"
+
 	"github.com/gin-gonic/gin"
 	apiv1 "test/internal/handler/api/v1"
 
@@ -9,6 +11,9 @@ import (
 
 	apiv1ws "test/internal/handler/api/v1/ws"
 
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	_ "test/docs"
 	"test/internal/svc"
 )
 
@@ -32,5 +37,10 @@ func RegisterHandlers(server *gin.Engine, serverCtx *svc.ServiceContext) {
 	gapiv1ws := server.Group("/api/v1/ws")
 	{
 		gapiv1ws.GET("/market", apiv1ws.WsMarketListHandler(serverCtx))
+	}
+	// add swagger route handler
+	if serverCtx.Config.Mode == "dev" {
+		server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		log.Infof("swagger running at http://%s:%v/swagger/index.html", serverCtx.Config.Host, serverCtx.Config.Port)
 	}
 }

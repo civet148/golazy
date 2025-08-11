@@ -10,7 +10,14 @@ import (
 	"test/internal/types"
 )
 
-// 用户登录
+// @Summary 用户登录
+// @Description
+// @Tags
+// @Accept json
+// @Produce json
+// @Param UserSignInHandler body types.UserSignInReq true "request params description"
+// @Success 200 {object} types.UserSignInRsp
+// @Router /api/v1/sign_in [post]
 func UserSignInHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 

@@ -10,7 +10,14 @@ import (
 	"test/internal/types"
 )
 
-// 添加用户
+// @Summary 添加用户
+// @Description
+// @Tags
+// @Accept json
+// @Produce json
+// @Param AddUserHandler body types.AddUserReq true "request params description"
+// @Success 200 {object} types.AddUserRsp
+// @Router /api/v1/user/add [put]
 func AddUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 

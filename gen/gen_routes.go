@@ -28,14 +28,24 @@ const (
 package handler
 
 import (
+	"github.com/civet148/log"
 	{{if .hasTimeout}}
 	"time"{{end}}
 	"github.com/gin-gonic/gin"
 	{{.importPackages}}
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	_ "{{.rootPkg}}/docs" 
 )
+
 
 func RegisterHandlers(server *gin.Engine, serverCtx *svc.ServiceContext) {
 	{{.routesAdditions}}
+	// add swagger route handler
+	if serverCtx.Config.Mode == "dev" {
+		server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		log.Infof("swagger running at http://%s:%v/swagger/index.html", serverCtx.Config.Host, serverCtx.Config.Port)
+	}
 }
 `
 )
@@ -105,6 +115,7 @@ func genRoutes(cfg *Config, rootPkg string, apis []*parser.ApiService) error {
 		data: map[string]any{
 			"hasTimeout":      false,
 			"importPackages":  strImports,
+			"rootPkg":         rootPkg,
 			"routesAdditions": buildRoutesAdditions(rootPkg, groups),
 		},
 	})
@@ -201,3 +212,7 @@ func removeFile(filename string) {
 	}
 }
 
+func getRouterPath(api *parser.ApiService, spec *parser.ApiSpec) string {
+	routerPath := fmt.Sprintf("%s%s", api.Server.Prefix, spec.Path)
+	return routerPath
+}

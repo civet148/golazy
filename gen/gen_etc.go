@@ -2,9 +2,7 @@ package gen
 
 import (
 	_ "embed"
-	"fmt"
 	"github.com/civet148/golazy/parser"
-	"github.com/civet148/golazy/utils"
 	"path"
 	"strconv"
 	"strings"
@@ -23,18 +21,13 @@ const (
 var etcTemplate string
 
 func genEtc(cfg *Config, api *parser.ApiService) error {
-	filename, err := utils.FileNamingFormat(cfg.Style, defaultName)
-	if err != nil {
-		return err
-	}
-
 	host := "0.0.0.0"
 	port := strconv.Itoa(defaultPort)
 
 	return genFile(fileGenConfig{
 		dir:             cfg.OutDir,
 		subdir:          etcDir,
-		filename:        fmt.Sprintf("%s.yaml", filename),
+		filename:        "config.yaml",
 		templateName:    "etcTemplate",
 		category:        category,
 		builtinTemplate: etcTemplate,

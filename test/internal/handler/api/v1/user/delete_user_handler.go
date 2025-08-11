@@ -10,7 +10,14 @@ import (
 	"test/internal/types"
 )
 
-// 删除用户
+// @Summary 删除用户
+// @Description
+// @Tags
+// @Accept json
+// @Produce json
+// @Param DeleteUserHandler body types.DeleteUserReq true "request params description"
+// @Success 200 {object} types.DeleteUserRsp
+// @Router /api/v1/user/delete [delete]
 func DeleteUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 

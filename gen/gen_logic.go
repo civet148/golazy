@@ -65,7 +65,7 @@ func genContextLogic(cfg *Config, rootPkg string, api *parser.ApiService, spec *
 			"returnString": returnString,
 			"request":      requestString,
 			"hasDoc":       len(spec.Doc) > 0,
-			"doc":          getDoc(spec.Doc),
+			"doc":          getCommentDoc(spec.Doc),
 		},
 	})
 	if err != nil {
@@ -115,7 +115,7 @@ func genNormalLogic(cfg *Config, rootPkg string, api *parser.ApiService, spec *p
 			"returnString": returnString,
 			"request":      requestString,
 			"hasDoc":       len(spec.Doc) > 0,
-			"doc":          getDoc(spec.Doc),
+			"doc":          getCommentDoc(spec.Doc),
 		},
 	})
 	if err != nil {
@@ -153,4 +153,3 @@ func requestGoTypeName(req, pkg string) string {
 	}
 	return pkg + "." + req
 }
-

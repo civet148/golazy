@@ -20,6 +20,7 @@ const (
 	routesTemplateFile          = "routes.tpl"
 	routesAdditionTemplateFile  = "route-addition.tpl"
 	typesTemplateFile           = "types.tpl"
+	gomodTemplateFile           = "gomod.tpl"
 )
 
 var templates = map[string]string{
@@ -57,11 +58,13 @@ func GenerateGoCode(cfg *Config, services []*parser.ApiService) (err error) {
 
 	// 打印解析结果
 	utils.Must(utils.MkdirIfNotExist(cfg.OutDir))
+	utils.Must(genGoMod(cfg))
 	rootPkg, err := utils.GetParentPackage(cfg.OutDir)
 	if err != nil {
 		return err
 	}
 
+	utils.Must(genDocs(cfg))
 	utils.Must(genMain(cfg, rootPkg))
 	for _, svc := range services {
 		utils.Must(genEtc(cfg, svc))
@@ -100,4 +103,3 @@ func genFile(c fileGenConfig) error {
 	_, err = fp.WriteString(code)
 	return err
 }
-

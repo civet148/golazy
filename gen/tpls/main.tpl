@@ -22,7 +22,11 @@ const (
 	CmdFlag_Config  = "config"
 )
 
-
+// @title {{.serviceName}} swagger APIs
+// @version 1.0
+// @description
+// @host {{.hostPort}}
+// @BasePath
 func main() {
 
 	app := &cli.App{
@@ -34,7 +38,7 @@ func main() {
     				Name:     CmdFlag_Config,
     				Aliases: []string{"c"},
     				Usage:    "config file name",
-    				Value:    "{{.serviceName}}.yaml",
+    				Value:    "config.yaml",
     			},
     		},
     		Action: func(ctx *cli.Context) error {

@@ -52,6 +52,8 @@ func genNormalHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec 
 	if strings.Contains(spec.Path, ":") || strings.Contains(spec.Path, "*") {
 		strShouldBind = "svc.ShouldBindParams(c, &req)"
 	}
+	var routerPath string
+	routerPath = getRouterPath(api, spec)
 	err = genFile(fileGenConfig{
 		dir:             cfg.OutDir,
 		subdir:          getHandlerFolderPath(api.Server.Group, api.Server.Prefix),
@@ -65,14 +67,20 @@ func genNormalHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec 
 			"ImportPackages": getNormalHandlerImports(api.Server.Group, api.Server.Prefix, rootPkg),
 			"HandlerName":    handler,
 			"RequestType":    spec.Request,
+			"ResponseType":   spec.Response,
 			"LogicName":      logicPkgName,
 			"LogicType":      strings.Title(getLogicName(handler)),
 			"Call":           strings.Title(strings.TrimSuffix(handler, "Handler")),
 			"HasResp":        len(spec.Response) > 0,
 			"HasRequest":     len(spec.Request) > 0,
 			"HasDoc":         len(spec.Doc) > 0,
-			"Doc":            getDoc(spec.Doc),
-			"shouldBind":     strShouldBind,
+			"Doc":            spec.Doc,
+			"ShouldBind":     strShouldBind,
+			"Accept":         "json",
+			"Produce":        "json",
+			"RouterPath":     routerPath,
+			"Method":         spec.Method,
+			"Object":         "{object}",
 		},
 	})
 	if err != nil {
@@ -94,7 +102,8 @@ func genContextHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec
 	if err != nil {
 		return err
 	}
-
+	var routerPath string
+	routerPath = getRouterPath(api, spec)
 	err = genFile(fileGenConfig{
 		dir:             cfg.OutDir,
 		subdir:          getHandlerFolderPath(api.Server.Group, api.Server.Prefix),
@@ -111,9 +120,14 @@ func genContextHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec
 			"LogicType":      strings.Title(getLogicName(handler)),
 			"Call":           strings.Title(strings.TrimSuffix(handler, "Handler")),
 			"HasResp":        false,
-			"HasRequest":     true,
+			"HasRequest":     false,
 			"HasDoc":         len(spec.Doc) > 0,
-			"Doc":            getDoc(spec.Doc),
+			"Doc":            spec.Doc,
+			"Accept":         "plain",
+			"Produce":        "plain",
+			"RouterPath":     routerPath,
+			"Method":         spec.Method,
+			"Object":         "{string}",
 		},
 	})
 	if err != nil {
@@ -122,7 +136,7 @@ func genContextHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec
 	return nil
 }
 
-func getDoc(doc string) string {
+func getCommentDoc(doc string) string {
 	return fmt.Sprintf("//%s", doc)
 }
 
@@ -194,4 +208,3 @@ func getLogicName(route string) string {
 
 	return handler + "Logic"
 }
-

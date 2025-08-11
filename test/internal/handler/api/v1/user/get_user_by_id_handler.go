@@ -10,7 +10,14 @@ import (
 	"test/internal/types"
 )
 
-// 根据ID查询用户
+// @Summary 根据ID查询用户
+// @Description
+// @Tags
+// @Accept json
+// @Produce json
+// @Param GetUserByIdHandler body types.GetUserByIdReq true "request params description"
+// @Success 200 {object} types.GetUserByIdRsp
+// @Router /api/v1/user/:id [get]
 func GetUserByIdHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 

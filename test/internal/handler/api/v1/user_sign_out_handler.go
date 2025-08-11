@@ -10,7 +10,14 @@ import (
 	"test/internal/types"
 )
 
-// 用户退出登录
+// @Summary 用户退出登录
+// @Description
+// @Tags
+// @Accept json
+// @Produce json
+// @Param UserSignOutHandler body types.UserSignOutReq true "request params description"
+// @Success 200 {object} types.UserSignOutRsp
+// @Router /api/v1/sign_out [post]
 func UserSignOutHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 

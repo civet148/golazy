@@ -10,7 +10,14 @@ import (
 	"test/internal/types"
 )
 
-// 修改用户
+// @Summary 修改用户
+// @Description
+// @Tags
+// @Accept json
+// @Produce json
+// @Param EditUserHandler body types.EditUserReq true "request params description"
+// @Success 200 {object} types.EditUserRsp
+// @Router /api/v1/user/edit [post]
 func EditUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 

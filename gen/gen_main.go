@@ -36,6 +36,7 @@ func genMain(cfg *Config, rootPkg string) error {
 			"importPackages": genMainImports(rootPkg),
 			"serviceName":    configName,
 			"datetime":       time.Now().Format("2006-01-02 15:04:05"),
+			"hostPort":       getLocalHostPort(),
 		},
 	})
 }
@@ -49,4 +50,3 @@ func genMainImports(parentPkg string) string {
 	imports = append(imports, fmt.Sprintf("\"%s\"", ProjectLogURL))
 	return strings.Join(imports, "\n\t")
 }
-

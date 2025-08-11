@@ -39,6 +39,10 @@ db2go:
 	go install github.com/civet148/db2go@latest
 .PHONY: db2go
 
+swagger:
+	go install github.com/swaggo/swag/cmd/swag@latest && swag init -g test.go
+.PHONY: swagger
+
 clean:
 	rm -rf $(CLEAN) $(BINS)
 .PHONY: clean

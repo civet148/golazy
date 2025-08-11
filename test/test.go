@@ -19,7 +19,7 @@ const (
 )
 
 var (
-	BuildTime = "2025-08-09 10:06:39"
+	BuildTime = "2025-08-11 17:04:34"
 	GitCommit = "<N/A>"
 )
 
@@ -27,6 +27,11 @@ const (
 	CmdFlag_Config = "config"
 )
 
+// @title test swagger APIs
+// @version 1.0
+// @description
+// @host localhost:8888
+// @BasePath
 func main() {
 
 	app := &cli.App{
@@ -38,7 +43,7 @@ func main() {
 				Name:    CmdFlag_Config,
 				Aliases: []string{"c"},
 				Usage:   "config file name",
-				Value:   "test.yaml",
+				Value:   "config.yaml",
 			},
 		},
 		Action: func(ctx *cli.Context) error {

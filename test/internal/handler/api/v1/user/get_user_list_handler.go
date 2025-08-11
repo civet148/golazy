@@ -10,7 +10,14 @@ import (
 	"test/internal/types"
 )
 
-// 用户列表
+// @Summary 用户列表
+// @Description
+// @Tags
+// @Accept json
+// @Produce json
+// @Param GetUserListHandler body types.GetUserListReq true "request params description"
+// @Success 200 {object} types.GetUserListRsp
+// @Router /api/v1/user/list [get]
 func GetUserListHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 

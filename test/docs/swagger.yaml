@@ -1,0 +1,229 @@
+definitions:
+  types.AddUserReq:
+    type: object
+  types.AddUserRsp:
+    type: object
+  types.DeleteUserReq:
+    type: object
+  types.DeleteUserRsp:
+    type: object
+  types.EditUserReq:
+    type: object
+  types.EditUserRsp:
+    type: object
+  types.GetUserByIdReq:
+    type: object
+  types.GetUserByIdRsp:
+    type: object
+  types.GetUserListReq:
+    type: object
+  types.GetUserListRsp:
+    type: object
+  types.UserSignInReq:
+    type: object
+  types.UserSignInRsp:
+    type: object
+  types.UserSignOutReq:
+    type: object
+  types.UserSignOutRsp:
+    type: object
+  types.UserSignUpReq:
+    type: object
+  types.UserSignUpRsp:
+    type: object
+host: localhost:8888
+info:
+  contact: {}
+  title: test swagger APIs
+  version: "1.0"
+paths:
+  /api/v1/sign_in:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request params description
+        in: body
+        name: UserSignInHandler
+        required: true
+        schema:
+          $ref: '#/definitions/types.UserSignInReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.UserSignInRsp'
+      summary: 用户登录
+      tags:
+      - ""
+  /api/v1/sign_out:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request params description
+        in: body
+        name: UserSignOutHandler
+        required: true
+        schema:
+          $ref: '#/definitions/types.UserSignOutReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.UserSignOutRsp'
+      summary: 用户退出登录
+      tags:
+      - ""
+  /api/v1/sign_up:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request params description
+        in: body
+        name: UserSignUpHandler
+        required: true
+        schema:
+          $ref: '#/definitions/types.UserSignUpReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.UserSignUpRsp'
+      summary: 用户注册
+      tags:
+      - ""
+  /api/v1/user/:id:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: request params description
+        in: body
+        name: GetUserByIdHandler
+        required: true
+        schema:
+          $ref: '#/definitions/types.GetUserByIdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.GetUserByIdRsp'
+      summary: 根据ID查询用户
+      tags:
+      - ""
+  /api/v1/user/add:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: request params description
+        in: body
+        name: AddUserHandler
+        required: true
+        schema:
+          $ref: '#/definitions/types.AddUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.AddUserRsp'
+      summary: 添加用户
+      tags:
+      - ""
+  /api/v1/user/delete:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: request params description
+        in: body
+        name: DeleteUserHandler
+        required: true
+        schema:
+          $ref: '#/definitions/types.DeleteUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.DeleteUserRsp'
+      summary: 删除用户
+      tags:
+      - ""
+  /api/v1/user/edit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request params description
+        in: body
+        name: EditUserHandler
+        required: true
+        schema:
+          $ref: '#/definitions/types.EditUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.EditUserRsp'
+      summary: 修改用户
+      tags:
+      - ""
+  /api/v1/user/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: request params description
+        in: body
+        name: GetUserListHandler
+        required: true
+        schema:
+          $ref: '#/definitions/types.GetUserListReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.GetUserListRsp'
+      summary: 用户列表
+      tags:
+      - ""
+  /api/v1/ws/market:
+    get:
+      consumes:
+      - text/plain
+      parameters:
+      - description: request params description
+        in: body
+        name: WsMarketListHandler
+        required: true
+        schema:
+          type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 市场行情（websocket方式）
+      tags:
+      - ""
+swagger: "2.0"

@@ -20,8 +20,7 @@ func genMakefile(cfg *Config, rootPkg string) error {
 		category:        category,
 		builtinTemplate: makefileTemplate,
 		data: map[string]string{
-			"ProgramName": name,
+			"serviceName": name,
 		},
 	})
 }
-
