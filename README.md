@@ -67,12 +67,12 @@ $ go mod tidy && go run test.go
 - api文件声明路由和接口格式兼容go-zero，但不支持import导入其他api文件和api中声明请求响应结构体。
 - prefix 路由前缀（支持/开头也支持不带/）
 - group 生成的代码进行分组
-- middleware 中间件（Cors内置跨域中间件，JwtAuth内置的JWT鉴权中间件）
+- middleware 中间件Cors内置跨域中间件，JwtAuth内置的JWT鉴权中间件; JwtAuth可添加路由白名单
 
 ```api
 @server (
     prefix:     /api/v1
-    middleware: Cors
+    middleware: Cors,JwtAuth
 )
 service api {
     @doc "用户登录"
@@ -86,7 +86,6 @@ service api {
 
 @server (
     prefix:     /api/v1
-    middleware: JwtAuth
 )
 service api {
     @doc "用户退出登录"
@@ -96,7 +95,6 @@ service api {
 
 @server (
     prefix:     /api/v1/user
-    middleware: JwtAuth,Validator
 )
 service api {
     @doc "用户列表"
@@ -120,15 +118,13 @@ service api {
     get /:id (GetUserByIdReq) returns (GetUserByIdRsp)
 }
 
-
 @server (
     prefix:     /api/v1/ws
 )
 service api {
-    @doc "市场行情（websocket方式）"
+    @doc "市场行情websocket"
     @handler WsMarketList
     get /market (gin.Context) returns (nil)
 }
-
 ```
 
