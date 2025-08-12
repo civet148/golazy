@@ -1,6 +1,6 @@
 @server (
     prefix:     /api/v1
-    middleware: Cors
+    middleware: Cors,JwtAuth
 )
 service api {
     @doc "用户登录"
@@ -14,7 +14,6 @@ service api {
 
 @server (
     prefix:     /api/v1
-    middleware: JwtAuth
 )
 service api {
     @doc "用户退出登录"
@@ -24,7 +23,6 @@ service api {
 
 @server (
     prefix:     /api/v1/user
-    middleware: JwtAuth
 )
 service api {
     @doc "用户列表"

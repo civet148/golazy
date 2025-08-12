@@ -4,7 +4,6 @@ import (
 	_ "embed"
 	"github.com/civet148/golazy/parser"
 	"github.com/civet148/golazy/utils"
-	"github.com/civet148/log"
 	"strings"
 )
 
@@ -172,7 +171,6 @@ var middlewareImplementCode string
 func genMiddleware(cfg *Config, api *parser.ApiService) error {
 
 	middlewares := utils.GetMiddleware(api.Server)
-	log.Infof("middleware %+v", middlewares)
 	for _, item := range middlewares {
 		middlewareFilename := strings.TrimSuffix(strings.ToLower(item), "middleware") + "_middleware"
 		filename, err := utils.FileNamingFormat(cfg.Style, middlewareFilename)

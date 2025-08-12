@@ -17,4 +17,3 @@ func GetMiddleware(as *parser.ApiServer) []string {
 	}
 	return results
 }
-

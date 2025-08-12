@@ -1,7 +1,7 @@
 package version
 
 const (
-	Version     = "v0.6.1"
+	Version     = "v0.6.2"
 	ProgramName = "golazy"
 )
 
