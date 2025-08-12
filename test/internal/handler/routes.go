@@ -14,11 +14,14 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	_ "test/docs"
+	"test/internal/middleware"
 	"test/internal/svc"
 )
 
 func RegisterHandlers(server *gin.Engine, serverCtx *svc.ServiceContext) {
 	gapiv1 := server.Group("/api/v1")
+	gapiv1.Use(middleware.NewCorsMiddleware().Handle())
+	gapiv1.Use(middleware.NewJwtAuthMiddleware().Handle())
 	{
 		gapiv1.POST("/sign_in", apiv1.UserSignInHandler(serverCtx))
 		gapiv1.POST("/sign_up", apiv1.UserSignUpHandler(serverCtx))
@@ -26,6 +29,7 @@ func RegisterHandlers(server *gin.Engine, serverCtx *svc.ServiceContext) {
 	}
 
 	gapiv1user := server.Group("/api/v1/user")
+	gapiv1user.Use(middleware.NewJwtAuthMiddleware().Handle())
 	{
 		gapiv1user.GET("/list", apiv1user.GetUserListHandler(serverCtx))
 		gapiv1user.PUT("/add", apiv1user.AddUserHandler(serverCtx))

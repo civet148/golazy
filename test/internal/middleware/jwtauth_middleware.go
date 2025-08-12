@@ -1,40 +1,15 @@
-package gen
+package middleware
 
 import (
-	_ "embed"
-	"github.com/civet148/golazy/parser"
-	"github.com/civet148/golazy/utils"
+	"github.com/gin-gonic/gin"
+
+	"encoding/json"
 	"github.com/civet148/log"
-	"strings"
+	"github.com/dgrijalva/jwt-go"
+	"time"
 )
 
 const (
-	defaultMiddlewareCors = "Cors"    //default cors domain middleware
-	defaultMiddlewareJwt  = "JwtAuth" //default jwt middleware
-)
-
-const (
-	corsMiddlewareImpl = `method := c.Request.Method
-
-		//set header for cross-domain
-		c.Header("Access-Control-Allow-Origin", "*")
-		c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
-		c.Header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Auth-Token, *")
-		c.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Cache-Control, Content-Language, Content-Type, content-Disposition")
-		c.Header("Access-Control-Allow-Credentials", "false")
-		c.Set("content-type", "application/json, text/plain, multipart/form-data, */*")
-
-		// abort with options method (code=204)
-		if method == "OPTIONS" {
-			c.AbortWithStatus(http.StatusNoContent)
-		}`
-
-	jwtAuthMiddlewareImports = `"encoding/json"
-"time"
-"github.com/civet148/log"
-"github.com/dgrijalva/jwt-go"
-`
-	jwtAuthMiddlewareConstants = `const (
 	CLAIM_EXPIRE       = "claim_expire"
 	CLAIM_ISSUE_AT     = "claim_iat"
 	CLAIM_USER_SESSION = "user_session"
@@ -66,14 +41,32 @@ var codeMessages = map[JwtCode]string{
 	JWT_CODE_ERROR_INVALID_TOKEN: "JWT_CODE_ERROR_INVALID_TOKEN",
 	JWT_CODE_ERROR_TOKEN_EXPIRED: "JWT_CODE_ERROR_TOKEN_EXPIRED",
 }
-`
 
-	jwtAuthMiddlewareImpl = `// White list check for request path
+type JwtAuthMiddleware struct {
+	WhiteList map[string]bool
+}
+
+func NewJwtAuthMiddleware() *JwtAuthMiddleware {
+	return &JwtAuthMiddleware{
+		WhiteList: map[string]bool{}, //添加路由白名单
+	}
+}
+
+func (m *JwtAuthMiddleware) Handle() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// White list check for request path
 		if ok := m.WhiteList[c.Request.RequestURI]; ok {
 			c.Next()
 			return
-		}`
-	jwtAuthMiddlewareExtraFunctions = `
+		}
+
+		//TODO: add your middleware logic here
+
+		// Pass through to next handler
+		c.Next()
+	}
+}
+
 // generate JWT token
 func GenerateToken(session interface{}, duration ...interface{}) (token string, err error) {
 
@@ -162,87 +155,4 @@ func GetAuthSessionFromToken(strAuthToken string, session interface{}) error {
 func GetAuthSessionFromContext(c *gin.Context, session interface{}) error {
 	strAuthToken := GetAuthToken(c)
 	return GetAuthSessionFromToken(strAuthToken, session)
-}
-`
-)
-
-//go:embed tpls/middleware.tpl
-var middlewareImplementCode string
-
-func genMiddleware(cfg *Config, api *parser.ApiService) error {
-
-	middlewares := utils.GetMiddleware(api.Server)
-	log.Infof("middleware %+v", middlewares)
-	for _, item := range middlewares {
-		middlewareFilename := strings.TrimSuffix(strings.ToLower(item), "middleware") + "_middleware"
-		filename, err := utils.FileNamingFormat(cfg.Style, middlewareFilename)
-		if err != nil {
-			return err
-		}
-
-		impl := getDefaultMiddlewareImpl(item)
-
-		name := strings.TrimSuffix(item, "Middleware") + "Middleware"
-		err = genFile(fileGenConfig{
-			dir:             cfg.OutDir,
-			subdir:          middlewareDir,
-			filename:        filename + ".go",
-			templateName:    "contextTemplate",
-			category:        category,
-			builtinTemplate: middlewareImplementCode,
-			data: map[string]any{
-				"name":                  strings.Title(name),
-				"hasNetHttp":            impl.HasNetHttp,
-				"hasWhiteList":          impl.HasWhiteList,
-				"constants":             impl.Constants,
-				"defaultMiddlewareImpl": impl.Implement,
-				"importPkg":             impl.ImportPkg,
-				"extraFunctions":        impl.ExtraFunctions,
-			},
-		})
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-type middlewareImpl struct {
-	HasNetHttp     bool
-	HasWhiteList   bool
-	ImportPkg      string
-	Constants      string
-	Implement      string
-	ExtraFunctions string
-}
-
-func getDefaultMiddlewareImpl(name string) *middlewareImpl {
-	switch name {
-	case defaultMiddlewareCors:
-		return &middlewareImpl{
-			HasNetHttp:     true,
-			HasWhiteList:   false,
-			ImportPkg:      "",
-			Implement:      corsMiddlewareImpl,
-			ExtraFunctions: "",
-		}
-	case defaultMiddlewareJwt:
-		return &middlewareImpl{
-			HasNetHttp:     false,
-			HasWhiteList:   true,
-			ImportPkg:      jwtAuthMiddlewareImports,
-			Implement:      jwtAuthMiddlewareImpl,
-			Constants:      jwtAuthMiddlewareConstants,
-			ExtraFunctions: jwtAuthMiddlewareExtraFunctions,
-		}
-	}
-	return &middlewareImpl{
-		HasNetHttp:     false,
-		HasWhiteList:   false,
-		ImportPkg:      "",
-		Constants:      "",
-		Implement:      "",
-		ExtraFunctions: "",
-	}
 }

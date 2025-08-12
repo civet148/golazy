@@ -112,10 +112,12 @@ func parseServerBlock(scanner *bufio.Scanner) (ApiServer, error) {
 		}
 	}
 
-	// 提取 prefix、group 和 middleware
-	//re := regexp.MustCompile(`prefix:\s*(\S+).*group:\s*(\S+)(?:.*middleware:\s*(\S+))?`)
-	re := regexp.MustCompile(`prefix:\s*(\S+).*(?:.*middleware:\s*(\S+))?`)
+	log.Infof("%s", serverContent.String())
+	// 提取 prefix和middleware
+	//	re := regexp.MustCompile(`prefix:\s*(\S+).*group:\s*(\S+)(?:.*middleware:\s*(\S+))?`)
+	re := regexp.MustCompile(`(?s)prefix:\s*(\S+)(?:.*?middleware:\s*(\S+))?`)
 	matches := re.FindStringSubmatch(serverContent.String())
+	log.Infof("regex matches: %+v", matches)
 	if len(matches) < 1 {
 		return server, log.Errorf("invalid @server format: %s", serverContent.String())
 	}
@@ -124,9 +126,8 @@ func parseServerBlock(scanner *bufio.Scanner) (ApiServer, error) {
 		prefix = "/" + prefix
 	}
 	server.Prefix = matches[1]
-	server.Group = matches[2]
-	if len(matches) > 3 {
-		server.Middleware = matches[3]
+	if len(matches) > 2 {
+		server.Middleware = matches[2]
 	}
 	return server, nil
 }
