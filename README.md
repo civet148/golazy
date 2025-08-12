@@ -66,7 +66,6 @@ $ go mod tidy && go run test.go
 
 - api文件声明路由和接口格式兼容go-zero，但不支持import导入其他api文件和api中声明请求响应结构体。
 - prefix 路由前缀（支持/开头也支持不带/）
-- group 生成的代码进行分组
 - middleware 中间件Cors内置跨域中间件，JwtAuth内置的JWT鉴权中间件; JwtAuth可添加路由白名单
 
 ```api
