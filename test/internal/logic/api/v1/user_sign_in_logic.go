@@ -23,5 +23,5 @@ func NewUserSignInLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserSi
 func (l *UserSignInLogic) UserSignIn(req *types.UserSignInReq) (resp *types.UserSignInRsp, err error) {
 	// todo: add your logic here and delete this line
 
-	return
+	return &types.UserSignInRsp{}, nil
 }

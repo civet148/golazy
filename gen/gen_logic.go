@@ -87,15 +87,15 @@ func genNormalLogic(cfg *Config, rootPkg string, api *parser.ApiService, spec *p
 	var returnString string
 	var requestString string
 	if len(spec.Response) > 0 {
-		resp := responseGoTypeName(spec.Response, typesPacket)
+		resp := responseGoTypePtr(spec.Response, typesPacket)
 		responseString = "(resp " + resp + ", err error)"
-		returnString = "return"
+		returnString = "return " + responseGoTypeAlloc(spec.Response, typesPacket) + ", nil"
 	} else {
 		responseString = "error"
 		returnString = "return nil"
 	}
 	if len(spec.Request) > 0 {
-		requestString = "req *" + requestGoTypeName(spec.Request, typesPacket)
+		requestString = "req *" + requestGoTypePtr(spec.Request, typesPacket)
 	}
 
 	subDir := getLogicFolderPath(api.Server.Group, api.Server.Prefix)
@@ -140,14 +140,21 @@ func genContextLogicImports(parentPkg string) string {
 	return strings.Join(imports, "\n\t")
 }
 
-func responseGoTypeName(resp, pkg string) string {
+func responseGoTypePtr(resp, pkg string) string {
 	if strings.HasPrefix(resp, "*") {
 		resp = strings.Replace(resp, "*", "", -1)
 	}
 	return "*" + pkg + "." + resp
 }
 
-func requestGoTypeName(req, pkg string) string {
+func responseGoTypeAlloc(resp, pkg string) string {
+	if strings.HasPrefix(resp, "*") {
+		resp = strings.Replace(resp, "*", "", -1)
+	}
+	return "&" + pkg + "." + resp + "{}"
+}
+
+func requestGoTypePtr(req, pkg string) string {
 	if strings.HasPrefix(req, "*") {
 		req = strings.Replace(req, "*", "", -1)
 	}

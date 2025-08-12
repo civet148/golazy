@@ -23,5 +23,5 @@ func NewGetUserByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 func (l *GetUserByIdLogic) GetUserById(req *types.GetUserByIdReq) (resp *types.GetUserByIdRsp, err error) {
 	// todo: add your logic here and delete this line
 
-	return
+	return &types.GetUserByIdRsp{}, nil
 }
