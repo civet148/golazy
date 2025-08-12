@@ -3,6 +3,8 @@ package gen
 import (
 	_ "embed"
 	"github.com/civet148/golazy/utils"
+	"github.com/civet148/log"
+	"os/exec"
 	"runtime"
 	"strings"
 )
@@ -36,7 +38,7 @@ func genScript(cfg *Config, rootPkg string) error {
 		ext = ".sh"
 		strTemplate = db2goShellTemplate
 	}
-	return genFile(fileGenConfig{
+	err = genFile(fileGenConfig{
 		dir:             cfg.OutDir,
 		subdir:          internal,
 		filename:        filename + ext,
@@ -47,9 +49,17 @@ func genScript(cfg *Config, rootPkg string) error {
 			"importModel": genImportModel(rootPkg),
 		},
 	})
+	if err != nil {
+		return log.Errorf(err.Error())
+	}
+	cmd := exec.Command("chmod", "+x", cfg.OutDir+"/"+internal+"/"+filename+ext)
+	err = cmd.Run()
+	if err != nil {
+		return log.Errorf("chmod for script error: %s", err.Error())
+	}
+	return nil
 }
 
 func genImportModel(parentPkg string) string {
 	return strings.TrimSuffix(parentPkg+"/"+internal, "/")
 }
-
