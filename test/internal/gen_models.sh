@@ -21,9 +21,9 @@ if ! which db2go >/dev/null 2>&1; then
 
     # 检查是否安装成功
     if which db2go >/dev/null 2>&1; then
-        echo "✅ db2go install success, $(which db2go)"
+        echo "✅  db2go install success, $(which db2go)"
     else
-        echo "❌ db2go install failed, please check go env and gcc tool-chain"
+        echo "❌  db2go install failed, please check go env and gcc tool-chain"
         exit 1
     fi
 fi

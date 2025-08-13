@@ -64,9 +64,9 @@ $ go mod tidy && go run test.go
 
 ## 定义API文件
 
-- api文件声明路由和接口格式兼容go-zero，但不支持import导入其他api文件和api中声明请求响应结构体。
-- prefix 路由前缀（支持/开头也支持不带/）
-- middleware 中间件Cors内置跨域中间件，JwtAuth内置的JWT鉴权中间件; JwtAuth可添加路由白名单
+- api文件不支持import导入其他api文件和api中声明请求响应结构体。
+- prefix 路由前缀（支持/开头也支持不带/）同一个prefix只能声明次
+- middleware 中间件Cors内置跨域中间件，JwtAuth内置的JWT鉴权中间件(JwtAuth可添加路由白名单), 声明其他名称的中间件会自动生成框架结构代码;
 
 ```api
 @server (
@@ -81,12 +81,7 @@ service api {
     @doc "用户注册"
     @handler UserSignUp
     post /sign_up (UserSignUpReq) returns (UserSignUpRsp)
-}
 
-@server (
-    prefix:     /api/v1
-)
-service api {
     @doc "用户退出登录"
     @handler UserSignOut
     post /sign_out (UserSignOutReq) returns (UserSignOutRsp)
@@ -94,6 +89,7 @@ service api {
 
 @server (
     prefix:     /api/v1/user
+    middleware: Validator
 )
 service api {
     @doc "用户列表"
@@ -121,9 +117,10 @@ service api {
     prefix:     /api/v1/ws
 )
 service api {
-    @doc "市场行情websocket"
+    @doc "市场行情（websocket方式）"
     @handler WsMarketList
     get /market (gin.Context) returns (nil)
 }
+
 ```
 

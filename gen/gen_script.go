@@ -52,10 +52,14 @@ func genScript(cfg *Config, rootPkg string) error {
 	if err != nil {
 		return log.Errorf(err.Error())
 	}
-	cmd := exec.Command("chmod", "+x", cfg.OutDir+"/"+internal+"/"+filename+ext)
-	err = cmd.Run()
-	if err != nil {
-		return log.Errorf("chmod for script error: %s", err.Error())
+	var strScript = cfg.OutDir + "/" + internal + "/" + filename + ext
+	switch runtime.GOOS {
+	case OsWindows:
+	default:
+		err = exec.Command("chmod", "+x", strScript).Run()
+		if err != nil {
+			return log.Errorf("chmod error: %s", err.Error())
+		}
 	}
 	return nil
 }

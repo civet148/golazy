@@ -45,6 +45,7 @@ func ParseApiFile(filename string) ([]*ApiService, error) {
 	}
 	defer file.Close()
 
+	var prefixes = make(map[string]*ApiServer)
 	var services []*ApiService
 	scanner := bufio.NewScanner(file)
 	var currentService *ApiService
@@ -95,6 +96,12 @@ func ParseApiFile(filename string) ([]*ApiService, error) {
 		return nil, fmt.Errorf("error reading file: %v", err)
 	}
 
+	for _, svc := range services {
+		if _, ok := prefixes[svc.Server.Prefix]; ok {
+			return nil, log.Errorf("duplicate prefix: %s", svc.Server.Prefix)
+		}
+		prefixes[svc.Server.Prefix] = svc.Server
+	}
 	return services, nil
 }
 

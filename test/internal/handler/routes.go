@@ -29,6 +29,7 @@ func RegisterHandlers(server *gin.Engine, serverCtx *svc.ServiceContext) {
 	}
 
 	gapiv1user := server.Group("/api/v1/user")
+	gapiv1user.Use(middleware.NewValidatorMiddleware().Handle())
 	{
 		gapiv1user.GET("/list", apiv1user.GetUserListHandler(serverCtx))
 		gapiv1user.PUT("/add", apiv1user.AddUserHandler(serverCtx))
