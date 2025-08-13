@@ -7,7 +7,7 @@ import (
 	"test/internal/svc"
 )
 
-// @Summary 市场行情（websocket方式）
+// @Summary 市场行情websocket
 // @Description
 // @Tags
 // @Accept plain

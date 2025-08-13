@@ -22,7 +22,7 @@ func GetUserByIdHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		var req types.GetUserByIdReq
-		if err := svc.ShouldBindParams(c, &req); err != nil {
+		if err := c.ShouldBindUri(&req); err != nil {
 			c.JSON(http.StatusOK, svc.JsonResponse(nil, err))
 			return
 		}

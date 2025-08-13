@@ -120,5 +120,14 @@ service api {
     get /market (gin.Context) returns (nil)
 }
 
+@server (
+    prefix:     /api/v1/pay
+)
+service api {
+    @doc "微信支付回调"
+    @handler WechatPayCallback
+    get /wechat/{id:[0-9]+} (WechatPayCallbackReq) returns (WechatPayCallbackRsp)
+}
+
 ```
 

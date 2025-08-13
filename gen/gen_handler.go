@@ -49,8 +49,9 @@ func genNormalHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec 
 		return err
 	}
 	var strShouldBind = "c.ShouldBind(&req)"
-	if strings.Contains(spec.Path, ":") || strings.Contains(spec.Path, "*") {
-		strShouldBind = "svc.ShouldBindParams(c, &req)"
+	//路由中包含变量或正则表达式
+	if strings.Contains(spec.Path, ":") || strings.Contains(spec.Path, "*") || strings.Contains(spec.Path, "{") {
+		strShouldBind = "c.ShouldBindUri(&req)"
 	}
 	var routerPath string
 	routerPath = getRouterPath(api, spec)

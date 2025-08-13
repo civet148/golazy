@@ -11,6 +11,8 @@ import (
 
 	apiv1ws "test/internal/handler/api/v1/ws"
 
+	apiv1pay "test/internal/handler/api/v1/pay"
+
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	_ "test/docs"
@@ -41,6 +43,11 @@ func RegisterHandlers(server *gin.Engine, serverCtx *svc.ServiceContext) {
 	gapiv1ws := server.Group("/api/v1/ws")
 	{
 		gapiv1ws.GET("/market", apiv1ws.WsMarketListHandler(serverCtx))
+	}
+
+	gapiv1pay := server.Group("/api/v1/pay")
+	{
+		gapiv1pay.GET("/wechat/{id:[0-9]+}", apiv1pay.WechatPayCallbackHandler(serverCtx))
 	}
 	// add swagger route handler
 	if serverCtx.Config.Mode == "dev" {

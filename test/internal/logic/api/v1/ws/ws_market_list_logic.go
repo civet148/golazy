@@ -13,7 +13,7 @@ type WsMarketListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 市场行情（websocket方式）
+// 市场行情websocket
 func NewWsMarketListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *WsMarketListLogic {
 	return &WsMarketListLogic{
 		ctx:    ctx,
