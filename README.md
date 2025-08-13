@@ -38,10 +38,7 @@ $ go mod tidy && go run test.go
 
 ## 生成文件树
 
-```shell
-.
-├── etc
-│   └── test.yaml
+```shell 
 ├── go.mod
 ├── internal
 │   ├── config # 配置文件目录
@@ -59,6 +56,7 @@ $ go mod tidy && go run test.go
 │   └── types # 请求和响应结构体目录
 ├── test.api # api定义文件
 └── test.go # main文件
+└── test.yaml # 配置文件
 ```
 
 
