@@ -115,7 +115,7 @@ service api {
     prefix:     /api/v1/ws
 )
 service api {
-    @doc "市场行情（websocket方式）"
+    @doc "市场行情websocket"
     @handler WsMarketList
     get /market (gin.Context) returns (nil)
 }
