@@ -56,7 +56,7 @@ $ go mod tidy && go run test.go
 │   └── types # 请求和响应结构体目录
 ├── test.api # api定义文件
 └── test.go # main文件
-└── test.yaml # 配置文件
+└── config.yaml # 配置文件
 ```
 
 
