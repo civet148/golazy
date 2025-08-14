@@ -21,7 +21,8 @@ func NewAddUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddUserLo
 }
 
 func (l *AddUserLogic) AddUser(ctx context.Context, req *types.AddUserReq) (resp *types.AddUserRsp, err error) {
-	// todo: add your logic here and delete this line
 	// you can call ctx.(*gin.Context) convert to gin context
+	// todo: add your logic here and delete this line
+
 	return &types.AddUserRsp{}, nil
 }

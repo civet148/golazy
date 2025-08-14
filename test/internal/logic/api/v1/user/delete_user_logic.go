@@ -21,7 +21,8 @@ func NewDeleteUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 func (l *DeleteUserLogic) DeleteUser(ctx context.Context, req *types.DeleteUserReq) (resp *types.DeleteUserRsp, err error) {
-	// todo: add your logic here and delete this line
 	// you can call ctx.(*gin.Context) convert to gin context
+	// todo: add your logic here and delete this line
+
 	return &types.DeleteUserRsp{}, nil
 }

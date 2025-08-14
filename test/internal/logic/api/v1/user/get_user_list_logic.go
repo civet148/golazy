@@ -21,7 +21,8 @@ func NewGetUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserListLogic) GetUserList(ctx context.Context, req *types.GetUserListReq) (resp *types.GetUserListRsp, err error) {
-	// todo: add your logic here and delete this line
 	// you can call ctx.(*gin.Context) convert to gin context
+	// todo: add your logic here and delete this line
+
 	return &types.GetUserListRsp{}, nil
 }

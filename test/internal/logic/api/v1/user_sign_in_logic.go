@@ -21,7 +21,8 @@ func NewUserSignInLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserSi
 }
 
 func (l *UserSignInLogic) UserSignIn(ctx context.Context, req *types.UserSignInReq) (resp *types.UserSignInRsp, err error) {
-	// todo: add your logic here and delete this line
 	// you can call ctx.(*gin.Context) convert to gin context
+	// todo: add your logic here and delete this line
+
 	return &types.UserSignInRsp{}, nil
 }
