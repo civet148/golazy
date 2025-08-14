@@ -33,14 +33,16 @@ definitions:
     type: object
   types.WechatPayCallbackReq:
     type: object
+  types.WechatRefundCallbackReq:
+    type: object
 host: localhost:8888
 info:
   contact: {}
   title: test swagger APIs
   version: "1.0"
 paths:
-  /api/v1/pay/wechat/:tid:
-    get:
+  /api/v1/pay/wechat/pay/:tid:
+    post:
       consumes:
       - application/json
       parameters:
@@ -56,6 +58,25 @@ paths:
         "200":
           description: OK
       summary: 微信支付回调
+      tags:
+      - ""
+  /api/v1/pay/wechat/refund/:tid:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: params description
+        in: body
+        name: WechatRefundCallback
+        required: true
+        schema:
+          $ref: '#/definitions/types.WechatRefundCallbackReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: 微信退款回调
       tags:
       - ""
   /api/v1/sign_in:

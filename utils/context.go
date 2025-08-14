@@ -6,13 +6,29 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/civet148/golazy/version"
 	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
+)
+
+const (
+	// ProjectName the const value of zero
+	ProjectName = "zero"
+	// ProjectOpenSourceURL the github url of go-zero
+	ProjectOpenSourceURL = "github.com/zeromicro/go-zero"
+	// OsWindows represents os windows
+	OsWindows = "windows"
+	// OsMac represents os mac
+	OsMac = "darwin"
+	// OsLinux represents os linux
+	OsLinux = "linux"
+	// OsJs represents os js
+	OsJs = "js"
+	// OsIOS represents os ios
+	OsIOS = "ios"
 )
 
 // NL defines a new line.
@@ -76,9 +92,9 @@ func Run(arg, dir string, in ...*bytes.Buffer) (string, error) {
 	goos := runtime.GOOS
 	var cmd *exec.Cmd
 	switch goos {
-	case version.OsMac, version.OsLinux:
+	case OsMac, OsLinux:
 		cmd = exec.Command("sh", "-c", arg)
-	case version.OsWindows:
+	case OsWindows:
 		cmd = exec.Command("cmd.exe", "/c", arg)
 	default:
 		return "", fmt.Errorf("unexpected os: %v", goos)
@@ -227,4 +243,3 @@ func decodePackages(reader io.Reader) ([]Module, error) {
 
 	return modules, nil
 }
-

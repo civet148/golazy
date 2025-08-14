@@ -15,8 +15,8 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/pay/wechat/:tid": {
-            "get": {
+        "/api/v1/pay/wechat/pay/:tid": {
+            "post": {
                 "consumes": [
                     "application/json"
                 ],
@@ -35,6 +35,36 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/types.WechatPayCallbackReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/v1/pay/wechat/refund/:tid": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    ""
+                ],
+                "summary": "微信退款回调",
+                "parameters": [
+                    {
+                        "description": "params description",
+                        "name": "WechatRefundCallback",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.WechatRefundCallbackReq"
                         }
                     }
                 ],
@@ -393,6 +423,9 @@ const docTemplate = `{
             "type": "object"
         },
         "types.WechatPayCallbackReq": {
+            "type": "object"
+        },
+        "types.WechatRefundCallbackReq": {
             "type": "object"
         }
     }

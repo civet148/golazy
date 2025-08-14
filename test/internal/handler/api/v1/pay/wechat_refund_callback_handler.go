@@ -9,18 +9,18 @@ import (
 	"test/internal/types"
 )
 
-// @Summary 微信支付回调
+// @Summary 微信退款回调
 // @Description
 // @Tags
 // @Accept json
 // @Produce json
-// @Param WechatPayCallback body types.WechatPayCallbackReq true "params description"
+// @Param WechatRefundCallback body types.WechatRefundCallbackReq true "params description"
 // @Success 200 {object} nil
-// @Router /api/v1/pay/wechat/pay/:tid [post]
-func WechatPayCallbackHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
+// @Router /api/v1/pay/wechat/refund/:tid [post]
+func WechatRefundCallbackHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		var req types.WechatPayCallbackReq
+		var req types.WechatRefundCallbackReq
 		if err := c.ShouldBindUri(&req); err != nil {
 			if err != nil {
 				log.Errorf("call ShouldBind/ShouldBindUri failed, err: %v", err.Error())
@@ -30,11 +30,11 @@ func WechatPayCallbackHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		}
 		log.Infof("request: %+v", req)
 
-		l := pay.NewWechatPayCallbackLogic(c, svcCtx)
+		l := pay.NewWechatRefundCallbackLogic(c, svcCtx)
 
-		err := l.WechatPayCallback(c, &req)
+		err := l.WechatRefundCallback(c, &req)
 		if err != nil {
-			log.Errorf("call WechatPayCallback failed, err: %v", err.Error())
+			log.Errorf("call WechatRefundCallback failed, err: %v", err.Error())
 		}
 		c.Abort()
 

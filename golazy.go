@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/civet148/golazy/gen"
 	"github.com/civet148/golazy/parser"
-	"github.com/civet148/golazy/version"
 	"github.com/civet148/log"
 	"github.com/urfave/cli/v2"
 	"os"
@@ -12,8 +11,10 @@ import (
 )
 
 var (
-	BuildTime = "2025-08-07"
-	GitCommit = "<N/A>"
+	Version     = "v0.8.3"
+	ProgramName = "golazy"
+	BuildTime   = "2025-08-07"
+	GitCommit   = "<N/A>"
 )
 
 const (
@@ -109,9 +110,9 @@ var subCmdGo = &cli.Command{
 func main() {
 	grace()
 	app := &cli.App{
-		Name:    version.ProgramName,
-		Usage:   fmt.Sprintf("%s <sub-command> [options] ", version.ProgramName),
-		Version: fmt.Sprintf("%s %s commit %s", version.Version, BuildTime, GitCommit),
+		Name:    ProgramName,
+		Usage:   fmt.Sprintf("%s <sub-command> [options] ", ProgramName),
+		Version: fmt.Sprintf("%s %s commit %s", Version, BuildTime, GitCommit),
 		Commands: []*cli.Command{
 			cmdApi,
 		},
