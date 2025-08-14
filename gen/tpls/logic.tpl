@@ -18,8 +18,9 @@ func New{{.logic}}(ctx context.Context, svcCtx *svc.ServiceContext) *{{.logic}} 
 }
 
 func (l *{{.logic}}) {{.function}}(ctx context.Context{{if .HasRequest}}, {{.request}}{{end}}) {{.responseType}} {
-	// todo: add your logic here and delete this line
 	// you can call ctx.(*gin.Context) convert to gin context
+	// todo: add your logic here and delete this line
+
 	{{.returnString}}
 }
 
