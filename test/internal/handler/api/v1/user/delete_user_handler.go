@@ -30,6 +30,9 @@ func DeleteUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		l := user.NewDeleteUserLogic(c, svcCtx)
 
 		resp, err := l.DeleteUser(c, &req)
+		if err != nil {
+			log.Errorf("call DeleteUser failed, err: %v", err.Error())
+		}
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 
 	}

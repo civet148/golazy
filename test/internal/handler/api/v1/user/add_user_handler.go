@@ -30,6 +30,9 @@ func AddUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		l := user.NewAddUserLogic(c, svcCtx)
 
 		resp, err := l.AddUser(c, &req)
+		if err != nil {
+			log.Errorf("call AddUser failed, err: %v", err.Error())
+		}
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 
 	}

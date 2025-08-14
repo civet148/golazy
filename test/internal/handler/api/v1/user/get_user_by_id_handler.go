@@ -30,6 +30,9 @@ func GetUserByIdHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		l := user.NewGetUserByIdLogic(c, svcCtx)
 
 		resp, err := l.GetUserById(c, &req)
+		if err != nil {
+			log.Errorf("call GetUserById failed, err: %v", err.Error())
+		}
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 
 	}

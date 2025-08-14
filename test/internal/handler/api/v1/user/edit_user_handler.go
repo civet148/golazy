@@ -30,6 +30,9 @@ func EditUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		l := user.NewEditUserLogic(c, svcCtx)
 
 		resp, err := l.EditUser(c, &req)
+		if err != nil {
+			log.Errorf("call EditUser failed, err: %v", err.Error())
+		}
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 
 	}

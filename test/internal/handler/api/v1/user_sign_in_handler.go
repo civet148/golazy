@@ -30,6 +30,9 @@ func UserSignInHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		l := v1.NewUserSignInLogic(c, svcCtx)
 
 		resp, err := l.UserSignIn(c, &req)
+		if err != nil {
+			log.Errorf("call UserSignIn failed, err: %v", err.Error())
+		}
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 
 	}
