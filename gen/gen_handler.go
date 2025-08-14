@@ -7,6 +7,7 @@ import (
 	"github.com/civet148/golazy/utils"
 	"github.com/civet148/log"
 	"path"
+	"regexp"
 	"strings"
 )
 
@@ -73,13 +74,13 @@ func genNormalHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec 
 			"LogicType":      strings.Title(getLogicName(handler)),
 			"Call":           strings.Title(strings.TrimSuffix(handler, "Handler")),
 			"HasResp":        canGenTypes(spec.Response),
-			"HasRequest":     len(spec.Request) > 0,
+			"HasRequest":     canGenTypes(spec.Request),
 			"HasDoc":         len(spec.Doc) > 0,
 			"Doc":            spec.Doc,
 			"ShouldBind":     strShouldBind,
 			"Accept":         "json",
 			"Produce":        "json",
-			"RouterPath":     routerPath,
+			"RouterPath":     simplifyRouteForSwag(routerPath),
 			"Method":         spec.Method,
 			"Object":         "{object}",
 		},
@@ -126,7 +127,7 @@ func genContextHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec
 			"Doc":            spec.Doc,
 			"Accept":         "plain",
 			"Produce":        "plain",
-			"RouterPath":     routerPath,
+			"RouterPath":     simplifyRouteForSwag(routerPath),
 			"Method":         spec.Method,
 			"Object":         "{string}",
 		},
@@ -209,4 +210,17 @@ func getLogicName(route string) string {
 	}
 
 	return handler + "Logic"
+}
+
+// 移除路由中的正则表达式（用于swag注释）
+func simplifyRouteForSwag(route string) string {
+	// 处理 /path/{param:[0-9]+} 格式
+	re := regexp.MustCompile(`\{(\w+):[^}]+\}`)
+	simplified := re.ReplaceAllString(route, `:$1`)
+
+	// 处理 /path/:param([0-9]+) 格式
+	re = regexp.MustCompile(`:(\w+)\([^)]+\)`)
+	simplified = re.ReplaceAllString(simplified, `:$1`)
+
+	return simplified
 }

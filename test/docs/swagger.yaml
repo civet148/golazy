@@ -44,7 +44,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: request params description
+      - description: params description
         in: body
         name: WechatPayCallback
         required: true
@@ -63,7 +63,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: request params description
+      - description: params description
         in: body
         name: UserSignIn
         required: true
@@ -84,7 +84,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: request params description
+      - description: params description
         in: body
         name: UserSignOut
         required: true
@@ -105,7 +105,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: request params description
+      - description: params description
         in: body
         name: UserSignUp
         required: true
@@ -126,7 +126,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: request params description
+      - description: params description
         in: body
         name: GetUserById
         required: true
@@ -147,7 +147,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: request params description
+      - description: params description
         in: body
         name: AddUser
         required: true
@@ -168,7 +168,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: request params description
+      - description: params description
         in: body
         name: DeleteUser
         required: true
@@ -189,7 +189,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: request params description
+      - description: params description
         in: body
         name: EditUser
         required: true
@@ -210,7 +210,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: request params description
+      - description: params description
         in: body
         name: GetUserList
         required: true
@@ -231,7 +231,7 @@ paths:
       consumes:
       - text/plain
       parameters:
-      - description: request params description
+      - description: params description
         in: body
         name: WsMarketList
         required: true

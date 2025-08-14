@@ -29,7 +29,7 @@ const docTemplate = `{
                 "summary": "微信支付回调",
                 "parameters": [
                     {
-                        "description": "request params description",
+                        "description": "params description",
                         "name": "WechatPayCallback",
                         "in": "body",
                         "required": true,
@@ -59,7 +59,7 @@ const docTemplate = `{
                 "summary": "用户登录",
                 "parameters": [
                     {
-                        "description": "request params description",
+                        "description": "params description",
                         "name": "UserSignIn",
                         "in": "body",
                         "required": true,
@@ -92,7 +92,7 @@ const docTemplate = `{
                 "summary": "用户退出登录",
                 "parameters": [
                     {
-                        "description": "request params description",
+                        "description": "params description",
                         "name": "UserSignOut",
                         "in": "body",
                         "required": true,
@@ -125,7 +125,7 @@ const docTemplate = `{
                 "summary": "用户注册",
                 "parameters": [
                     {
-                        "description": "request params description",
+                        "description": "params description",
                         "name": "UserSignUp",
                         "in": "body",
                         "required": true,
@@ -158,7 +158,7 @@ const docTemplate = `{
                 "summary": "根据ID查询用户",
                 "parameters": [
                     {
-                        "description": "request params description",
+                        "description": "params description",
                         "name": "GetUserById",
                         "in": "body",
                         "required": true,
@@ -191,7 +191,7 @@ const docTemplate = `{
                 "summary": "添加用户",
                 "parameters": [
                     {
-                        "description": "request params description",
+                        "description": "params description",
                         "name": "AddUser",
                         "in": "body",
                         "required": true,
@@ -224,7 +224,7 @@ const docTemplate = `{
                 "summary": "删除用户",
                 "parameters": [
                     {
-                        "description": "request params description",
+                        "description": "params description",
                         "name": "DeleteUser",
                         "in": "body",
                         "required": true,
@@ -257,7 +257,7 @@ const docTemplate = `{
                 "summary": "修改用户",
                 "parameters": [
                     {
-                        "description": "request params description",
+                        "description": "params description",
                         "name": "EditUser",
                         "in": "body",
                         "required": true,
@@ -290,7 +290,7 @@ const docTemplate = `{
                 "summary": "用户列表",
                 "parameters": [
                     {
-                        "description": "request params description",
+                        "description": "params description",
                         "name": "GetUserList",
                         "in": "body",
                         "required": true,
@@ -323,7 +323,7 @@ const docTemplate = `{
                 "summary": "市场行情websocket",
                 "parameters": [
                     {
-                        "description": "request params description",
+                        "description": "params description",
                         "name": "WsMarketList",
                         "in": "body",
                         "required": true,
