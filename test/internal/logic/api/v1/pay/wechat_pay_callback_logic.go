@@ -20,9 +20,9 @@ func NewWechatPayCallbackLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 	}
 }
 
-func (l *WechatPayCallbackLogic) WechatPayCallback(ctx context.Context, req *types.WechatPayCallbackReq) (resp *types.WechatPayCallbackRsp, err error) {
+func (l *WechatPayCallbackLogic) WechatPayCallback(ctx context.Context, req *types.WechatPayCallbackReq) error {
 	// you can call ctx.(*gin.Context) convert to gin context
 	// todo: add your logic here and delete this line
 
-	return &types.WechatPayCallbackRsp{}, nil
+	return nil
 }

@@ -26,7 +26,9 @@ func GetUserListHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			return
 		}
 		log.Debugf("request [%+v]", req)
+
 		l := user.NewGetUserListLogic(c, svcCtx)
+
 		resp, err := l.GetUserList(c, &req)
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 

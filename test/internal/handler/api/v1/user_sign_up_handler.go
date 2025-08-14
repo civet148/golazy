@@ -26,7 +26,9 @@ func UserSignUpHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			return
 		}
 		log.Debugf("request [%+v]", req)
+
 		l := v1.NewUserSignUpLogic(c, svcCtx)
+
 		resp, err := l.UserSignUp(c, &req)
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 

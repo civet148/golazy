@@ -15,8 +15,8 @@ import (
 // @Accept json
 // @Produce json
 // @Param WechatPayCallback body types.WechatPayCallbackReq true "request params description"
-// @Success 200 {object} types.WechatPayCallbackRsp
-// @Router /api/v1/pay/wechat/{id:[0-9]+} [get]
+// @Success 200 {object} nil
+// @Router /api/v1/pay/wechat/:tid [get]
 func WechatPayCallbackHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
@@ -26,9 +26,14 @@ func WechatPayCallbackHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			return
 		}
 		log.Debugf("request [%+v]", req)
+
 		l := pay.NewWechatPayCallbackLogic(c, svcCtx)
-		resp, err := l.WechatPayCallback(c, &req)
-		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
+
+		err := l.WechatPayCallback(c, &req)
+		if err != nil {
+			log.Errorf("call WechatPayCallback failed, err: %v", err.Error())
+		}
+		c.Abort()
 
 	}
 }

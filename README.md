@@ -126,7 +126,7 @@ service api {
 service api {
     @doc "微信支付回调"
     @handler WechatPayCallback
-    get /wechat/{id:[0-9]+} (WechatPayCallbackReq) returns (WechatPayCallbackRsp)
+    get /wechat/:tid (WechatPayCallbackReq) returns (WechatPayCallbackRsp)
 }
 
 ```

@@ -107,4 +107,3 @@ func writeType(writer io.Writer, tp string) {
 	fmt.Fprintf(writer, "type %s struct {\n", tp)
 	fmt.Fprintf(writer, "}")
 }
-

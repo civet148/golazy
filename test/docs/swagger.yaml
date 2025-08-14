@@ -31,12 +31,33 @@ definitions:
     type: object
   types.UserSignUpRsp:
     type: object
+  types.WechatPayCallbackReq:
+    type: object
 host: localhost:8888
 info:
   contact: {}
   title: test swagger APIs
   version: "1.0"
 paths:
+  /api/v1/pay/wechat/:tid:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: request params description
+        in: body
+        name: WechatPayCallback
+        required: true
+        schema:
+          $ref: '#/definitions/types.WechatPayCallbackReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: 微信支付回调
+      tags:
+      - ""
   /api/v1/sign_in:
     post:
       consumes:
@@ -44,7 +65,7 @@ paths:
       parameters:
       - description: request params description
         in: body
-        name: UserSignInHandler
+        name: UserSignIn
         required: true
         schema:
           $ref: '#/definitions/types.UserSignInReq'
@@ -65,7 +86,7 @@ paths:
       parameters:
       - description: request params description
         in: body
-        name: UserSignOutHandler
+        name: UserSignOut
         required: true
         schema:
           $ref: '#/definitions/types.UserSignOutReq'
@@ -86,7 +107,7 @@ paths:
       parameters:
       - description: request params description
         in: body
-        name: UserSignUpHandler
+        name: UserSignUp
         required: true
         schema:
           $ref: '#/definitions/types.UserSignUpReq'
@@ -107,7 +128,7 @@ paths:
       parameters:
       - description: request params description
         in: body
-        name: GetUserByIdHandler
+        name: GetUserById
         required: true
         schema:
           $ref: '#/definitions/types.GetUserByIdReq'
@@ -128,7 +149,7 @@ paths:
       parameters:
       - description: request params description
         in: body
-        name: AddUserHandler
+        name: AddUser
         required: true
         schema:
           $ref: '#/definitions/types.AddUserReq'
@@ -149,7 +170,7 @@ paths:
       parameters:
       - description: request params description
         in: body
-        name: DeleteUserHandler
+        name: DeleteUser
         required: true
         schema:
           $ref: '#/definitions/types.DeleteUserReq'
@@ -170,7 +191,7 @@ paths:
       parameters:
       - description: request params description
         in: body
-        name: EditUserHandler
+        name: EditUser
         required: true
         schema:
           $ref: '#/definitions/types.EditUserReq'
@@ -191,7 +212,7 @@ paths:
       parameters:
       - description: request params description
         in: body
-        name: GetUserListHandler
+        name: GetUserList
         required: true
         schema:
           $ref: '#/definitions/types.GetUserListReq'
@@ -212,7 +233,7 @@ paths:
       parameters:
       - description: request params description
         in: body
-        name: WsMarketListHandler
+        name: WsMarketList
         required: true
         schema:
           type: string
@@ -223,7 +244,7 @@ paths:
           description: OK
           schema:
             type: string
-      summary: 市场行情（websocket方式）
+      summary: 市场行情websocket
       tags:
       - ""
 swagger: "2.0"

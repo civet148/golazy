@@ -72,7 +72,7 @@ func genNormalHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec 
 			"LogicName":      logicPkgName,
 			"LogicType":      strings.Title(getLogicName(handler)),
 			"Call":           strings.Title(strings.TrimSuffix(handler, "Handler")),
-			"HasResp":        len(spec.Response) > 0,
+			"HasResp":        canGenTypes(spec.Response),
 			"HasRequest":     len(spec.Request) > 0,
 			"HasDoc":         len(spec.Doc) > 0,
 			"Doc":            spec.Doc,
@@ -169,6 +169,7 @@ func getNormalHandlerImports(group, route string, parentPkg string) string {
 
 func getContextHandlerImports(group, route string, parentPkg string) string {
 	imports := []string{
+		fmt.Sprintf("\"%s\"", "github.com/civet148/log"),
 		fmt.Sprintf("\"%s\"", utils.JoinPackages(parentPkg, getLogicFolderPath(group, route))),
 		fmt.Sprintf("\"%s\"", utils.JoinPackages(parentPkg, contextDir)),
 	}

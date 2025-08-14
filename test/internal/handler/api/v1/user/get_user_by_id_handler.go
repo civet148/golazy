@@ -26,7 +26,9 @@ func GetUserByIdHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			return
 		}
 		log.Debugf("request [%+v]", req)
+
 		l := user.NewGetUserByIdLogic(c, svcCtx)
+
 		resp, err := l.GetUserById(c, &req)
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 

@@ -15,6 +15,36 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/pay/wechat/:tid": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    ""
+                ],
+                "summary": "微信支付回调",
+                "parameters": [
+                    {
+                        "description": "request params description",
+                        "name": "WechatPayCallback",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.WechatPayCallbackReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/api/v1/sign_in": {
             "post": {
                 "consumes": [
@@ -30,7 +60,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "request params description",
-                        "name": "UserSignInHandler",
+                        "name": "UserSignIn",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -63,7 +93,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "request params description",
-                        "name": "UserSignOutHandler",
+                        "name": "UserSignOut",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -96,7 +126,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "request params description",
-                        "name": "UserSignUpHandler",
+                        "name": "UserSignUp",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -129,7 +159,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "request params description",
-                        "name": "GetUserByIdHandler",
+                        "name": "GetUserById",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -162,7 +192,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "request params description",
-                        "name": "AddUserHandler",
+                        "name": "AddUser",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -195,7 +225,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "request params description",
-                        "name": "DeleteUserHandler",
+                        "name": "DeleteUser",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -228,7 +258,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "request params description",
-                        "name": "EditUserHandler",
+                        "name": "EditUser",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -261,7 +291,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "request params description",
-                        "name": "GetUserListHandler",
+                        "name": "GetUserList",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -290,11 +320,11 @@ const docTemplate = `{
                 "tags": [
                     ""
                 ],
-                "summary": "市场行情（websocket方式）",
+                "summary": "市场行情websocket",
                 "parameters": [
                     {
                         "description": "request params description",
-                        "name": "WsMarketListHandler",
+                        "name": "WsMarketList",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -360,6 +390,9 @@ const docTemplate = `{
             "type": "object"
         },
         "types.UserSignUpRsp": {
+            "type": "object"
+        },
+        "types.WechatPayCallbackReq": {
             "type": "object"
         }
     }

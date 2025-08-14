@@ -47,7 +47,7 @@ func RegisterHandlers(server *gin.Engine, serverCtx *svc.ServiceContext) {
 
 	gapiv1pay := server.Group("/api/v1/pay")
 	{
-		gapiv1pay.GET("/wechat/{id:[0-9]+}", apiv1pay.WechatPayCallbackHandler(serverCtx))
+		gapiv1pay.GET("/wechat/:tid", apiv1pay.WechatPayCallbackHandler(serverCtx))
 	}
 	// add swagger route handler
 	if serverCtx.Config.Mode == "dev" {

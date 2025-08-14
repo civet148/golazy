@@ -26,7 +26,9 @@ func UserSignOutHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			return
 		}
 		log.Debugf("request [%+v]", req)
+
 		l := v1.NewUserSignOutLogic(c, svcCtx)
+
 		resp, err := l.UserSignOut(c, &req)
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 

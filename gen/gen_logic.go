@@ -87,7 +87,7 @@ func genNormalLogic(cfg *Config, rootPkg string, api *parser.ApiService, spec *p
 	var responseString string
 	var returnString string
 	var requestString string
-	if len(spec.Response) > 0 {
+	if canGenTypes(spec.Response) {
 		resp := responseGoTypePtr(spec.Response, typesPacket)
 		responseString = "(resp " + resp + ", err error)"
 		returnString = "return " + responseGoTypeAlloc(spec.Response, typesPacket) + ", nil"

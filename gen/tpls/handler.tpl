@@ -11,24 +11,38 @@ import (
 // @Accept {{.Accept}}
 // @Produce {{.Produce}}
 // @Param {{.Call}} body {{if .HasRequest}}types.{{.RequestType}}{{else}}string{{end}} true "request params description"
-// @Success 200 {{.Object}} {{if .HasRequest}}types.{{.ResponseType}}{{else}}string{{end}}
+// @Success 200 {{.Object}} {{if .HasResp}}types.{{.ResponseType}}{{else}}nil{{end}}
 // @Router {{.RouterPath}} [{{.Method}}]
 func {{.HandlerName}}(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 	 {{if .IsNormal}}
-	    {{if .HasRequest}}var req types.{{.RequestType}}
+	    {{if .HasRequest}}
+	    var req types.{{.RequestType}}
 		if err := {{.ShouldBind}}; err != nil {
 			c.JSON(http.StatusOK, svc.JsonResponse(nil, err))
 			return
 		}
         log.Debugf("request [%+v]", req)
-		{{end}}l := {{.LogicName}}.New{{.LogicType}}(c, svcCtx)
-		{{if .HasResp}}resp, {{end}}err := l.{{.Call}}(c, {{if .HasRequest}}&req{{end}})
+		{{end}}
+		l := {{.LogicName}}.New{{.LogicType}}(c, svcCtx)
+		{{if .HasResp}}
+		resp, err := l.{{.Call}}(c, {{if .HasRequest}}&req{{end}})
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 		{{else}}
+		err := l.{{.Call}}(c, {{if .HasRequest}}&req{{end}})
+		if err != nil {
+            log.Errorf("call {{.Call}} failed, err: %v", err.Error())
+        }
+        c.Abort()
+		{{end}}
+    {{else}}
         l := {{.LogicName}}.New{{.LogicType}}(c, svcCtx)
-		_ = l.{{.Call}}(c)
-	 {{end}}
+		err := l.{{.Call}}(c)
+		if err != nil {
+			log.Errorf("call {{.Call}} failed, err: %v", err.Error())
+		}
+        c.Abort()
+	{{end}}
 	}
 }
 
