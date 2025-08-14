@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param GetUserList body types.GetUserListReq true "request params description"
+// @Param GetUserList body types.GetUserListReq true "params description"
 // @Success 200 {object} types.GetUserListRsp
 // @Router /api/v1/user/list [get]
 func GetUserListHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
@@ -22,10 +22,13 @@ func GetUserListHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
 		var req types.GetUserListReq
 		if err := c.ShouldBind(&req); err != nil {
+			if err != nil {
+				log.Errorf("call ShouldBind/ShouldBindUri failed, err: %v", err.Error())
+			}
 			c.JSON(http.StatusOK, svc.JsonResponse(nil, err))
 			return
 		}
-		log.Debugf("request [%+v]", req)
+		log.Infof("request: %+v", req)
 
 		l := user.NewGetUserListLogic(c, svcCtx)
 

@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param UserSignIn body types.UserSignInReq true "request params description"
+// @Param UserSignIn body types.UserSignInReq true "params description"
 // @Success 200 {object} types.UserSignInRsp
 // @Router /api/v1/sign_in [post]
 func UserSignInHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
@@ -22,10 +22,13 @@ func UserSignInHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
 		var req types.UserSignInReq
 		if err := c.ShouldBind(&req); err != nil {
+			if err != nil {
+				log.Errorf("call ShouldBind/ShouldBindUri failed, err: %v", err.Error())
+			}
 			c.JSON(http.StatusOK, svc.JsonResponse(nil, err))
 			return
 		}
-		log.Debugf("request [%+v]", req)
+		log.Infof("request: %+v", req)
 
 		l := v1.NewUserSignInLogic(c, svcCtx)
 

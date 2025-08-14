@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param DeleteUser body types.DeleteUserReq true "request params description"
+// @Param DeleteUser body types.DeleteUserReq true "params description"
 // @Success 200 {object} types.DeleteUserRsp
 // @Router /api/v1/user/delete [delete]
 func DeleteUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
@@ -22,10 +22,13 @@ func DeleteUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
 		var req types.DeleteUserReq
 		if err := c.ShouldBind(&req); err != nil {
+			if err != nil {
+				log.Errorf("call ShouldBind/ShouldBindUri failed, err: %v", err.Error())
+			}
 			c.JSON(http.StatusOK, svc.JsonResponse(nil, err))
 			return
 		}
-		log.Debugf("request [%+v]", req)
+		log.Infof("request: %+v", req)
 
 		l := user.NewDeleteUserLogic(c, svcCtx)
 

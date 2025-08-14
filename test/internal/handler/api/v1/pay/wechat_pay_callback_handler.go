@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param WechatPayCallback body types.WechatPayCallbackReq true "request params description"
+// @Param WechatPayCallback body types.WechatPayCallbackReq true "params description"
 // @Success 200 {object} nil
 // @Router /api/v1/pay/wechat/:tid [get]
 func WechatPayCallbackHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
@@ -22,10 +22,13 @@ func WechatPayCallbackHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
 		var req types.WechatPayCallbackReq
 		if err := c.ShouldBindUri(&req); err != nil {
+			if err != nil {
+				log.Errorf("call ShouldBind/ShouldBindUri failed, err: %v", err.Error())
+			}
 			c.JSON(http.StatusOK, svc.JsonResponse(nil, err))
 			return
 		}
-		log.Debugf("request [%+v]", req)
+		log.Infof("request: %+v", req)
 
 		l := pay.NewWechatPayCallbackLogic(c, svcCtx)
 

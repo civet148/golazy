@@ -12,7 +12,7 @@ import (
 // @Tags
 // @Accept plain
 // @Produce plain
-// @Param WsMarketList body string true "request params description"
+// @Param WsMarketList body string true "params description"
 // @Success 200 {string} nil
 // @Router /api/v1/ws/market [get]
 func WsMarketListHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {

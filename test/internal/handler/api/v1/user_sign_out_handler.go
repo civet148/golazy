@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param UserSignOut body types.UserSignOutReq true "request params description"
+// @Param UserSignOut body types.UserSignOutReq true "params description"
 // @Success 200 {object} types.UserSignOutRsp
 // @Router /api/v1/sign_out [post]
 func UserSignOutHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
@@ -22,10 +22,13 @@ func UserSignOutHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
 		var req types.UserSignOutReq
 		if err := c.ShouldBind(&req); err != nil {
+			if err != nil {
+				log.Errorf("call ShouldBind/ShouldBindUri failed, err: %v", err.Error())
+			}
 			c.JSON(http.StatusOK, svc.JsonResponse(nil, err))
 			return
 		}
-		log.Debugf("request [%+v]", req)
+		log.Infof("request: %+v", req)
 
 		l := v1.NewUserSignOutLogic(c, svcCtx)
 

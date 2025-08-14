@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param UserSignUp body types.UserSignUpReq true "request params description"
+// @Param UserSignUp body types.UserSignUpReq true "params description"
 // @Success 200 {object} types.UserSignUpRsp
 // @Router /api/v1/sign_up [post]
 func UserSignUpHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
@@ -22,10 +22,13 @@ func UserSignUpHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
 		var req types.UserSignUpReq
 		if err := c.ShouldBind(&req); err != nil {
+			if err != nil {
+				log.Errorf("call ShouldBind/ShouldBindUri failed, err: %v", err.Error())
+			}
 			c.JSON(http.StatusOK, svc.JsonResponse(nil, err))
 			return
 		}
-		log.Debugf("request [%+v]", req)
+		log.Infof("request: %+v", req)
 
 		l := v1.NewUserSignUpLogic(c, svcCtx)
 

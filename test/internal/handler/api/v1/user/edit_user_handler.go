@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param EditUser body types.EditUserReq true "request params description"
+// @Param EditUser body types.EditUserReq true "params description"
 // @Success 200 {object} types.EditUserRsp
 // @Router /api/v1/user/edit [post]
 func EditUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
@@ -22,10 +22,13 @@ func EditUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
 		var req types.EditUserReq
 		if err := c.ShouldBind(&req); err != nil {
+			if err != nil {
+				log.Errorf("call ShouldBind/ShouldBindUri failed, err: %v", err.Error())
+			}
 			c.JSON(http.StatusOK, svc.JsonResponse(nil, err))
 			return
 		}
-		log.Debugf("request [%+v]", req)
+		log.Infof("request: %+v", req)
 
 		l := user.NewEditUserLogic(c, svcCtx)
 

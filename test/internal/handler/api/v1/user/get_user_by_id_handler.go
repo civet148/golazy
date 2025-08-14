@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param GetUserById body types.GetUserByIdReq true "request params description"
+// @Param GetUserById body types.GetUserByIdReq true "params description"
 // @Success 200 {object} types.GetUserByIdRsp
 // @Router /api/v1/user/:id [get]
 func GetUserByIdHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
@@ -22,10 +22,13 @@ func GetUserByIdHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
 		var req types.GetUserByIdReq
 		if err := c.ShouldBindUri(&req); err != nil {
+			if err != nil {
+				log.Errorf("call ShouldBind/ShouldBindUri failed, err: %v", err.Error())
+			}
 			c.JSON(http.StatusOK, svc.JsonResponse(nil, err))
 			return
 		}
-		log.Debugf("request [%+v]", req)
+		log.Infof("request: %+v", req)
 
 		l := user.NewGetUserByIdLogic(c, svcCtx)
 
