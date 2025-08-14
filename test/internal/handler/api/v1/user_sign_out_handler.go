@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param UserSignOutHandler body types.UserSignOutReq true "request params description"
+// @Param UserSignOut body types.UserSignOutReq true "request params description"
 // @Success 200 {object} types.UserSignOutRsp
 // @Router /api/v1/sign_out [post]
 func UserSignOutHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {

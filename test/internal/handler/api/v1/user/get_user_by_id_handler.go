@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param GetUserByIdHandler body types.GetUserByIdReq true "request params description"
+// @Param GetUserById body types.GetUserByIdReq true "request params description"
 // @Success 200 {object} types.GetUserByIdRsp
 // @Router /api/v1/user/:id [get]
 func GetUserByIdHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {

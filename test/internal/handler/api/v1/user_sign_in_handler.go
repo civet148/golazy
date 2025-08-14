@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param UserSignInHandler body types.UserSignInReq true "request params description"
+// @Param UserSignIn body types.UserSignInReq true "request params description"
 // @Success 200 {object} types.UserSignInRsp
 // @Router /api/v1/sign_in [post]
 func UserSignInHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {

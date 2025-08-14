@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param DeleteUserHandler body types.DeleteUserReq true "request params description"
+// @Param DeleteUser body types.DeleteUserReq true "request params description"
 // @Success 200 {object} types.DeleteUserRsp
 // @Router /api/v1/user/delete [delete]
 func DeleteUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {

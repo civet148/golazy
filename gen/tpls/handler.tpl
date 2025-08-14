@@ -10,7 +10,7 @@ import (
 // @Tags
 // @Accept {{.Accept}}
 // @Produce {{.Produce}}
-// @Param {{.HandlerName}} body {{if .HasRequest}}types.{{.RequestType}}{{else}}string{{end}} true "request params description"
+// @Param {{.Call}} body {{if .HasRequest}}types.{{.RequestType}}{{else}}string{{end}} true "request params description"
 // @Success 200 {{.Object}} {{if .HasRequest}}types.{{.ResponseType}}{{else}}string{{end}}
 // @Router {{.RouterPath}} [{{.Method}}]
 func {{.HandlerName}}(svcCtx *svc.ServiceContext) gin.HandlerFunc {

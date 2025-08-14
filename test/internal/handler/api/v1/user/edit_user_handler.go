@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param EditUserHandler body types.EditUserReq true "request params description"
+// @Param EditUser body types.EditUserReq true "request params description"
 // @Success 200 {object} types.EditUserRsp
 // @Router /api/v1/user/edit [post]
 func EditUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {

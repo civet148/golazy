@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param AddUserHandler body types.AddUserReq true "request params description"
+// @Param AddUser body types.AddUserReq true "request params description"
 // @Success 200 {object} types.AddUserRsp
 // @Router /api/v1/user/add [put]
 func AddUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {

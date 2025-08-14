@@ -14,7 +14,7 @@ import (
 // @Tags
 // @Accept json
 // @Produce json
-// @Param WechatPayCallbackHandler body types.WechatPayCallbackReq true "request params description"
+// @Param WechatPayCallback body types.WechatPayCallbackReq true "request params description"
 // @Success 200 {object} types.WechatPayCallbackRsp
 // @Router /api/v1/pay/wechat/{id:[0-9]+} [get]
 func WechatPayCallbackHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
