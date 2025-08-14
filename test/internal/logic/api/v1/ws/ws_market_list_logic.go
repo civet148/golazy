@@ -3,8 +3,6 @@ package ws
 import (
 	"context"
 
-	"github.com/gin-gonic/gin"
-
 	"test/internal/svc"
 )
 
@@ -21,8 +19,8 @@ func NewWsMarketListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *WsMa
 	}
 }
 
-func (l *WsMarketListLogic) WsMarketList(c *gin.Context) error {
+func (l *WsMarketListLogic) WsMarketList(ctx context.Context) error {
 	// todo: add your logic here and delete this line
-
+	// you can call ctx.(*gin.Context) convert to gin context
 	return nil
 }

@@ -1,7 +1,6 @@
 package {{.PkgName}}
 
 import (
-    "context"
 	"github.com/gin-gonic/gin"
 	{{.ImportPackages}}
 )
@@ -23,11 +22,11 @@ func {{.HandlerName}}(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			return
 		}
         log.Debugf("request [%+v]", req)
-		{{end}}l := {{.LogicName}}.New{{.LogicType}}(context.Background(), svcCtx)
-		{{if .HasResp}}resp, {{end}}err := l.{{.Call}}({{if .HasRequest}}&req{{end}})
+		{{end}}l := {{.LogicName}}.New{{.LogicType}}(c, svcCtx)
+		{{if .HasResp}}resp, {{end}}err := l.{{.Call}}(c, {{if .HasRequest}}&req{{end}})
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 		{{else}}
-        l := {{.LogicName}}.New{{.LogicType}}(context.Background(), svcCtx)
+        l := {{.LogicName}}.New{{.LogicType}}(c, svcCtx)
 		_ = l.{{.Call}}(c)
 	 {{end}}
 	}

@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"context"
 	"github.com/civet148/log"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -27,8 +26,8 @@ func UserSignUpHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			return
 		}
 		log.Debugf("request [%+v]", req)
-		l := v1.NewUserSignUpLogic(context.Background(), svcCtx)
-		resp, err := l.UserSignUp(&req)
+		l := v1.NewUserSignUpLogic(c, svcCtx)
+		resp, err := l.UserSignUp(c, &req)
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 
 	}

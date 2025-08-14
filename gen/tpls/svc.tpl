@@ -1,12 +1,9 @@
 package svc
 
 import (
-    "fmt"
 	{{.configImport}}
 	"github.com/civet148/sqlca/v3"
-	"github.com/gin-gonic/gin"
     "reflect"
-    "strconv"
 )
 
 type CodeMsg interface {

@@ -1,7 +1,6 @@
 package user
 
 import (
-	"context"
 	"github.com/civet148/log"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -27,8 +26,8 @@ func DeleteUserHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			return
 		}
 		log.Debugf("request [%+v]", req)
-		l := user.NewDeleteUserLogic(context.Background(), svcCtx)
-		resp, err := l.DeleteUser(&req)
+		l := user.NewDeleteUserLogic(c, svcCtx)
+		resp, err := l.DeleteUser(c, &req)
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 
 	}

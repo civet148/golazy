@@ -63,6 +63,7 @@ func genContextLogic(cfg *Config, rootPkg string, api *parser.ApiService, spec *
 			"function":     strings.Title(strings.TrimSuffix(logic, "Logic")),
 			"responseType": responseString,
 			"returnString": returnString,
+			"HasRequest":   false,
 			"request":      requestString,
 			"hasDoc":       len(spec.Doc) > 0,
 			"doc":          getCommentDoc(spec.Doc),
@@ -114,6 +115,7 @@ func genNormalLogic(cfg *Config, rootPkg string, api *parser.ApiService, spec *p
 			"responseType": responseString,
 			"returnString": returnString,
 			"request":      requestString,
+			"HasRequest":   true,
 			"hasDoc":       len(spec.Doc) > 0,
 			"doc":          getCommentDoc(spec.Doc),
 		},
@@ -135,7 +137,6 @@ func genNormalLogicImports(parentPkg string) string {
 func genContextLogicImports(parentPkg string) string {
 	var imports []string
 	imports = append(imports, `"context"`+"\n")
-	imports = append(imports, `"github.com/gin-gonic/gin"`+"\n")
 	imports = append(imports, fmt.Sprintf("\"%s\"", utils.JoinPackages(parentPkg, contextDir)))
 	return strings.Join(imports, "\n\t")
 }

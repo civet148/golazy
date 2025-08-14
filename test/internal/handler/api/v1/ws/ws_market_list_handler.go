@@ -1,7 +1,6 @@
 package ws
 
 import (
-	"context"
 	"github.com/gin-gonic/gin"
 	"test/internal/logic/api/v1/ws"
 	"test/internal/svc"
@@ -18,7 +17,7 @@ import (
 func WsMarketListHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		l := ws.NewWsMarketListLogic(context.Background(), svcCtx)
+		l := ws.NewWsMarketListLogic(c, svcCtx)
 		_ = l.WsMarketList(c)
 
 	}

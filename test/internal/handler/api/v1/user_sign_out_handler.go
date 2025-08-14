@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"context"
 	"github.com/civet148/log"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -27,8 +26,8 @@ func UserSignOutHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			return
 		}
 		log.Debugf("request [%+v]", req)
-		l := v1.NewUserSignOutLogic(context.Background(), svcCtx)
-		resp, err := l.UserSignOut(&req)
+		l := v1.NewUserSignOutLogic(c, svcCtx)
+		resp, err := l.UserSignOut(c, &req)
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 
 	}

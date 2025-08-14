@@ -1,7 +1,6 @@
 package user
 
 import (
-	"context"
 	"github.com/civet148/log"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -27,8 +26,8 @@ func GetUserListHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			return
 		}
 		log.Debugf("request [%+v]", req)
-		l := user.NewGetUserListLogic(context.Background(), svcCtx)
-		resp, err := l.GetUserList(&req)
+		l := user.NewGetUserListLogic(c, svcCtx)
+		resp, err := l.GetUserList(c, &req)
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
 
 	}

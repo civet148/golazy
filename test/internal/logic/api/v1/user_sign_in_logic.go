@@ -20,8 +20,8 @@ func NewUserSignInLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserSi
 	}
 }
 
-func (l *UserSignInLogic) UserSignIn(req *types.UserSignInReq) (resp *types.UserSignInRsp, err error) {
+func (l *UserSignInLogic) UserSignIn(ctx context.Context, req *types.UserSignInReq) (resp *types.UserSignInRsp, err error) {
 	// todo: add your logic here and delete this line
-
+	// you can call ctx.(*gin.Context) convert to gin context
 	return &types.UserSignInRsp{}, nil
 }
