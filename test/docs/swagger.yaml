@@ -250,7 +250,7 @@ paths:
   /api/v1/ws/market:
     get:
       consumes:
-      - text/plain
+      - application/json
       parameters:
       - description: params description
         in: body
@@ -259,12 +259,10 @@ paths:
         schema:
           type: string
       produces:
-      - text/plain
+      - application/json
       responses:
         "200":
           description: OK
-          schema:
-            type: string
       summary: 市场行情websocket
       tags:
       - ""

@@ -1,12 +1,13 @@
 package pay
 
 import (
-	"github.com/civet148/log"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"test/internal/types"
+
+	"github.com/civet148/log"
 	"test/internal/logic/api/v1/pay"
 	"test/internal/svc"
-	"test/internal/types"
 )
 
 // @Summary 微信支付回调

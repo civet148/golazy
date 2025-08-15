@@ -11,6 +11,7 @@ import (
 )
 
 const (
+	typesEmpty      = ""
 	typesNil        = "nil"
 	typesGinContext = "gin.Context"
 )
@@ -19,6 +20,7 @@ const (
 var typesTemplate string
 
 var specialTypes = []string{
+	typesEmpty,
 	typesNil,
 	typesGinContext,
 }

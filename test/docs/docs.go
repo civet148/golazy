@@ -342,10 +342,10 @@ const docTemplate = `{
         "/api/v1/ws/market": {
             "get": {
                 "consumes": [
-                    "text/plain"
+                    "application/json"
                 ],
                 "produces": [
-                    "text/plain"
+                    "application/json"
                 ],
                 "tags": [
                     ""
@@ -364,10 +364,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "description": "OK"
                     }
                 }
             }

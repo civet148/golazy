@@ -1,12 +1,13 @@
 package v1
 
 import (
-	"github.com/civet148/log"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"test/internal/types"
+
+	"github.com/civet148/log"
 	"test/internal/logic/api/v1"
 	"test/internal/svc"
-	"test/internal/types"
 )
 
 // @Summary 用户注册

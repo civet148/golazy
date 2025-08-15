@@ -20,22 +20,15 @@ func genHandler(cfg *Config, rootPkg string, api *parser.ApiService) error {
 
 	var err error
 	for _, spec := range api.APIs {
-		if spec.Request == typesGinContext {
-			err = genContextHandler(cfg, rootPkg, api, spec) //generate context handler
-			if err != nil {
-				return log.Errorf(err.Error())
-			}
-		} else {
-			err = genNormalHandler(cfg, rootPkg, api, spec) //generate normal handler
-			if err != nil {
-				return log.Errorf(err.Error())
-			}
+		err = genApiHandler(cfg, rootPkg, api, spec) //generate normal handler
+		if err != nil {
+			return log.Errorf(err.Error())
 		}
 	}
 	return nil
 }
 
-func genNormalHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec *parser.ApiSpec) (err error) {
+func genApiHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec *parser.ApiSpec) (err error) {
 
 	handler := getHandlerName(spec.Handler)
 	handlerPath := getHandlerFolderPath(api.Server.Group, api.Server.Prefix)
@@ -45,6 +38,9 @@ func genNormalHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec 
 		handler = strings.Title(handler)
 		logicPkgName = pkgName
 	}
+	hasReq := canGenTypes(spec.Request)
+	hasResp := canGenTypes(spec.Response)
+
 	filename, err := utils.FileNamingFormat(cfg.Style, handler)
 	if err != nil {
 		return err
@@ -66,15 +62,15 @@ func genNormalHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec 
 		data: map[string]any{
 			"PkgName":        pkgName,
 			"IsNormal":       true,
-			"ImportPackages": getNormalHandlerImports(api.Server.Group, api.Server.Prefix, rootPkg),
+			"ImportPackages": getNormalHandlerImports(api.Server.Group, api.Server.Prefix, rootPkg, hasReq || hasResp),
 			"HandlerName":    handler,
 			"RequestType":    spec.Request,
 			"ResponseType":   spec.Response,
 			"LogicName":      logicPkgName,
 			"LogicType":      strings.Title(getLogicName(handler)),
 			"Call":           strings.Title(strings.TrimSuffix(handler, "Handler")),
-			"HasResp":        canGenTypes(spec.Response),
-			"HasRequest":     canGenTypes(spec.Request),
+			"HasRequest":     hasReq,
+			"HasResp":        hasResp,
 			"HasDoc":         len(spec.Doc) > 0,
 			"Doc":            spec.Doc,
 			"ShouldBind":     strShouldBind,
@@ -83,53 +79,6 @@ func genNormalHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec 
 			"RouterPath":     simplifyRouteForSwag(routerPath),
 			"Method":         spec.Method,
 			"Object":         "{object}",
-		},
-	})
-	if err != nil {
-		return log.Errorf(err.Error())
-	}
-	return nil
-}
-
-func genContextHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec *parser.ApiSpec) (err error) {
-	handler := getHandlerName(spec.Handler)
-	handlerPath := getHandlerFolderPath(api.Server.Group, api.Server.Prefix)
-	pkgName := handlerPath[strings.LastIndex(handlerPath, "/")+1:]
-	logicPkgName := defaultLogicPackage
-	if handlerPath != handlerDir {
-		handler = strings.Title(handler)
-		logicPkgName = pkgName
-	}
-	filename, err := utils.FileNamingFormat(cfg.Style, handler)
-	if err != nil {
-		return err
-	}
-	var routerPath string
-	routerPath = getRouterPath(api, spec)
-	err = genFile(fileGenConfig{
-		dir:             cfg.OutDir,
-		subdir:          getHandlerFolderPath(api.Server.Group, api.Server.Prefix),
-		filename:        filename + ".go",
-		templateName:    "handlerTemplate",
-		category:        category,
-		builtinTemplate: handlerTemplate,
-		data: map[string]any{
-			"PkgName":        pkgName,
-			"IsNormal":       false,
-			"ImportPackages": getContextHandlerImports(api.Server.Group, api.Server.Prefix, rootPkg),
-			"HandlerName":    handler,
-			"LogicName":      logicPkgName,
-			"LogicType":      strings.Title(getLogicName(handler)),
-			"Call":           strings.Title(strings.TrimSuffix(handler, "Handler")),
-			"HasResp":        false,
-			"HasRequest":     false,
-			"HasDoc":         len(spec.Doc) > 0,
-			"Doc":            spec.Doc,
-			"Accept":         "plain",
-			"Produce":        "plain",
-			"RouterPath":     simplifyRouteForSwag(routerPath),
-			"Method":         spec.Method,
-			"Object":         "{string}",
 		},
 	})
 	if err != nil {
@@ -154,17 +103,16 @@ func getLogicFolderPath(group, route string) string {
 	return path.Join(logicDir, folder)
 }
 
-func getNormalHandlerImports(group, route string, parentPkg string) string {
-	imports := []string{
-		fmt.Sprintf("\"%s\"", "net/http"),
-		fmt.Sprintf("\"%s\"", "github.com/civet148/log"),
-		fmt.Sprintf("\"%s\"", utils.JoinPackages(parentPkg, getLogicFolderPath(group, route))),
-		fmt.Sprintf("\"%s\"", utils.JoinPackages(parentPkg, contextDir)),
-	}
-	if len(route) > 0 {
+func getNormalHandlerImports(group, route string, parentPkg string, hasTypes bool) string {
+	var imports []string
+	if hasTypes {
+		imports = append(imports, fmt.Sprintf("\"%s\"", "net/http"))
 		imports = append(imports, fmt.Sprintf("\"%s\"\n", utils.JoinPackages(parentPkg, typesDir)))
 	}
 
+	imports = append(imports, fmt.Sprintf("\"%s\"", "github.com/civet148/log"))
+	imports = append(imports, fmt.Sprintf("\"%s\"", utils.JoinPackages(parentPkg, getLogicFolderPath(group, route))))
+	imports = append(imports, fmt.Sprintf("\"%s\"", utils.JoinPackages(parentPkg, contextDir)))
 	return strings.Join(imports, "\n\t")
 }
 
