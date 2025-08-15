@@ -16,7 +16,7 @@ const defaultLogicPackage = "logic"
 //go:embed tpls/handler.tpl
 var handlerTemplate string
 
-func genHandler(cfg *Config, rootPkg string, api *parser.ApiService) error {
+func genHandlers(cfg *Config, rootPkg string, api *parser.ApiService) error {
 
 	var err error
 	for _, spec := range api.APIs {
@@ -62,7 +62,7 @@ func genApiHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec *pa
 		data: map[string]any{
 			"PkgName":        pkgName,
 			"IsNormal":       true,
-			"ImportPackages": getNormalHandlerImports(api.Server.Group, api.Server.Prefix, rootPkg, hasReq || hasResp),
+			"ImportPackages": getHandlerImports(api.Server.Group, api.Server.Prefix, rootPkg, hasReq || hasResp),
 			"HandlerName":    handler,
 			"RequestType":    spec.Request,
 			"ResponseType":   spec.Response,
@@ -103,7 +103,7 @@ func getLogicFolderPath(group, route string) string {
 	return path.Join(logicDir, folder)
 }
 
-func getNormalHandlerImports(group, route string, parentPkg string, hasTypes bool) string {
+func getHandlerImports(group, route string, parentPkg string, hasTypes bool) string {
 	var imports []string
 	if hasTypes {
 		imports = append(imports, fmt.Sprintf("\"%s\"", "net/http"))

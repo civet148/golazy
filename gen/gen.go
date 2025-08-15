@@ -69,8 +69,8 @@ func GenerateGoCode(cfg *Config, services []*parser.ApiService) (err error) {
 	for _, svc := range services {
 		utils.Must(genEtc(cfg, svc))
 		utils.Must(genConfig(cfg, svc))
-		utils.Must(genHandler(cfg, rootPkg, svc))
-		utils.Must(genLogic(cfg, rootPkg, svc))
+		utils.Must(genHandlers(cfg, rootPkg, svc))
+		utils.Must(genLogics(cfg, rootPkg, svc))
 		utils.Must(genMiddleware(cfg, svc))
 		utils.Must(genTypes(cfg, svc))
 		utils.Must(genServiceContext(cfg, rootPkg))

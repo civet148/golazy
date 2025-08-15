@@ -12,7 +12,7 @@ import (
 //go:embed tpls/logic.tpl
 var logicTemplate string
 
-func genLogic(cfg *Config, rootPkg string, api *parser.ApiService) error {
+func genLogics(cfg *Config, rootPkg string, api *parser.ApiService) error {
 	for _, spec := range api.APIs {
 		err := genApiLogic(cfg, rootPkg, api, spec)
 		if err != nil {
@@ -33,7 +33,7 @@ func genApiLogic(cfg *Config, rootPkg string, api *parser.ApiService, spec *pars
 	hasReq := canGenTypes(spec.Request)
 	hasResp := canGenTypes(spec.Response)
 
-	imports := genNormalLogicImports(rootPkg, hasReq || hasResp)
+	imports := genLogicImports(rootPkg, hasReq || hasResp)
 	var responseString string
 	var returnString string
 	var requestString string
@@ -77,7 +77,7 @@ func genApiLogic(cfg *Config, rootPkg string, api *parser.ApiService, spec *pars
 	return nil
 }
 
-func genNormalLogicImports(parentPkg string, includeTypes bool) string {
+func genLogicImports(parentPkg string, includeTypes bool) string {
 	var imports []string
 	imports = append(imports, `"context"`+"\n")
 	imports = append(imports, fmt.Sprintf("\"%s\"", utils.JoinPackages(parentPkg, contextDir)))
