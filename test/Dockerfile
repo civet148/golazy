@@ -24,7 +24,7 @@ RUN apt-get clean
 
 
 RUN apt-get update && apt-get install -y ca-certificates make
-ENV SRC_DIR /<no value>
+ENV SRC_DIR /code
 RUN set -x \
   && cd /tmp
 
@@ -37,7 +37,7 @@ FROM ubuntu:22.04
 
 RUN ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone && apt-get update && apt-get install -y tzdata
 ENV TZ Asia/Shanghai
-ENV SRC_DIR /<no value>
+ENV SRC_DIR /code
 
 
 # 管理系统主程序
