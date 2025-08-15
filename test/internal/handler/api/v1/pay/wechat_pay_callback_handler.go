@@ -36,8 +36,8 @@ func WechatPayCallbackHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		err := l.WechatPayCallback(c, &req)
 		if err != nil {
 			log.Errorf("call WechatPayCallback failed, err: %v", err.Error())
+			return
 		}
-		c.Abort()
 
 	}
 }

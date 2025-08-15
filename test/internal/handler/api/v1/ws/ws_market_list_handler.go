@@ -23,8 +23,8 @@ func WsMarketListHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		err := l.WsMarketList(c)
 		if err != nil {
 			log.Errorf("call WsMarketList failed, err: %v", err.Error())
+			return
 		}
-		c.Abort()
 
 	}
 }

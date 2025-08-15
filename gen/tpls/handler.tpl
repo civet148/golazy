@@ -15,8 +15,7 @@ import (
 // @Router {{.RouterPath}} [{{.Method}}]
 func {{.HandlerName}}(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-	 {{if .IsNormal}}
-	    {{if .HasRequest}}
+    {{if .HasRequest}}
 	    var req types.{{.RequestType}}
 		if err := {{.ShouldBind}}; err != nil {
 			if err != nil {
@@ -34,21 +33,13 @@ func {{.HandlerName}}(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			log.Errorf("call {{.Call}} failed, err: %v", err.Error())
 		}
 		c.JSON(http.StatusOK, svc.JsonResponse(resp, err))
-		{{else}}
+    {{else}}
 		err := l.{{.Call}}(c, {{if .HasRequest}}&req{{end}})
 		if err != nil {
             log.Errorf("call {{.Call}} failed, err: %v", err.Error())
+            return
         }
-        c.Abort()
-		{{end}}
-    {{else}}
-        l := {{.LogicName}}.New{{.LogicType}}(c, svcCtx)
-		err := l.{{.Call}}(c)
-		if err != nil {
-			log.Errorf("call {{.Call}} failed, err: %v", err.Error())
-		}
-        c.Abort()
-	{{end}}
+    {{end}}
 	}
 }
 
