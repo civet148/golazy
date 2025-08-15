@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/signal"
+
 	"github.com/civet148/golazy/gen"
 	"github.com/civet148/golazy/parser"
 	"github.com/civet148/log"
 	"github.com/urfave/cli/v2"
-	"os"
-	"os/signal"
 )
 
 var (
-	Version     = "v0.8.5"
+	Version     = "v0.8.6"
 	ProgramName = "golazy"
 	BuildTime   = "2025-08-15"
 	GitCommit   = "<N/A>"
