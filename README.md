@@ -116,8 +116,8 @@ service api {
 )
 service api {
     @doc "市场行情websocket"
-    @handler WsMarketList
-    get /market (nil) returns (nil)
+    @handler GetMarketList
+    get /market/list (nil) returns (nil)
 }
 
 @server (
