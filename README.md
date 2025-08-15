@@ -117,7 +117,7 @@ service api {
 service api {
     @doc "市场行情websocket"
     @handler WsMarketList
-    get /market (gin.Context) returns (nil)
+    get /market (nil) returns (nil)
 }
 
 @server (
