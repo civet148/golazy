@@ -19,7 +19,7 @@ const (
 )
 
 var (
-	BuildTime = "2025-08-18 10:10:07"
+	BuildTime = "2025-08-18 10:12:35"
 	GitCommit = "<N/A>"
 )
 

@@ -47,7 +47,7 @@ func genApiHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec *pa
 	}
 	var strShouldBind = "c.ShouldBind(&req)"
 	//路由中包含变量或正则表达式
-	if strings.Contains(spec.Path, ":") || strings.Contains(spec.Path, "*") || strings.Contains(spec.Path, "{") {
+	if isRegexpRoute(spec.Path) {
 		strShouldBind = "c.ShouldBindUri(&req)"
 	}
 	var routerPath string
@@ -89,6 +89,11 @@ func genApiHandler(cfg *Config, rootPkg string, api *parser.ApiService, spec *pa
 
 func getCommentDoc(doc string) string {
 	return fmt.Sprintf("//%s", doc)
+}
+
+func isRegexpRoute(path string) bool {
+	return strings.Contains(path, ":") || strings.Contains(path, "*") ||
+		strings.Contains(path, "{") || strings.Contains(path, "(")
 }
 
 func getLogicFolderPath(group, route string) string {
