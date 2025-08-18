@@ -13,10 +13,10 @@ build:
 	rm -f ${PROGRAM_NAME}
 	go mod tidy && go build -ldflags "-s -w -X 'main.BuildTime=${DATE_TIME}' -X 'main.GitCommit=${COMMIT_ID}'" -o ${PROGRAM_NAME}
 
-gen: build
+gen: install
 	rm -rf example && golazy api go -f example.api -o example
 
-start:
+test: gen
 	cd example && go mod tidy && go run .
 
 .PHONY: build install start gen

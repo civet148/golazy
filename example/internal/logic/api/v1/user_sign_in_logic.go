@@ -3,19 +3,21 @@ package v1
 import (
 	"context"
 
+	"github.com/gin-gonic/gin"
+
 	"example/internal/svc"
 	"example/internal/types"
 )
 
 type UserSignInLogic struct {
-	ctx    context.Context
+	ginCtx *gin.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 用户登录
-func NewUserSignInLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserSignInLogic {
+func NewUserSignInLogic(c *gin.Context, svcCtx *svc.ServiceContext) *UserSignInLogic {
 	return &UserSignInLogic{
-		ctx:    ctx,
+		ginCtx: c,
 		svcCtx: svcCtx,
 	}
 }

@@ -79,7 +79,8 @@ func genApiLogic(cfg *Config, rootPkg string, api *parser.ApiService, spec *pars
 
 func genLogicImports(parentPkg string, includeTypes bool) string {
 	var imports []string
-	imports = append(imports, `"context"`+"\n")
+	imports = append(imports, `"context"`+"\n\n")
+	imports = append(imports, `"github.com/gin-gonic/gin"`+"\n\n")
 	imports = append(imports, fmt.Sprintf("\"%s\"", utils.JoinPackages(parentPkg, contextDir)))
 	if includeTypes {
 		imports = append(imports, fmt.Sprintf("\"%s\"\n", utils.JoinPackages(parentPkg, typesDir)))

@@ -3,19 +3,21 @@ package user
 import (
 	"context"
 
+	"github.com/gin-gonic/gin"
+
 	"example/internal/svc"
 	"example/internal/types"
 )
 
 type EditUserLogic struct {
-	ctx    context.Context
+	ginCtx *gin.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 修改用户
-func NewEditUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *EditUserLogic {
+func NewEditUserLogic(c *gin.Context, svcCtx *svc.ServiceContext) *EditUserLogic {
 	return &EditUserLogic{
-		ctx:    ctx,
+		ginCtx: c,
 		svcCtx: svcCtx,
 	}
 }

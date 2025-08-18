@@ -3,19 +3,21 @@ package user
 import (
 	"context"
 
+	"github.com/gin-gonic/gin"
+
 	"example/internal/svc"
 	"example/internal/types"
 )
 
 type GetUserListLogic struct {
-	ctx    context.Context
+	ginCtx *gin.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 用户列表
-func NewGetUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserListLogic {
+func NewGetUserListLogic(c *gin.Context, svcCtx *svc.ServiceContext) *GetUserListLogic {
 	return &GetUserListLogic{
-		ctx:    ctx,
+		ginCtx: c,
 		svcCtx: svcCtx,
 	}
 }

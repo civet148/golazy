@@ -3,18 +3,20 @@ package ws
 import (
 	"context"
 
+	"github.com/gin-gonic/gin"
+
 	"example/internal/svc"
 )
 
 type GetMarketListLogic struct {
-	ctx    context.Context
+	ginCtx *gin.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 市场行情websocket
-func NewGetMarketListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetMarketListLogic {
+func NewGetMarketListLogic(c *gin.Context, svcCtx *svc.ServiceContext) *GetMarketListLogic {
 	return &GetMarketListLogic{
-		ctx:    ctx,
+		ginCtx: c,
 		svcCtx: svcCtx,
 	}
 }

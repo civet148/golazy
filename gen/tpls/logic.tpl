@@ -5,14 +5,14 @@ import (
 )
 
 type {{.logic}} struct {
-    ctx context.Context
+    ginCtx *gin.Context
 	svcCtx *svc.ServiceContext
 }
 
 {{if .hasDoc}}{{.doc}}{{end}}
-func New{{.logic}}(ctx context.Context, svcCtx *svc.ServiceContext) *{{.logic}} {
+func New{{.logic}}(c *gin.Context, svcCtx *svc.ServiceContext) *{{.logic}} {
 	return &{{.logic}}{
-        ctx:    ctx,
+        ginCtx: c,
 		svcCtx: svcCtx,
 	}
 }

@@ -3,19 +3,21 @@ package v1
 import (
 	"context"
 
+	"github.com/gin-gonic/gin"
+
 	"example/internal/svc"
 	"example/internal/types"
 )
 
 type UserSignOutLogic struct {
-	ctx    context.Context
+	ginCtx *gin.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 用户退出登录
-func NewUserSignOutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserSignOutLogic {
+func NewUserSignOutLogic(c *gin.Context, svcCtx *svc.ServiceContext) *UserSignOutLogic {
 	return &UserSignOutLogic{
-		ctx:    ctx,
+		ginCtx: c,
 		svcCtx: svcCtx,
 	}
 }

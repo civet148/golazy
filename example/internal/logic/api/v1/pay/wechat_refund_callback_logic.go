@@ -3,19 +3,21 @@ package pay
 import (
 	"context"
 
+	"github.com/gin-gonic/gin"
+
 	"example/internal/svc"
 	"example/internal/types"
 )
 
 type WechatRefundCallbackLogic struct {
-	ctx    context.Context
+	ginCtx *gin.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 微信退款回调
-func NewWechatRefundCallbackLogic(ctx context.Context, svcCtx *svc.ServiceContext) *WechatRefundCallbackLogic {
+func NewWechatRefundCallbackLogic(c *gin.Context, svcCtx *svc.ServiceContext) *WechatRefundCallbackLogic {
 	return &WechatRefundCallbackLogic{
-		ctx:    ctx,
+		ginCtx: c,
 		svcCtx: svcCtx,
 	}
 }
