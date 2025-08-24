@@ -1,0 +1,65 @@
+@server (
+    prefix:     /api/v1
+    middleware: Cors,JwtAuth
+)
+service api {
+    @doc "用户登录"
+    @handler UserSignIn
+    post /sign_in (UserSignInReq) returns (UserSignInRsp)
+
+    @doc "用户注册"
+    @handler UserSignUp
+    post /sign_up (UserSignUpReq) returns (UserSignUpRsp)
+
+    @doc "用户退出登录"
+    @handler UserSignOut
+    post /sign_out (UserSignOutReq) returns (UserSignOutRsp)
+}
+
+@server (
+    prefix:     /api/v1/user
+    middleware: Validator
+)
+service api {
+    @doc "用户列表"
+    @handler GetUserList
+    get /list (GetUserListReq) returns (GetUserListRsp)
+
+    @doc "添加用户"
+    @handler AddUser
+    put /add (AddUserReq) returns (AddUserRsp)
+
+    @doc "修改用户"
+    @handler EditUser
+    post /edit (EditUserReq) returns (EditUserRsp)
+
+    @doc "删除用户"
+    @handler DeleteUser
+    delete /delete (DeleteUserReq) returns (DeleteUserRsp)
+
+    @doc "根据ID查询用户"
+    @handler GetUserById
+    get /:id (GetUserByIdReq) returns (GetUserByIdRsp)
+}
+
+@server (
+    prefix:     /api/v1/ws
+)
+service api {
+    @doc "市场行情websocket"
+    @handler GetMarketList
+    get /market/list (nil) returns (nil)
+}
+
+@server (
+    prefix:     /api/v1/pay
+)
+service api {
+    @doc "微信支付回调"
+    @handler WechatPayCallback
+    post /wechat/pay/{tid:[0-9]+} (WechatPayCallbackReq) returns (nil)
+
+    @doc "微信退款回调"
+    @handler WechatRefundCallback
+    post /wechat/refund/{tid:[0-9]+} (WechatRefundCallbackReq) returns (nil)
+}
