@@ -18,6 +18,11 @@ BINS+=${PROGRAM_NAME}
 api:
 	@echo "generate api code"
 	golazy api go -f {{.serviceName}}.api
+.PHONY: api
+
+run: api
+	go mod tidy && go run .
+.PHONY: run
 
 docker:
 	docker build --build-arg GIT_USER=${GIT_USER} --build-arg GIT_PASSWORD=${GIT_PASSWORD} --tag ${IMAGE_NAME} -f Dockerfile .

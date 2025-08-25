@@ -40,6 +40,7 @@ $ go mod tidy && go run test.go
 
 ```shell 
 ├── go.mod
+├── docs # swagger文档目录
 ├── internal
 │   ├── config # 配置文件目录
 │   │   └── config.go
@@ -126,8 +127,11 @@ service api {
 service api {
     @doc "微信支付回调"
     @handler WechatPayCallback
-    post /wechat/:tid (WechatPayCallbackReq) returns (nil)
-}
+    post /wechat/pay/{tid:[0-9]+} (WechatPayCallbackReq) returns (nil)
 
+    @doc "微信退款回调"
+    @handler WechatRefundCallback
+    post /wechat/refund/{tid:[0-9]+} (WechatRefundCallbackReq) returns (nil)
+}
 ```
 
