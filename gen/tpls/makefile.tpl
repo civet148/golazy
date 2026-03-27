@@ -49,7 +49,10 @@ db2go:
 .PHONY: db2go
 
 swagger:
-	go install github.com/swaggo/swag/cmd/swag@v1.16.4 && swag init -g {{.serviceName}}.go
+	go install github.com/swaggo/swag/cmd/swag@latest
+init:
+	swag init -g {{.serviceName}}.go
+
 .PHONY: swagger
 
 clean:
