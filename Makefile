@@ -6,8 +6,6 @@ DATE_TIME=`date +'%Y%m%d %H:%M:%S'`
 COMMIT_ID=`git rev-parse --short HEAD`
 PROGRAM_NAME=golazy
 
-install: build
-	sudo cp golazy /usr/local/bin
 
 build:
 	rm -f ${PROGRAM_NAME}
@@ -18,6 +16,9 @@ gen: install
 
 test: gen
 	cd example && go mod tidy && go run .
+
+install: build
+	sudo cp golazy ${GOPATH}/bin
 
 .PHONY: build install start gen
 
