@@ -34,8 +34,8 @@ const (
 	packageProtocGenGoGrpc      = "google.golang.org/grpc/cmd/protoc-gen-go-grpc"
 	packageProtocGenGrpcGateway = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway"
 	packageProtocGenOpenApiV2   = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2"
-	packageGoogleApis           = "https://github.com/googleapis/googleapis"
-	packageGogoProtobuf         = "https://github.com/gogo/protobuf"
+	packageGoogleApis           = "github.com/googleapis/googleapis"
+	packageGogoProtobuf         = "github.com/gogo/protobuf"
 )
 
 /*
@@ -87,14 +87,14 @@ var subCmdGrpcGateway = &cli.Command{
 		&cli.StringFlag{
 			Name:    cmdFlag_GoogleApis,
 			Aliases: []string{"A"},
-			Usage:   "github.com/googleapis/googleapis version",
-			Value:   "latest",
+			Usage:   "github.com/googleapis/googleapis branch",
+			Value:   "",
 		},
 		&cli.StringFlag{
 			Name:    cmdFlag_GogoProtobuf,
-			Aliases: []string{"O"},
-			Usage:   "github.com/gogo/protobuf",
-			Value:   "latest",
+			Aliases: []string{"P"},
+			Usage:   "github.com/gogo/protobuf branch",
+			Value:   "",
 		},
 	},
 	Action: func(ctx *cli.Context) error {
@@ -172,14 +172,12 @@ func (g *GoInstaller) Clone(opts GoPackageOptions) error {
 		return fmt.Errorf("创建目录 %s 失败: %w", dir, err)
 	}
 
-	// 构建完整的包名（带版本号）
-	pkgWithVersion := opts.Package
-	if opts.Version != "" {
-		pkgWithVersion = fmt.Sprintf("%s@%s", opts.Package, opts.Version)
-	}
-	// 构建命令参数(git clone https://github.com/gogo/protobuf.git $GOPATH/src/github.com/gogo/protobuf)
+	// 构建命令参数(git clone -b v1.2.39 https://github.com/gogo/protobuf.git $GOPATH/src/github.com/gogo/protobuf)
 	args := []string{"clone"}
-	args = append(args, pkgWithVersion)
+	if opts.Version != "" {
+		args = append(args, "-b", opts.Version)
+	}
+	args = append(args, "https://"+opts.Package)
 	args = append(args, fullpath)
 
 	// 创建命令
@@ -223,7 +221,7 @@ func (g *GoInstaller) Clone(opts GoPackageOptions) error {
 	}
 
 	if g.Verbose {
-		log.Printf("✅ 成功克隆: %s", pkgWithVersion)
+		log.Printf("✅ 成功克隆: %s", opts.Package)
 	}
 	return nil
 }
