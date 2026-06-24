@@ -27,6 +27,7 @@ const (
 	cmdFlag_ProtocGenOpenApiV2   = "protoc-gen-openapiv2"
 	cmdFlag_GoogleApis           = "google-apis"
 	cmdFlag_GogoProtobuf         = "gogo-protobuf"
+	cmdFlag_WithSSH              = "with-ssh"
 )
 
 const (
@@ -96,6 +97,11 @@ var subCmdGrpcGateway = &cli.Command{
 			Usage:   "github.com/gogo/protobuf branch",
 			Value:   "",
 		},
+		&cli.BoolFlag{
+			Name:    cmdFlag_WithSSH,
+			Aliases: []string{"S"},
+			Usage:   "with git ssh to clone",
+		},
 	},
 	Action: func(ctx *cli.Context) error {
 
@@ -122,6 +128,7 @@ var subCmdGrpcGateway = &cli.Command{
 				Package: k,
 				Version: v,
 				Clone:   true,
+				WithSSH: ctx.Bool(cmdFlag_WithSSH),
 			})
 		}
 		installer := NewGoInstaller(true)
@@ -141,6 +148,8 @@ type GoPackageOptions struct {
 	WorkDir string
 	// 是否为克隆模式(默认 go install)
 	Clone bool
+	// 是否使用git ssh方式
+	WithSSH bool
 }
 
 // GoInstaller 封装 go install 操作
@@ -154,6 +163,13 @@ func NewGoInstaller(verbose bool) *GoInstaller {
 	return &GoInstaller{
 		Verbose: verbose,
 	}
+}
+
+func replaceCloneUrl(packageUrl string, withSSH bool) string {
+	if !withSSH {
+		return "https://" + packageUrl
+	}
+	return "git@" + strings.Replace(packageUrl, "/", ":", 1)
 }
 
 // Clone 执行git clone指定代码库
@@ -177,7 +193,7 @@ func (g *GoInstaller) Clone(opts GoPackageOptions) error {
 	if opts.Version != "" {
 		args = append(args, "-b", opts.Version)
 	}
-	args = append(args, "https://"+opts.Package)
+	args = append(args, replaceCloneUrl(opts.Package, opts.WithSSH))
 	args = append(args, fullpath)
 
 	// 创建命令
@@ -207,12 +223,12 @@ func (g *GoInstaller) Clone(opts GoPackageOptions) error {
 	// 打印输出信息
 	if stdout.Len() > 0 {
 		if g.Verbose {
-			log.Printf("标准输出:\n%s", stdout.String())
+			log.Printf("\n%s", stdout.String())
 		}
 	}
 	if stderr.Len() > 0 {
 		if g.Verbose {
-			log.Printf("标准错误:\n%s", stderr.String())
+			log.Printf("\n%s", stderr.String())
 		}
 	}
 
@@ -268,12 +284,12 @@ func (g *GoInstaller) Install(opts GoPackageOptions) error {
 	// 打印输出信息
 	if stdout.Len() > 0 {
 		if g.Verbose {
-			log.Printf("标准输出:\n%s", stdout.String())
+			log.Printf("\n%s", stdout.String())
 		}
 	}
 	if stderr.Len() > 0 {
 		if g.Verbose {
-			log.Printf("标准错误:\n%s", stderr.String())
+			log.Printf("\n%s", stderr.String())
 		}
 	}
 
