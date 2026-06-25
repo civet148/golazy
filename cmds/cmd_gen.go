@@ -29,8 +29,8 @@ var CmdGen = &cli.Command{
 	Usage: "generation commands",
 	Flags: []cli.Flag{},
 	Subcommands: []*cli.Command{
-		subCmdProtoScript,
-		subCmdDB2GO,
+		cmdGenProtoScript,
+		cmdGenDB2GO,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -61,7 +61,7 @@ func generateFile(outputDir, outputName string, data []byte) error {
 //go:embed tpls/genproto.tpl
 var genProtoTemplate string
 
-var subCmdProtoScript = &cli.Command{
+var cmdGenProtoScript = &cli.Command{
 	Name:  subCmd_ProtoScript,
 	Usage: "generate protobuf compile script",
 	Flags: []cli.Flag{
@@ -86,7 +86,7 @@ var subCmdProtoScript = &cli.Command{
 //go:embed tpls/db2go.tpl
 var db2goTemplate string
 
-var subCmdDB2GO = &cli.Command{
+var cmdGenDB2GO = &cli.Command{
 	Name:  subCmd_DB2GO,
 	Usage: "generate db2go script",
 	Flags: []cli.Flag{

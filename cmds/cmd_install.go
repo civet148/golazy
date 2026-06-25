@@ -17,7 +17,8 @@ const (
 )
 
 const (
-	subCmd_GrpcGateway = "grpc-gateway"
+	subCmd_InstallGrpcGateway = "grpc-gateway"
+	subCmd_InstallDB2GO       = "db2go"
 )
 
 const (
@@ -28,6 +29,7 @@ const (
 	cmdFlag_GoogleApis           = "google-apis"
 	cmdFlag_GogoProtobuf         = "gogo-protobuf"
 	cmdFlag_WithSSH              = "with-ssh"
+	cmdFlag_Version              = "version"
 )
 
 const (
@@ -37,6 +39,7 @@ const (
 	packageProtocGenOpenApiV2   = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2"
 	packageGoogleApis           = "github.com/googleapis/googleapis"
 	packageGogoProtobuf         = "github.com/gogo/protobuf"
+	packageDB2GO                = "github.com/civet148/db2go"
 )
 
 /*
@@ -50,15 +53,16 @@ var CmdInstall = &cli.Command{
 	Usage: "install commands",
 	Flags: []cli.Flag{},
 	Subcommands: []*cli.Command{
-		subCmdGrpcGateway,
+		cmdInstallGrpcGateway,
+		cmdInstallDB2GO,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
 	},
 }
 
-var subCmdGrpcGateway = &cli.Command{
-	Name:  subCmd_GrpcGateway,
+var cmdInstallGrpcGateway = &cli.Command{
+	Name:  subCmd_InstallGrpcGateway,
 	Usage: "install gRPC gateway utils",
 	Flags: []cli.Flag{
 		&cli.StringFlag{
@@ -129,6 +133,39 @@ var subCmdGrpcGateway = &cli.Command{
 				Version: v,
 				Clone:   true,
 				WithSSH: ctx.Bool(cmdFlag_WithSSH),
+			})
+		}
+		installer := NewGoInstaller(true)
+		return installer.InstallMultiple(installPlugins...)
+	},
+}
+
+var cmdInstallDB2GO = &cli.Command{
+	Name:  subCmd_InstallDB2GO,
+	Usage: "install db2go cli",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Version,
+			Aliases: []string{"g"},
+			Usage:   "db2go version",
+			Value:   "latest",
+		},
+		&cli.BoolFlag{
+			Name:    cmdFlag_WithSSH,
+			Aliases: []string{"S"},
+			Usage:   "with git ssh to clone",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+
+		var installPackages = map[string]string{
+			packageDB2GO: ctx.String(cmdFlag_Version),
+		}
+		var installPlugins []GoPackageOptions
+		for k, v := range installPackages {
+			installPlugins = append(installPlugins, GoPackageOptions{
+				Package: k,
+				Version: v,
 			})
 		}
 		installer := NewGoInstaller(true)
