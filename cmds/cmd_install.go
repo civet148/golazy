@@ -146,7 +146,7 @@ var cmdInstallDB2GO = &cli.Command{
 	Flags: []cli.Flag{
 		&cli.StringFlag{
 			Name:    cmdFlag_Version,
-			Aliases: []string{"g"},
+			Aliases: []string{"V"},
 			Usage:   "db2go version",
 			Value:   "latest",
 		},
