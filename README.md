@@ -1,7 +1,13 @@
 # golazy说明
 
-golazy 是一个基于go-zero的api为输入并生成基于gin的web代码工具。
+golazy 是一个基于go-zero的api为输入并生成基于gin的web代码工具。支持如下功能
+
+- api文件定义并生成web后台代码
+```text
 api文件声明路由和接口格式兼容go-zero，但不支持import导入其他api文件和api中声明请求响应结构体。
+```  
+- 自动化安装gRPC网关工具和db2go导出工具
+- 自动化生成db2go数据库导出脚本
 
 # 开始使用
 
@@ -36,7 +42,9 @@ $ golazy api go -f test.api -o . -s go_lazy
 $ go mod tidy && go run test.go
 ```
 
-## 生成文件树
+## 1. api文件生成web后端
+
+### 1.1 生成文件树
 
 ```shell 
 ├── go.mod
@@ -61,7 +69,7 @@ $ go mod tidy && go run test.go
 ```
 
 
-## 定义API文件
+### 1.2 定义API文件
 
 - api文件不支持import导入其他api文件和api中声明请求响应结构体。
 - prefix 路由前缀支持/开头也支持不带/, 同一个prefix只能声明一次
