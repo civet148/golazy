@@ -166,6 +166,8 @@ var cmdInstallDB2GO = &cli.Command{
 			installPlugins = append(installPlugins, GoPackageOptions{
 				Package: k,
 				Version: v,
+				WithSSH: ctx.Bool(cmdFlag_WithSSH),
+				WithCGO: true,
 			})
 		}
 		installer := NewGoInstaller(true)
@@ -187,6 +189,8 @@ type GoPackageOptions struct {
 	Clone bool
 	// 是否使用git ssh方式
 	WithSSH bool
+	// 是否启用CGO
+	WithCGO bool
 }
 
 // GoInstaller 封装 go install 操作
@@ -288,14 +292,23 @@ func (g *GoInstaller) Install(opts GoPackageOptions) error {
 	}
 
 	// 构建命令参数
-	args := []string{"install"}
+	args := []string{}
+
+	args = append(args, "install")
 	if opts.DownloadFirst {
 		args = append(args, "-mod=mod")
 	}
 	args = append(args, pkgWithVersion)
 
+	var goCmd = "go"
+	if opts.WithCGO {
+		if err := os.Setenv("CGO_ENABLED", "1"); err != nil {
+			return fmt.Errorf("failed to set CGO_ENABLED: %w", err)
+		}
+		log.Printf("CGO_ENABLED=%v", os.Getenv("CGO_ENABLED"))
+	}
 	// 创建命令
-	cmd := exec.Command("go", args...)
+	cmd := exec.Command(goCmd, args...)
 
 	// 设置工作目录
 	if opts.WorkDir != "" {
