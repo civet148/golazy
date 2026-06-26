@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/civet148/golazy/utils"
 	"github.com/civet148/log"
 	"github.com/urfave/cli/v2"
 )
@@ -141,10 +142,11 @@ var cmdInstallGrpcGateway = &cli.Command{
 		}
 		for k, v := range clonePackages {
 			installPlugins = append(installPlugins, GoPackageOptions{
-				Package: k,
-				Version: v,
-				Clone:   true,
-				WithSSH: ctx.Bool(cmdFlag_WithSSH),
+				Package:     k,
+				Version:     v,
+				Clone:       true,
+				CheckExists: true,
+				WithSSH:     ctx.Bool(cmdFlag_WithSSH),
 			})
 		}
 		installer := NewGoInstaller(true)
@@ -203,6 +205,8 @@ type GoPackageOptions struct {
 	WithSSH bool
 	// 是否启用CGO
 	WithCGO bool
+	// 是否检查文件已存在
+	CheckExists bool
 }
 
 // GoInstaller 封装 go install 操作
@@ -236,6 +240,15 @@ func (g *GoInstaller) Clone(opts GoPackageOptions) error {
 
 	// 创建父级目录
 	fullpath := filepath.Join(gopath, "src", opts.Package)
+	ok, err := utils.IsPathExists(fullpath)
+	if err != nil {
+		return err
+	}
+	if ok {
+		log.Printf("文件或目录%s已存在，忽略...", fullpath)
+		return nil
+	}
+
 	dir := filepath.Dir(fullpath)
 	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
 		return fmt.Errorf("创建目录 %s 失败: %w", dir, err)
@@ -271,8 +284,7 @@ func (g *GoInstaller) Clone(opts GoPackageOptions) error {
 	}
 
 	// 执行命令
-	err := cmd.Run()
-
+	err = cmd.Run()
 	// 打印输出信息
 	if stdout.Len() > 0 {
 		if g.Verbose {
