@@ -22,32 +22,28 @@ const (
 )
 
 const (
-	cmdFlag_ProtocGenGo          = "protoc-gen-go"
-	cmdFlag_ProtocGenGoGrpc      = "protoc-gen-go-grpc"
-	cmdFlag_ProtocGenGrpcGateway = "protoc-gen-grpc-gateway"
-	cmdFlag_ProtocGenOpenApiV2   = "protoc-gen-openapiv2"
-	cmdFlag_GoogleApis           = "google-apis"
-	cmdFlag_GogoProtobuf         = "gogo-protobuf"
-	cmdFlag_WithSSH              = "with-ssh"
-	cmdFlag_Version              = "version"
+	cmdFlag_ProtocGenGo           = "protoc-gen-go"
+	cmdFlag_ProtocGenGoGrpc       = "protoc-gen-go-grpc"
+	cmdFlag_ProtocGenGrpcGateway  = "protoc-gen-grpc-gateway"
+	cmdFlag_ProtocGenOpenApiV2    = "protoc-gen-openapiv2"
+	cmdFlag_ProtocGenGoValidators = "protoc-gen-go-validators"
+	cmdFlag_GoogleApis            = "google-apis"
+	cmdFlag_GogoProtobuf          = "gogo-protobuf"
+	cmdFlag_WithSSH               = "with-ssh"
+	cmdFlag_Version               = "version"
 )
 
 const (
-	packageProtocGenGo          = "google.golang.org/protobuf/cmd/protoc-gen-go"
-	packageProtocGenGoGrpc      = "google.golang.org/grpc/cmd/protoc-gen-go-grpc"
-	packageProtocGenGrpcGateway = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway"
-	packageProtocGenOpenApiV2   = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2"
-	packageGoogleApis           = "github.com/googleapis/googleapis"
-	packageGogoProtobuf         = "github.com/gogo/protobuf"
-	packageDB2GO                = "github.com/civet148/db2go"
+	packageProtocGenGo           = "google.golang.org/protobuf/cmd/protoc-gen-go"
+	packageProtocGenGoValidators = "github.com/mwitkow/go-proto-validators/protoc-gen-govalidators"
+	packageProtocGenGoGrpc       = "google.golang.org/grpc/cmd/protoc-gen-go-grpc"
+	packageProtocGenGrpcGateway  = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway"
+	packageProtocGenOpenApiV2    = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2"
+	packageGoogleApis            = "github.com/googleapis/googleapis"
+	packageGogoProtobuf          = "github.com/gogo/protobuf"
+	packageDB2GO                 = "github.com/civet148/db2go"
 )
 
-/*
-go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28.1
-go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2.0
-go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.16.0
-go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@v2.16.0
-*/
 var CmdInstall = &cli.Command{
 	Name:  Cmd_Install,
 	Usage: "install commands",
@@ -68,7 +64,7 @@ var cmdInstallGrpcGateway = &cli.Command{
 		&cli.StringFlag{
 			Name:    cmdFlag_ProtocGenGo,
 			Aliases: []string{"g"},
-			Usage:   "proto-gen-go version",
+			Usage:   "protoc-gen-go version",
 			Value:   "v1.28.1",
 		},
 		&cli.StringFlag{
@@ -88,6 +84,12 @@ var cmdInstallGrpcGateway = &cli.Command{
 			Aliases: []string{"O"},
 			Usage:   "protoc-gen-openapiv2 version",
 			Value:   "v2.16.0",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_ProtocGenGoValidators,
+			Aliases: []string{"V"},
+			Usage:   "protoc-gen-govalidators version",
+			Value:   "latest",
 		},
 		&cli.StringFlag{
 			Name:    cmdFlag_GoogleApis,
@@ -110,10 +112,11 @@ var cmdInstallGrpcGateway = &cli.Command{
 	Action: func(ctx *cli.Context) error {
 
 		var installPackages = map[string]string{
-			packageProtocGenGo:          ctx.String(cmdFlag_ProtocGenGo),
-			packageProtocGenGoGrpc:      ctx.String(cmdFlag_ProtocGenGoGrpc),
-			packageProtocGenGrpcGateway: ctx.String(cmdFlag_ProtocGenGrpcGateway),
-			packageProtocGenOpenApiV2:   ctx.String(cmdFlag_ProtocGenOpenApiV2),
+			packageProtocGenGo:           ctx.String(cmdFlag_ProtocGenGo),
+			packageProtocGenGoGrpc:       ctx.String(cmdFlag_ProtocGenGoGrpc),
+			packageProtocGenGrpcGateway:  ctx.String(cmdFlag_ProtocGenGrpcGateway),
+			packageProtocGenOpenApiV2:    ctx.String(cmdFlag_ProtocGenOpenApiV2),
+			packageProtocGenGoValidators: ctx.String(cmdFlag_ProtocGenGoValidators),
 		}
 		var clonePackages = map[string]string{
 			packageGoogleApis:   ctx.String(cmdFlag_GoogleApis),
