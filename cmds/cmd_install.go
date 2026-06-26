@@ -230,7 +230,7 @@ func replaceCloneUrl(packageUrl string, withSSH bool) string {
 }
 
 // Clone 执行git clone指定代码库
-func (g *GoInstaller) Clone(opts GoPackageOptions) error {
+func (g *GoInstaller) Clone(pkg GoPackageOptions) error {
 
 	// 判断$GOPATH是否存在，如果存在则使用$GOPATH/src目录作为下载基础目录
 	gopath := os.Getenv("GOPATH")
@@ -239,7 +239,7 @@ func (g *GoInstaller) Clone(opts GoPackageOptions) error {
 	}
 
 	// 创建父级目录
-	fullpath := filepath.Join(gopath, "src", opts.Package)
+	fullpath := filepath.Join(gopath, "src", pkg.Package)
 	ok, err := utils.IsPathExists(fullpath)
 	if err != nil {
 		return err
@@ -256,18 +256,18 @@ func (g *GoInstaller) Clone(opts GoPackageOptions) error {
 
 	// 构建命令参数(git clone -b v1.2.39 https://github.com/gogo/protobuf.git $GOPATH/src/github.com/gogo/protobuf)
 	args := []string{"clone"}
-	if opts.Version != "" {
-		args = append(args, "-b", opts.Version)
+	if pkg.Version != "" {
+		args = append(args, "-b", pkg.Version)
 	}
-	args = append(args, replaceCloneUrl(opts.Package, opts.WithSSH))
+	args = append(args, replaceCloneUrl(pkg.Package, pkg.WithSSH))
 	args = append(args, fullpath)
 
 	// 创建命令
 	cmd := exec.Command("git", args...)
 
 	// 设置工作目录
-	if opts.WorkDir != "" {
-		cmd.Dir = opts.WorkDir
+	if pkg.WorkDir != "" {
+		cmd.Dir = pkg.WorkDir
 	}
 
 	// 获取标准输出和错误输出
@@ -278,8 +278,8 @@ func (g *GoInstaller) Clone(opts GoPackageOptions) error {
 	// 打印执行的命令（如果 verbose 模式）
 	if g.Verbose {
 		log.Printf("执行命令: git %s", strings.Join(args, " "))
-		if opts.WorkDir != "" {
-			log.Printf("工作目录: %s", opts.WorkDir)
+		if pkg.WorkDir != "" {
+			log.Printf("工作目录: %s", pkg.WorkDir)
 		}
 	}
 
@@ -302,30 +302,30 @@ func (g *GoInstaller) Clone(opts GoPackageOptions) error {
 	}
 
 	if g.Verbose {
-		log.Printf("✅ 成功克隆: %s", opts.Package)
+		log.Printf("✅ 成功克隆: %s", pkg.Package)
 	}
 	return nil
 }
 
 // Install 执行 go install 安装指定的包
-func (g *GoInstaller) Install(opts GoPackageOptions) error {
+func (g *GoInstaller) Install(pkg GoPackageOptions) error {
 	// 构建完整的包名（带版本号）
-	pkgWithVersion := opts.Package
-	if opts.Version != "" {
-		pkgWithVersion = fmt.Sprintf("%s@%s", opts.Package, opts.Version)
+	pkgWithVersion := pkg.Package
+	if pkg.Version != "" {
+		pkgWithVersion = fmt.Sprintf("%s@%s", pkg.Package, pkg.Version)
 	}
 
 	// 构建命令参数
 	args := []string{}
 
 	args = append(args, "install")
-	if opts.DownloadFirst {
+	if pkg.DownloadFirst {
 		args = append(args, "-mod=mod")
 	}
 	args = append(args, pkgWithVersion)
 
 	var goCmd = "go"
-	if opts.WithCGO {
+	if pkg.WithCGO {
 		if err := os.Setenv("CGO_ENABLED", "1"); err != nil {
 			return fmt.Errorf("failed to set CGO_ENABLED: %w", err)
 		}
@@ -335,8 +335,8 @@ func (g *GoInstaller) Install(opts GoPackageOptions) error {
 	cmd := exec.Command(goCmd, args...)
 
 	// 设置工作目录
-	if opts.WorkDir != "" {
-		cmd.Dir = opts.WorkDir
+	if pkg.WorkDir != "" {
+		cmd.Dir = pkg.WorkDir
 	}
 
 	// 获取标准输出和错误输出
@@ -347,8 +347,8 @@ func (g *GoInstaller) Install(opts GoPackageOptions) error {
 	// 打印执行的命令（如果 verbose 模式）
 	if g.Verbose {
 		log.Printf("执行命令: go %s", strings.Join(args, " "))
-		if opts.WorkDir != "" {
-			log.Printf("工作目录: %s", opts.WorkDir)
+		if pkg.WorkDir != "" {
+			log.Printf("工作目录: %s", pkg.WorkDir)
 		}
 	}
 
