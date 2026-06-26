@@ -31,17 +31,19 @@ const (
 	cmdFlag_GogoProtobuf          = "gogo-protobuf"
 	cmdFlag_WithSSH               = "with-ssh"
 	cmdFlag_Version               = "version"
+	cmdFlag_GoValidators          = "go-validators"
 )
 
 const (
-	packageProtocGenGo           = "google.golang.org/protobuf/cmd/protoc-gen-go"
-	packageProtocGenGoValidators = "github.com/mwitkow/go-proto-validators/protoc-gen-govalidators"
-	packageProtocGenGoGrpc       = "google.golang.org/grpc/cmd/protoc-gen-go-grpc"
-	packageProtocGenGrpcGateway  = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway"
-	packageProtocGenOpenApiV2    = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2"
-	packageGoogleApis            = "github.com/googleapis/googleapis"
-	packageGogoProtobuf          = "github.com/gogo/protobuf"
-	packageDB2GO                 = "github.com/civet148/db2go"
+	packageProtocGenGo               = "google.golang.org/protobuf/cmd/protoc-gen-go"
+	packageProtocGenGoValidators     = "github.com/mwitkow/go-proto-validators/protoc-gen-govalidators"
+	packageProtocGenGoGrpc           = "google.golang.org/grpc/cmd/protoc-gen-go-grpc"
+	packageProtocGenGrpcGateway      = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway"
+	packageProtocGenOpenApiV2        = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2"
+	packageGoogleApis                = "github.com/googleapis/googleapis"
+	packageGogoProtobuf              = "github.com/gogo/protobuf"
+	packageDB2GO                     = "github.com/civet148/db2go"
+	packageMwitkowProtocGoValidators = "github.com/mwitkow/go-proto-validators"
 )
 
 var CmdInstall = &cli.Command{
@@ -64,43 +66,49 @@ var cmdInstallGrpcGateway = &cli.Command{
 		&cli.StringFlag{
 			Name:    cmdFlag_ProtocGenGo,
 			Aliases: []string{"g"},
-			Usage:   "protoc-gen-go version",
+			Usage:   "protoc-gen-go cli version",
 			Value:   "v1.28.1",
 		},
 		&cli.StringFlag{
 			Name:    cmdFlag_ProtocGenGoGrpc,
 			Aliases: []string{"G"},
-			Usage:   "protoc-gen-go-grpc version",
+			Usage:   "protoc-gen-go-grpc cli version",
 			Value:   "v1.2.0",
 		},
 		&cli.StringFlag{
 			Name:    cmdFlag_ProtocGenGrpcGateway,
 			Aliases: []string{"W"},
-			Usage:   "protoc-gen-grpc-gateway version",
+			Usage:   "protoc-gen-grpc-gateway cli version",
 			Value:   "v2.16.0",
 		},
 		&cli.StringFlag{
 			Name:    cmdFlag_ProtocGenOpenApiV2,
 			Aliases: []string{"O"},
-			Usage:   "protoc-gen-openapiv2 version",
+			Usage:   "protoc-gen-openapiv2 cli version",
 			Value:   "v2.16.0",
 		},
 		&cli.StringFlag{
 			Name:    cmdFlag_ProtocGenGoValidators,
 			Aliases: []string{"V"},
-			Usage:   "protoc-gen-govalidators version",
+			Usage:   "protoc-gen-govalidators cli version",
 			Value:   "latest",
 		},
 		&cli.StringFlag{
 			Name:    cmdFlag_GoogleApis,
 			Aliases: []string{"A"},
-			Usage:   "github.com/googleapis/googleapis branch",
+			Usage:   "github.com/googleapis/googleapis code branch",
 			Value:   "",
 		},
 		&cli.StringFlag{
 			Name:    cmdFlag_GogoProtobuf,
 			Aliases: []string{"P"},
-			Usage:   "github.com/gogo/protobuf branch",
+			Usage:   "github.com/gogo/protobuf code branch",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_GoValidators,
+			Aliases: []string{"T"},
+			Usage:   "github.com/mwitkow/go-proto-validators code branch",
 			Value:   "",
 		},
 		&cli.BoolFlag{
@@ -119,8 +127,9 @@ var cmdInstallGrpcGateway = &cli.Command{
 			packageProtocGenGoValidators: ctx.String(cmdFlag_ProtocGenGoValidators),
 		}
 		var clonePackages = map[string]string{
-			packageGoogleApis:   ctx.String(cmdFlag_GoogleApis),
-			packageGogoProtobuf: ctx.String(cmdFlag_GogoProtobuf),
+			packageGoogleApis:                ctx.String(cmdFlag_GoogleApis),
+			packageGogoProtobuf:              ctx.String(cmdFlag_GogoProtobuf),
+			packageMwitkowProtocGoValidators: ctx.String(cmdFlag_GoValidators),
 		}
 		// 预定义的常用 protoc-gen 工具列表
 		var installPlugins []GoPackageOptions
