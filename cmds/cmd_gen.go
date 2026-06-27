@@ -33,6 +33,7 @@ var CmdGen = &cli.Command{
 		cmdGenPostgres,
 		cmdGenKafka,
 		cmdGenInfluxdb,
+		cmdGenProtoc,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -282,5 +283,30 @@ var cmdGenInfluxdb = &cli.Command{
 	},
 	Action: func(ctx *cli.Context) error {
 		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(influxdbTemplate))
+	},
+}
+
+//go:embed tpls/protoc.tpl
+var protocTemplate string
+
+var cmdGenProtoc = &cli.Command{
+	Name:  "protoc",
+	Usage: "generate protoc install script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "protoc.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(protocTemplate))
 	},
 }
