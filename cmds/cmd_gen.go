@@ -15,11 +15,6 @@ const (
 )
 
 const (
-	subCmd_ProtoScript = "proto-script"
-	subCmd_DB2GO       = "db2go"
-)
-
-const (
 	cmdFlag_Output = "output"
 	cmdFlag_Name   = "name"
 )
@@ -31,6 +26,13 @@ var CmdGen = &cli.Command{
 	Subcommands: []*cli.Command{
 		cmdGenProtoScript,
 		cmdGenDB2GO,
+		cmdGenMysql,
+		cmdGenRedis,
+		cmdGenRabbitmq,
+		cmdGenMinio,
+		cmdGenPostgres,
+		cmdGenKafka,
+		cmdGenInfluxdb,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -62,19 +64,19 @@ func generateFile(outputDir, outputName string, data []byte) error {
 var genProtoTemplate string
 
 var cmdGenProtoScript = &cli.Command{
-	Name:  subCmd_ProtoScript,
+	Name:  "protobuf",
 	Usage: "generate protobuf compile script",
 	Flags: []cli.Flag{
 		&cli.StringFlag{
 			Name:    cmdFlag_Output,
 			Aliases: []string{"o"},
-			Usage:   "protobuf generation script output directory",
+			Usage:   "script output directory",
 			Value:   "",
 		},
 		&cli.StringFlag{
 			Name:    cmdFlag_Name,
 			Aliases: []string{"n"},
-			Usage:   "protobuf generation script output file name",
+			Usage:   "script output file name",
 			Value:   "genproto",
 		},
 	},
@@ -87,23 +89,198 @@ var cmdGenProtoScript = &cli.Command{
 var db2goTemplate string
 
 var cmdGenDB2GO = &cli.Command{
-	Name:  subCmd_DB2GO,
+	Name:  "db2go",
 	Usage: "generate db2go script",
 	Flags: []cli.Flag{
 		&cli.StringFlag{
 			Name:    cmdFlag_Output,
 			Aliases: []string{"o"},
-			Usage:   "db2go script output directory",
+			Usage:   "script output directory",
 			Value:   "",
 		},
 		&cli.StringFlag{
 			Name:    cmdFlag_Name,
 			Aliases: []string{"n"},
-			Usage:   "db2go script output file name",
+			Usage:   "script output file name",
 			Value:   "db2go.sh",
 		},
 	},
 	Action: func(ctx *cli.Context) error {
 		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(db2goTemplate))
+	},
+}
+
+//go:embed tpls/mysql.tpl
+var mysqlTemplate string
+
+var cmdGenMysql = &cli.Command{
+	Name:  "mysql",
+	Usage: "generate mysql script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "mysql.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(mysqlTemplate))
+	},
+}
+
+//go:embed tpls/redis.tpl
+var redisTemplate string
+
+var cmdGenRedis = &cli.Command{
+	Name:  "redis",
+	Usage: "generate redis script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "redis.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(redisTemplate))
+	},
+}
+
+//go:embed tpls/rabbitmq.tpl
+var rabbitmqTemplate string
+
+var cmdGenRabbitmq = &cli.Command{
+	Name:  "rabbitmq",
+	Usage: "generate rabbitmq script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "rabbitmq.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(rabbitmqTemplate))
+	},
+}
+
+//go:embed tpls/minio.tpl
+var minioTemplate string
+
+var cmdGenMinio = &cli.Command{
+	Name:  "minio",
+	Usage: "generate minio script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "minio.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(minioTemplate))
+	},
+}
+
+//go:embed tpls/postgres.tpl
+var postgresTemplate string
+
+var cmdGenPostgres = &cli.Command{
+	Name:  "postgres",
+	Usage: "generate postgres script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "postgres.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(postgresTemplate))
+	},
+}
+
+//go:embed tpls/kafka.tpl
+var kafkaTemplate string
+
+var cmdGenKafka = &cli.Command{
+	Name:  "kafka",
+	Usage: "generate kafka script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "kafka.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(kafkaTemplate))
+	},
+}
+
+//go:embed tpls/influxdb.tpl
+var influxdbTemplate string
+
+var cmdGenInfluxdb = &cli.Command{
+	Name:  "influxdb",
+	Usage: "generate influxdb script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "influxdb.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(influxdbTemplate))
 	},
 }
