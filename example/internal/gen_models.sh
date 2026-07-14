@@ -2,17 +2,12 @@
 
 OUT_DIR=.
 PACK_NAME="models"
-SUFFIX_NAME=""
 READ_ONLY=""
 TABLE_NAME=""
 WITH_OUT=""
-TAGS=""
-TINYINT_TO_BOOL="is_deleted"
-DSN_URL="mysql://root:12345678@127.0.0.1:3306/test?charset=utf8"
-JSON_PROPERTIES=""
+TAGS="gorm"
+DSN_URL="mysql://root:123456@127.0.0.1:3306/test?charset=utf8"
 SPEC_TYPES=""
-IMPORT_MODELS="example/internal/models"
-COMMON_TAGS=""
 
 # 检查 db2go 是否已安装
 if ! which db2go >/dev/null 2>&1; then
@@ -28,10 +23,6 @@ if ! which db2go >/dev/null 2>&1; then
     fi
 fi
 
-db2go --url "$DSN_URL" --out "$OUT_DIR" --table "$TABLE_NAME" --json-properties "$JSON_PROPERTIES" --enable-decimal  --spec-type "$SPEC_TYPES" \
---suffix "$SUFFIX_NAME" --package "$PACK_NAME" --readonly "$READ_ONLY" --without "$WITH_OUT" --tinyint-as-bool "$TINYINT_TO_BOOL" \
---tag "$TAGS" --import-models "$IMPORT_MODELS"
+db2go --url "$DSN_URL" --out "$OUT_DIR" --table "$TABLE_NAME" --enable-decimal  --spec-type "$SPEC_TYPES" \
+ --package "$PACK_NAME" --readonly "$READ_ONLY" --without "$WITH_OUT" --tag "$TAGS"
 
-echo "generate go file ok, formatting..."
-gofmt -w $OUT_DIR/$PACK_NAME
-db2go -v

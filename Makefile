@@ -11,7 +11,7 @@ build:
 	rm -f ${PROGRAM_NAME}
 	go mod tidy && go build -ldflags "-s -w -X 'main.BuildTime=${DATE_TIME}' -X 'main.GitCommit=${COMMIT_ID}'" -o ${PROGRAM_NAME}
 
-gen: install
+gen-api: install
 	rm -rf example && golazy api go -f example.api -o example && cp example.api example
 
 test: gen

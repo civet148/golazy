@@ -1,0 +1,98 @@
+package models
+
+import "time"
+import "github.com/civet148/sqlca/v3"
+
+const TableNameInventoryData = "inventory_data" //
+
+const (
+	InventoryDataColumn_Id           = "id"
+	InventoryDataColumn_CreatedAt    = "created_at"
+	InventoryDataColumn_UpdatedAt    = "updated_at"
+	InventoryDataColumn_IsFrozen     = "is_frozen"
+	InventoryDataColumn_Name         = "name"
+	InventoryDataColumn_SerialNo     = "serial_no"
+	InventoryDataColumn_Quantity     = "quantity"
+	InventoryDataColumn_Price        = "price"
+	InventoryDataColumn_Location     = "location"
+	InventoryDataColumn_ProductExtra = "product_extra"
+	InventoryDataColumn_CreateId     = "create_id"
+	InventoryDataColumn_CreateName   = "create_name"
+	InventoryDataColumn_UpdateId     = "update_id"
+	InventoryDataColumn_UpdateName   = "update_name"
+)
+
+type InventoryData struct {
+	Id           uint64        `json:"id" db:"id" gorm:"column:id;primaryKey;autoIncrement;"`                                                                                            //
+	CreatedAt    time.Time     `json:"created_at" db:"created_at" gorm:"column:created_at;type:timestamp;autoCreateTime;index:idx_inventory_data_created_at;default:CURRENT_TIMESTAMP;"` //
+	UpdatedAt    time.Time     `json:"updated_at" db:"updated_at" gorm:"column:updated_at;type:timestamp;autoUpdateTime;index:idx_inventory_data_updated_at;default:CURRENT_TIMESTAMP;"` //
+	IsFrozen     int8          `json:"is_frozen" db:"is_frozen" gorm:"column:is_frozen;type:tinyint(1);default:0;" sqlca:"isnull"`                                                       //
+	Name         string        `json:"name" db:"name" gorm:"column:name;type:varchar(255);default:null;comment:产品：名称；不能为空;" sqlca:"isnull"`                                              //产品：名称；不能为空
+	SerialNo     string        `json:"serial_no" db:"serial_no" gorm:"column:serial_no;type:varchar(64);index:i_serial_no;default:null;comment:产品序列号;" sqlca:"isnull"`                   //产品序列号
+	Quantity     sqlca.Decimal `json:"quantity" db:"quantity" gorm:"column:quantity;type:decimal(16,3);default:0.000;" sqlca:"isnull"`                                                   //
+	Price        sqlca.Decimal `json:"price" db:"price" gorm:"column:price;type:decimal(16,2);default:0.00;" sqlca:"isnull"`                                                             //
+	Location     sqlca.Point   `json:"location" db:"location" gorm:"column:location;type:point;default:null;" sqlca:"isnull"`                                                            //
+	ProductExtra struct{}      `json:"product_extra" db:"product_extra" gorm:"column:product_extra;type:json;default:null;" sqlca:"isnull"`                                              //
+	CreateId     uint64        `json:"create_id" db:"create_id" gorm:"column:create_id;type:bigint unsigned;default:0;" sqlca:"isnull"`                                                  //
+	CreateName   string        `json:"create_name" db:"create_name" gorm:"column:create_name;type:varchar(64);default:null;" sqlca:"isnull"`                                             //
+	UpdateId     uint64        `json:"update_id" db:"update_id" gorm:"column:update_id;type:bigint unsigned;default:0;" sqlca:"isnull"`                                                  //
+	UpdateName   string        `json:"update_name" db:"update_name" gorm:"column:update_name;type:varchar(64);default:null;" sqlca:"isnull"`                                             //
+}
+
+func (do InventoryData) TableName() string { return "inventory_data" }
+
+func (do InventoryData) GetId() uint64 { return do.Id }
+
+func (do InventoryData) GetCreatedAt() time.Time { return do.CreatedAt }
+
+func (do InventoryData) GetUpdatedAt() time.Time { return do.UpdatedAt }
+
+func (do InventoryData) GetIsFrozen() int8 { return do.IsFrozen }
+
+func (do InventoryData) GetName() string { return do.Name }
+
+func (do InventoryData) GetSerialNo() string { return do.SerialNo }
+
+func (do InventoryData) GetQuantity() sqlca.Decimal { return do.Quantity }
+
+func (do InventoryData) GetPrice() sqlca.Decimal { return do.Price }
+
+func (do InventoryData) GetLocation() sqlca.Point { return do.Location }
+
+func (do InventoryData) GetProductExtra() struct{} { return do.ProductExtra }
+
+func (do InventoryData) GetCreateId() uint64 { return do.CreateId }
+
+func (do InventoryData) GetCreateName() string { return do.CreateName }
+
+func (do InventoryData) GetUpdateId() uint64 { return do.UpdateId }
+
+func (do InventoryData) GetUpdateName() string { return do.UpdateName }
+
+func (do *InventoryData) SetId(v uint64) { do.Id = v }
+
+func (do *InventoryData) SetCreatedAt(v time.Time) { do.CreatedAt = v }
+
+func (do *InventoryData) SetUpdatedAt(v time.Time) { do.UpdatedAt = v }
+
+func (do *InventoryData) SetIsFrozen(v int8) { do.IsFrozen = v }
+
+func (do *InventoryData) SetName(v string) { do.Name = v }
+
+func (do *InventoryData) SetSerialNo(v string) { do.SerialNo = v }
+
+func (do *InventoryData) SetQuantity(v sqlca.Decimal) { do.Quantity = v }
+
+func (do *InventoryData) SetPrice(v sqlca.Decimal) { do.Price = v }
+
+func (do *InventoryData) SetLocation(v sqlca.Point) { do.Location = v }
+
+func (do *InventoryData) SetProductExtra(v struct{}) { do.ProductExtra = v }
+
+func (do *InventoryData) SetCreateId(v uint64) { do.CreateId = v }
+
+func (do *InventoryData) SetCreateName(v string) { do.CreateName = v }
+
+func (do *InventoryData) SetUpdateId(v uint64) { do.UpdateId = v }
+
+func (do *InventoryData) SetUpdateName(v string) { do.UpdateName = v }
