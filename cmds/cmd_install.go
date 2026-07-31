@@ -21,6 +21,7 @@ const (
 	subCmd_InstallGrpcGateway = "grpc-gateway"
 	subCmd_InstallDB2GO       = "db2go"
 	subCmd_InstallOpenCode    = "opencode"
+	subCmd_InstallGoCtl       = "goctl"
 )
 
 const (
@@ -46,6 +47,7 @@ const (
 	packageGogoProtobuf              = "github.com/gogo/protobuf"
 	packageDB2GO                     = "github.com/civet148/db2go"
 	packageMwitkowProtocGoValidators = "github.com/mwitkow/go-proto-validators"
+	packageGoCtl                     = "github.com/zeromicro/go-zero/tools/goctl"
 )
 
 var CmdInstall = &cli.Command{
@@ -56,6 +58,7 @@ var CmdInstall = &cli.Command{
 		cmdInstallGrpcGateway,
 		cmdInstallDB2GO,
 		cmdInstallOpenCode,
+		cmdInstallGoCtl,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -172,7 +175,7 @@ var cmdInstallDB2GO = &cli.Command{
 		&cli.StringFlag{
 			Name:    cmdFlag_Version,
 			Aliases: []string{"V"},
-			Usage:   "db2go version",
+			Usage:   "version",
 			Value:   "latest",
 		},
 	},
@@ -180,6 +183,35 @@ var cmdInstallDB2GO = &cli.Command{
 
 		var installPackages = map[string]string{
 			packageDB2GO: ctx.String(cmdFlag_Version),
+		}
+		var installPlugins []GoPackageOptions
+		for k, v := range installPackages {
+			installPlugins = append(installPlugins, GoPackageOptions{
+				Package: k,
+				Version: v,
+				WithCGO: true,
+			})
+		}
+		installer := NewGoInstaller(true)
+		return installer.InstallMultiple(installPlugins...)
+	},
+}
+
+var cmdInstallGoCtl = &cli.Command{
+	Name:  subCmd_InstallGoCtl,
+	Usage: "install goctl cli",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Version,
+			Aliases: []string{"V"},
+			Usage:   "version",
+			Value:   "latest",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+
+		var installPackages = map[string]string{
+			packageGoCtl: ctx.String(cmdFlag_Version),
 		}
 		var installPlugins []GoPackageOptions
 		for k, v := range installPackages {
