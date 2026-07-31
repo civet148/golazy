@@ -20,6 +20,7 @@ const (
 const (
 	subCmd_InstallGrpcGateway = "grpc-gateway"
 	subCmd_InstallDB2GO       = "db2go"
+	subCmd_InstallOpenCode    = "opencode"
 )
 
 const (
@@ -54,9 +55,19 @@ var CmdInstall = &cli.Command{
 	Subcommands: []*cli.Command{
 		cmdInstallGrpcGateway,
 		cmdInstallDB2GO,
+		cmdInstallOpenCode,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
+	},
+}
+
+var cmdInstallOpenCode = &cli.Command{
+	Name:  subCmd_InstallOpenCode,
+	Usage: "install opencode",
+	Flags: []cli.Flag{},
+	Action: func(ctx *cli.Context) error {
+		return utils.ShellExec("curl -fsSL https://opencode.ai/install | bash")
 	},
 }
 
