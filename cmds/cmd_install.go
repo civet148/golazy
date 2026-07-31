@@ -67,7 +67,7 @@ var cmdInstallOpenCode = &cli.Command{
 	Usage: "install opencode",
 	Flags: []cli.Flag{},
 	Action: func(ctx *cli.Context) error {
-		return utils.ShellExec("curl -fsSL https://opencode.ai/install | bash")
+		return utils.ShellExec("curl -fsSL https://opencode.ai/install | sh")
 	},
 }
 
@@ -175,11 +175,6 @@ var cmdInstallDB2GO = &cli.Command{
 			Usage:   "db2go version",
 			Value:   "latest",
 		},
-		&cli.BoolFlag{
-			Name:    cmdFlag_WithSSH,
-			Aliases: []string{"S"},
-			Usage:   "with git ssh to clone",
-		},
 	},
 	Action: func(ctx *cli.Context) error {
 
@@ -191,7 +186,6 @@ var cmdInstallDB2GO = &cli.Command{
 			installPlugins = append(installPlugins, GoPackageOptions{
 				Package: k,
 				Version: v,
-				WithSSH: ctx.Bool(cmdFlag_WithSSH),
 				WithCGO: true,
 			})
 		}
