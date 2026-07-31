@@ -24,7 +24,7 @@ var CmdGen = &cli.Command{
 	Usage: "generation commands",
 	Flags: []cli.Flag{},
 	Subcommands: []*cli.Command{
-		cmdGenProtoScript,
+		cmdGenProto,
 		cmdGenDB2GO,
 		cmdGenMysql,
 		cmdGenRedis,
@@ -34,6 +34,7 @@ var CmdGen = &cli.Command{
 		cmdGenKafka,
 		cmdGenInfluxdb,
 		cmdGenProtoc,
+		cmdGenDocker,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -61,10 +62,35 @@ func generateFile(outputDir, outputName string, data []byte) error {
 	return nil
 }
 
+//go:embed tpls/docker.tpl
+var genDockerTemplate string
+
+var cmdGenDocker = &cli.Command{
+	Name:  "docker",
+	Usage: "generate docker install script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "docker.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(genDockerTemplate))
+	},
+}
+
 //go:embed tpls/genproto.tpl
 var genProtoTemplate string
 
-var cmdGenProtoScript = &cli.Command{
+var cmdGenProto = &cli.Command{
 	Name:  "protobuf",
 	Usage: "generate protobuf compile script",
 	Flags: []cli.Flag{
@@ -78,7 +104,7 @@ var cmdGenProtoScript = &cli.Command{
 			Name:    cmdFlag_Name,
 			Aliases: []string{"n"},
 			Usage:   "script output file name",
-			Value:   "genproto",
+			Value:   "genproto.sh",
 		},
 	},
 	Action: func(ctx *cli.Context) error {
