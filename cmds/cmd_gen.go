@@ -35,7 +35,7 @@ var CmdGen = &cli.Command{
 		cmdGenInfluxdb,
 		cmdGenProtoc,
 		cmdGenDocker,
-		cmdGitProto,
+		cmdGenGit,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -341,7 +341,7 @@ var cmdGenProtoc = &cli.Command{
 //go:embed tpls/git.tpl
 var genGitTemplate string
 
-var cmdGitProto = &cli.Command{
+var cmdGenGit = &cli.Command{
 	Name:  "git",
 	Usage: "generate git install script",
 	Flags: []cli.Flag{
