@@ -36,6 +36,7 @@ var CmdGen = &cli.Command{
 		cmdGenProtoc,
 		cmdGenDocker,
 		cmdGenGit,
+		cmdGenGolang,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -360,5 +361,30 @@ var cmdGenGit = &cli.Command{
 	},
 	Action: func(ctx *cli.Context) error {
 		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(genGitTemplate))
+	},
+}
+
+//go:embed tpls/golang.tpl
+var genGolangTemplate string
+
+var cmdGenGolang = &cli.Command{
+	Name:  "golang",
+	Usage: "generate golang install script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "golang.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(genGolangTemplate))
 	},
 }
