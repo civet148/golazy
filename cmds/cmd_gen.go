@@ -35,6 +35,7 @@ var CmdGen = &cli.Command{
 		cmdGenInfluxdb,
 		cmdGenProtoc,
 		cmdGenDocker,
+		cmdGitProto,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -334,5 +335,30 @@ var cmdGenProtoc = &cli.Command{
 	},
 	Action: func(ctx *cli.Context) error {
 		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(protocTemplate))
+	},
+}
+
+//go:embed tpls/git.tpl
+var genGitTemplate string
+
+var cmdGitProto = &cli.Command{
+	Name:  "git",
+	Usage: "generate git install script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "git.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(genGitTemplate))
 	},
 }

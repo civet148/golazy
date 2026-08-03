@@ -22,6 +22,7 @@ const (
 	subCmd_InstallDB2GO       = "db2go"
 	subCmd_InstallOpenCode    = "opencode"
 	subCmd_InstallGoCtl       = "goctl"
+	subCmd_InstallGit         = "git"
 )
 
 const (
@@ -59,6 +60,7 @@ var CmdInstall = &cli.Command{
 		cmdInstallDB2GO,
 		cmdInstallOpenCode,
 		cmdInstallGoCtl,
+		cmdInstallGit,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -71,6 +73,15 @@ var cmdInstallOpenCode = &cli.Command{
 	Flags: []cli.Flag{},
 	Action: func(ctx *cli.Context) error {
 		return utils.ShellExec("curl -fsSL https://opencode.ai/install | sh")
+	},
+}
+
+var cmdInstallGit = &cli.Command{
+	Name:  subCmd_InstallGit,
+	Usage: "install git cli",
+	Flags: []cli.Flag{},
+	Action: func(ctx *cli.Context) error {
+		return utils.ShellExec("curl -fsSL https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh | sh")
 	},
 }
 
