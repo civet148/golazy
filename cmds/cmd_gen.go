@@ -37,6 +37,7 @@ var CmdGen = &cli.Command{
 		cmdGenDocker,
 		cmdGenGit,
 		cmdGenGolang,
+		cmdGenDsh,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -386,5 +387,30 @@ var cmdGenGolang = &cli.Command{
 	},
 	Action: func(ctx *cli.Context) error {
 		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(genGolangTemplate))
+	},
+}
+
+//go:embed tpls/dsh.tpl
+var genDshTemplate string
+
+var cmdGenDsh = &cli.Command{
+	Name:  "dsh",
+	Usage: "generate deepseek harness install script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "dsh.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(genDshTemplate))
 	},
 }

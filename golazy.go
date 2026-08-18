@@ -11,9 +11,9 @@ import (
 )
 
 var (
-	Version     = "v1.4.0"
+	Version     = "v1.5.0"
 	ProgramName = "golazy"
-	BuildTime   = "2026-08-01"
+	BuildTime   = "2026-08-18"
 	GitCommit   = "<N/A>"
 )
 
@@ -51,6 +51,7 @@ func main() {
 			cmds.CmdApi,
 			cmds.CmdInstall,
 			cmds.CmdGen,
+			cmds.CmdRun,
 		},
 		Flags: []cli.Flag{},
 		Action: func(ctx *cli.Context) error {
