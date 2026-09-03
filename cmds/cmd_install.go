@@ -33,6 +33,7 @@ const (
 	cmdFlag_ProtocGenGoValidators = "protoc-gen-go-validators"
 	cmdFlag_GoogleApis            = "google-apis"
 	cmdFlag_GogoProtobuf          = "gogo-protobuf"
+	cmdFlag_GogoGoogleApis        = "gogo-googleapis"
 	cmdFlag_WithSSH               = "with-ssh"
 	cmdFlag_Version               = "version"
 	cmdFlag_GoValidators          = "go-validators"
@@ -46,6 +47,7 @@ const (
 	packageProtocGenOpenApiV2        = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2"
 	packageGoogleApis                = "github.com/googleapis/googleapis"
 	packageGogoProtobuf              = "github.com/gogo/protobuf"
+	packageGogoGoogleApis            = "github.com/gogo/googleapis"
 	packageDB2GO                     = "github.com/civet148/db2go"
 	packageMwitkowProtocGoValidators = "github.com/mwitkow/go-proto-validators"
 	packageGoCtl                     = "github.com/zeromicro/go-zero/tools/goctl"
@@ -155,6 +157,7 @@ var cmdInstallGrpcGateway = &cli.Command{
 		var clonePackages = map[string]string{
 			packageGoogleApis:                ctx.String(cmdFlag_GoogleApis),
 			packageGogoProtobuf:              ctx.String(cmdFlag_GogoProtobuf),
+			packageGogoGoogleApis:            ctx.String(cmdFlag_GogoGoogleApis),
 			packageMwitkowProtocGoValidators: ctx.String(cmdFlag_GoValidators),
 		}
 		// 预定义的常用 protoc-gen 工具列表
