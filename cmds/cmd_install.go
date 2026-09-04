@@ -94,8 +94,8 @@ var cmdInstallGrpcGateway = &cli.Command{
 		&cli.StringFlag{
 			Name:    cmdFlag_ProtocGenGo,
 			Aliases: []string{"g"},
-			Usage:   "protoc-gen-go cli version",
-			Value:   "v1.4.0 (protoc-gen-go plugin version v1.21.0)",
+			Usage:   "github.com/golang/protobuf version v1.4.0 => protoc-gen-go cli version v1.21.0)",
+			Value:   "v1.4.0",
 		},
 		&cli.StringFlag{
 			Name:    cmdFlag_ProtocGenGoGrpc,
