@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	Version     = "v1.5.2"
+	Version     = "v1.6.0"
 	ProgramName = "golazy"
 	BuildTime   = "2026-09-04"
 	GitCommit   = "<N/A>"

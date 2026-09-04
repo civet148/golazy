@@ -38,6 +38,7 @@ var CmdGen = &cli.Command{
 		cmdGenGit,
 		cmdGenGolang,
 		cmdGenDsh,
+		cmdGenNvm,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -107,7 +108,7 @@ var cmdGenProto = &cli.Command{
 			Name:    cmdFlag_Name,
 			Aliases: []string{"n"},
 			Usage:   "script output file name",
-			Value:   "genproto.sh",
+			Value:   "genproto",
 		},
 	},
 	Action: func(ctx *cli.Context) error {
@@ -412,5 +413,30 @@ var cmdGenDsh = &cli.Command{
 	},
 	Action: func(ctx *cli.Context) error {
 		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(genDshTemplate))
+	},
+}
+
+//go:embed tpls/nvm.tpl
+var nvmTemplate string
+
+var cmdGenNvm = &cli.Command{
+	Name:  "nvm",
+	Usage: "generate nvm script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "nvm.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(nvmTemplate))
 	},
 }
