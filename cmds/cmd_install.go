@@ -18,11 +18,11 @@ const (
 )
 
 const (
-	subCmd_InstallGrpcGateway = "grpc-gateway"
-	subCmd_InstallDB2GO       = "db2go"
-	subCmd_InstallOpenCode    = "opencode"
-	subCmd_InstallGoCtl       = "goctl"
-	subCmd_InstallGit         = "git"
+	subCmd_InstallGrpc     = "grpc"
+	subCmd_InstallDB2GO    = "db2go"
+	subCmd_InstallOpenCode = "opencode"
+	subCmd_InstallGoCtl    = "goctl"
+	subCmd_InstallGit      = "git"
 )
 
 const (
@@ -88,7 +88,7 @@ var cmdInstallGit = &cli.Command{
 }
 
 var cmdInstallGrpcGateway = &cli.Command{
-	Name:  subCmd_InstallGrpcGateway,
+	Name:  subCmd_InstallGrpc,
 	Usage: "install gRPC gateway utils",
 	Flags: []cli.Flag{
 		&cli.StringFlag{
