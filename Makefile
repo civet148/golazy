@@ -18,7 +18,7 @@ test: gen
 	cd example && go mod tidy && go run .
 
 install: build
-	sudo cp golazy ${GOPATH}/bin
+	sudo mv golazy ${GOPATH}/bin
 
 .PHONY: build install start gen
 
