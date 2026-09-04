@@ -40,7 +40,7 @@ const (
 )
 
 const (
-	packageProtocGenGo               = "google.golang.org/protobuf/cmd/protoc-gen-go"
+	packageProtocGenGo               = "github.com/golang/protobuf/protoc-gen-go"
 	packageProtocGenGoValidators     = "github.com/mwitkow/go-proto-validators/protoc-gen-govalidators"
 	packageProtocGenGoGrpc           = "google.golang.org/grpc/cmd/protoc-gen-go-grpc"
 	packageProtocGenGrpcGateway      = "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway"
@@ -95,7 +95,7 @@ var cmdInstallGrpcGateway = &cli.Command{
 			Name:    cmdFlag_ProtocGenGo,
 			Aliases: []string{"g"},
 			Usage:   "protoc-gen-go cli version",
-			Value:   "v1.4.0",
+			Value:   "v1.4.0 (protoc-gen-go plugin version v1.21.0)",
 		},
 		&cli.StringFlag{
 			Name:    cmdFlag_ProtocGenGoGrpc,
