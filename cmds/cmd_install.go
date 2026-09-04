@@ -34,7 +34,6 @@ const (
 	cmdFlag_GoogleApis            = "google-apis"
 	cmdFlag_GogoProtobuf          = "gogo-protobuf"
 	cmdFlag_GogoGoogleApis        = "gogo-googleapis"
-	cmdFlag_WithSSH               = "with-ssh"
 	cmdFlag_Version               = "version"
 	cmdFlag_GoValidators          = "go-validators"
 )
