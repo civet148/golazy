@@ -139,11 +139,6 @@ var cmdInstallGrpcGateway = &cli.Command{
 			Usage:   "github.com/mwitkow/go-proto-validators code branch",
 			Value:   "",
 		},
-		&cli.BoolFlag{
-			Name:    cmdFlag_WithSSH,
-			Aliases: []string{"S"},
-			Usage:   "with git ssh to clone",
-		},
 	},
 	Action: func(ctx *cli.Context) error {
 
@@ -174,7 +169,6 @@ var cmdInstallGrpcGateway = &cli.Command{
 				Version:     v,
 				Clone:       true,
 				CheckExists: true,
-				WithSSH:     ctx.Bool(cmdFlag_WithSSH),
 			})
 		}
 		installer := NewGoInstaller(true)
@@ -252,8 +246,6 @@ type GoPackageOptions struct {
 	WorkDir string
 	// 是否为克隆模式(默认 go install)
 	Clone bool
-	// 是否使用git ssh方式
-	WithSSH bool
 	// 是否启用CGO
 	WithCGO bool
 	// 是否检查文件已存在
@@ -273,11 +265,8 @@ func NewGoInstaller(verbose bool) *GoInstaller {
 	}
 }
 
-func replaceCloneUrl(packageUrl string, withSSH bool) string {
-	if !withSSH {
-		return "https://" + packageUrl
-	}
-	return "git@" + strings.Replace(packageUrl, "/", ":", 1)
+func makeCloneUrl(packageUrl string) string {
+	return "https://" + packageUrl
 }
 
 // Clone 执行git clone指定代码库
@@ -310,7 +299,7 @@ func (g *GoInstaller) Clone(pkg GoPackageOptions) error {
 	if pkg.Version != "" {
 		args = append(args, "-b", pkg.Version)
 	}
-	args = append(args, replaceCloneUrl(pkg.Package, pkg.WithSSH))
+	args = append(args, makeCloneUrl(pkg.Package))
 	args = append(args, fullpath)
 
 	// 创建命令
