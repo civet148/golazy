@@ -39,6 +39,7 @@ var CmdGen = &cli.Command{
 		cmdGenGolang,
 		cmdGenDsh,
 		cmdGenNvm,
+		cmdGenK3S,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -49,10 +50,11 @@ func generateFile(outputDir, outputName string, data []byte) error {
 	if outputDir == "" {
 		// 判断$GOPATH是否存在，如果存在则使用$GOPATH/src目录作为下载基础目录
 		gopath := os.Getenv("GOPATH")
-		if gopath == "" {
-			return fmt.Errorf("GOPATH environment variable is not set")
+		if gopath != "" {
+			outputDir = filepath.Join(gopath, "bin")
+		} else {
+			outputDir = "."
 		}
-		outputDir = filepath.Join(gopath, "bin")
 	}
 	var err error
 	if err = os.MkdirAll(outputDir, os.ModePerm); err != nil {
@@ -438,5 +440,43 @@ var cmdGenNvm = &cli.Command{
 	},
 	Action: func(ctx *cli.Context) error {
 		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(nvmTemplate))
+	},
+}
+
+//go:embed tpls/k3s-master.tpl
+var k3sMasterTemplate string
+
+//go:embed tpls/k3s-worker.tpl
+var k3sWorkerTemplate string
+
+var cmdGenK3S = &cli.Command{
+	Name:  "k3s",
+	Usage: "generate k3s master & worker script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    "master",
+			Aliases: []string{"m"},
+			Usage:   "k3s master output file name",
+			Value:   "k3s-master.sh",
+		},
+		&cli.StringFlag{
+			Name:    "worker",
+			Aliases: []string{"w"},
+			Usage:   "k3s worker output file name",
+			Value:   "k3s-worker.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		err := generateFile(ctx.String(cmdFlag_Output), ctx.String("master"), []byte(k3sMasterTemplate))
+		if err != nil {
+			return err
+		}
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String("worker"), []byte(k3sWorkerTemplate))
 	},
 }
