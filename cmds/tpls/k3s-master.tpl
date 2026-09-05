@@ -216,7 +216,6 @@ main() {
     echo "Token:     $K3S_TOKEN"
     echo ""
     echo "📋 在 Worker 节点使用此 Token 加入集群"
-    echo "运行命令: ./join-k3s-worker.sh"
     echo "=========================================="
 }
 
