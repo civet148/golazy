@@ -72,3 +72,4 @@ echo "设备登录:"
 echo "  - Linux命令行交互式登录: sudo tailscale up"
 echo "添加子网路由:"
 echo "  - 命令行：sudo tailscale up --advertise-routes=192.168.0.0/24,192.168.1.0/24 --accept-routes
+echo "  - 登录控制台审批：https://console.tailscale.com/admin"
