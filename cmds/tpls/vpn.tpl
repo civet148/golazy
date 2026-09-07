@@ -69,5 +69,4 @@ fi
 
 echo -e "${GREEN}Tailscale 安装完成！${NC}"
 echo "连接设备:"
-echo "  - 交互式登录: sudo tailscale up"
-echo "  - 使用 Auth Key: sudo tailscale up --authkey=tskey-auth-xxxxx"
+echo "  - Linux命令行交互式登录: sudo tailscale up"
