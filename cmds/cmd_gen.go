@@ -40,6 +40,7 @@ var CmdGen = &cli.Command{
 		cmdGenDsh,
 		cmdGenNvm,
 		cmdGenK3S,
+		cmdGenVPN,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -478,5 +479,30 @@ var cmdGenK3S = &cli.Command{
 			return err
 		}
 		return generateFile(ctx.String(cmdFlag_Output), ctx.String("worker"), []byte(k3sWorkerTemplate))
+	},
+}
+
+//go:embed tpls/vpn.tpl
+var vpnTemplate string
+
+var cmdGenVPN = &cli.Command{
+	Name:  "vpn",
+	Usage: "generate tailscale vpnscript",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "tailscale vpn output file name",
+			Value:   "tailscale.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(vpnTemplate))
 	},
 }
