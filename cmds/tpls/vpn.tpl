@@ -68,5 +68,7 @@ else
 fi
 
 echo -e "${GREEN}Tailscale 安装完成！${NC}"
-echo "连接设备:"
+echo "设备登录:"
 echo "  - Linux命令行交互式登录: sudo tailscale up"
+echo "子网路由:"
+echo "  - 命令行：sudo tailscale up --advertise-routes=192.168.0.0/24,192.168.1.0/24 --accept-routes
