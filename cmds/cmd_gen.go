@@ -39,8 +39,8 @@ var CmdGen = &cli.Command{
 		cmdGenGolang,
 		cmdGenDsh,
 		cmdGenNvm,
-		cmdGenK3S,
 		cmdGenVPN,
+		cmdGenEMQX,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -444,50 +444,12 @@ var cmdGenNvm = &cli.Command{
 	},
 }
 
-//go:embed tpls/k3s-master.tpl
-var k3sMasterTemplate string
-
-//go:embed tpls/k3s-worker.tpl
-var k3sWorkerTemplate string
-
-var cmdGenK3S = &cli.Command{
-	Name:  "k3s",
-	Usage: "generate k3s master & worker script",
-	Flags: []cli.Flag{
-		&cli.StringFlag{
-			Name:    cmdFlag_Output,
-			Aliases: []string{"o"},
-			Usage:   "script output directory",
-			Value:   "",
-		},
-		&cli.StringFlag{
-			Name:    "master",
-			Aliases: []string{"m"},
-			Usage:   "k3s master output file name",
-			Value:   "k3s-master.sh",
-		},
-		&cli.StringFlag{
-			Name:    "worker",
-			Aliases: []string{"w"},
-			Usage:   "k3s worker output file name",
-			Value:   "k3s-worker.sh",
-		},
-	},
-	Action: func(ctx *cli.Context) error {
-		err := generateFile(ctx.String(cmdFlag_Output), ctx.String("master"), []byte(k3sMasterTemplate))
-		if err != nil {
-			return err
-		}
-		return generateFile(ctx.String(cmdFlag_Output), ctx.String("worker"), []byte(k3sWorkerTemplate))
-	},
-}
-
 //go:embed tpls/vpn.tpl
 var vpnTemplate string
 
 var cmdGenVPN = &cli.Command{
 	Name:  "vpn",
-	Usage: "generate tailscale vpnscript",
+	Usage: "generate tailscale vpn script",
 	Flags: []cli.Flag{
 		&cli.StringFlag{
 			Name:    cmdFlag_Output,
@@ -498,11 +460,36 @@ var cmdGenVPN = &cli.Command{
 		&cli.StringFlag{
 			Name:    cmdFlag_Name,
 			Aliases: []string{"n"},
-			Usage:   "tailscale vpn output file name",
+			Usage:   "script output file name",
 			Value:   "tailscale.sh",
 		},
 	},
 	Action: func(ctx *cli.Context) error {
 		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(vpnTemplate))
+	},
+}
+
+//go:embed tpls/emqx.tpl
+var emqxTemplate string
+
+var cmdGenEMQX = &cli.Command{
+	Name:  "emqx",
+	Usage: "generate EMQX script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "emqx.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(emqxTemplate))
 	},
 }
