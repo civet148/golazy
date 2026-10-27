@@ -23,6 +23,7 @@ const (
 	subCmd_InstallOpenCode = "opencode"
 	subCmd_InstallGoCtl    = "goctl"
 	subCmd_InstallGit      = "git"
+	subCmd_InstallFCC      = "fcc"
 )
 
 const (
@@ -62,6 +63,7 @@ var CmdInstall = &cli.Command{
 		cmdInstallOpenCode,
 		cmdInstallGoCtl,
 		cmdInstallGit,
+		cmdInstallFCC,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -83,6 +85,15 @@ var cmdInstallGit = &cli.Command{
 	Flags: []cli.Flag{},
 	Action: func(ctx *cli.Context) error {
 		return utils.ShellExec("curl -fsSL https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh | sh")
+	},
+}
+
+var cmdInstallFCC = &cli.Command{
+	Name:  subCmd_InstallFCC,
+	Usage: "install free claude code",
+	Flags: []cli.Flag{},
+	Action: func(ctx *cli.Context) error {
+		return utils.ShellExec("curl -fsSL https://raw.githubusercontent.com/Alishahryar1/free-claude-code/main/scripts/install.sh | sh")
 	},
 }
 
