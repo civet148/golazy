@@ -41,6 +41,7 @@ var CmdGen = &cli.Command{
 		cmdGenNvm,
 		cmdGenVPN,
 		cmdGenEMQX,
+		cmdGenTimescale,
 	},
 	Action: func(ctx *cli.Context) error {
 		return nil
@@ -491,5 +492,30 @@ var cmdGenEMQX = &cli.Command{
 	},
 	Action: func(ctx *cli.Context) error {
 		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(emqxTemplate))
+	},
+}
+
+//go:embed tpls/timescaledb.tpl
+var timescaleTemplate string
+
+var cmdGenTimescale = &cli.Command{
+	Name:  "timescaledb",
+	Usage: "generate timescale db script",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    cmdFlag_Output,
+			Aliases: []string{"o"},
+			Usage:   "script output directory",
+			Value:   "",
+		},
+		&cli.StringFlag{
+			Name:    cmdFlag_Name,
+			Aliases: []string{"n"},
+			Usage:   "script output file name",
+			Value:   "timescale.sh",
+		},
+	},
+	Action: func(ctx *cli.Context) error {
+		return generateFile(ctx.String(cmdFlag_Output), ctx.String(cmdFlag_Name), []byte(timescaleTemplate))
 	},
 }
